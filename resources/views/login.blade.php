@@ -8,7 +8,7 @@
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <div>
                         <a href="#" class="flex items-center mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
-                            <img class="w-10 h-10 mr-2"
+                            <img class="w-12 h-12 mr-2"
                                 src="https://seeklogo.com/images/U/universitas-diponegoro-logo-6B2C58478B-seeklogo.com.png"
                                 alt="logo">
                         </a>
