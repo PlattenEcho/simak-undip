@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doswal;
+use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MahasiswaController extends Controller
 {
@@ -27,19 +29,36 @@ class MahasiswaController extends Controller
         'doswal' => 'required',
     ]);
 
-    $mahasiswa = new Mahasiswa();
-    $mahasiswa->nim = $request->nim;
-    $mahasiswa->nama = $request->nama;
-    $mahasiswa->angkatan = $request->angkatan;
-    $mahasiswa->status = $request->status;
-    $mahasiswa->jalur_masuk = $request->jalur_masuk;
-    $mahasiswa->email = $request->email;
-    $mahasiswa->nip = $request->doswal;
+    if ($request->submit === 'submit') {
+    
+        // return redirect()->route('mahasiswa.showEntry')
+        // ->with('success', 'Data mahasiswa berhasil disimpan.')
+        // ->withInput();
+        
+    } elseif ($request->submit === 'generate') {
+        $mahasiswa = new Mahasiswa();
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->nama = $request->nama;
+        $mahasiswa->angkatan = $request->angkatan;
+        $mahasiswa->status = $request->status;
+        $mahasiswa->jalur_masuk = $request->jalur_masuk;
+        $mahasiswa->email = $request->email;
+        $mahasiswa->nip = $request->doswal;
+    
+        $mahasiswa->save();
 
-    $mahasiswa->save();
 
-    return redirect()->route('mahasiswa.showEntry')
-    ->with('success', 'Data mahasiswa berhasil disimpan.')
-    ->withInput();
+        $password = Str::random(10);
+        User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => $password,
+            
+        ]);
+        return redirect()->route('mahasiswa.showEntry')
+        ->with('success', 'Data dan Akun berhasil ditambahkan. Password: ' . $password);
     }
+
+    
+}
 }
