@@ -95,20 +95,20 @@
                 @enderror
             </div>
             <br>
-            <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
             
             <a href="{{ route('mahasiswa.showEntry') }}" class="btn btn-secondary">Reset</a>
+            <button type="submit" class="btn btn-success" id="generate-account-button" name="submit" value="generate">Generate Account</button>
         </form>
-        <button type="button" class="btn btn-success" id="generate-account-button" disabled>Generate Account</button>
+        
     </div>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 @if(session('success'))
     <script>
         document.getElementById('generate-account-button').removeAttribute('disabled');
-    </script>
-@endif
+    </script> --}}
+{{-- @endif
 <script>
     document.getElementById('generate-account-button').addEventListener('click', function() {
     // Lakukan permintaan Ajax untuk generate account
@@ -127,6 +127,6 @@
     });
 });
 
-</script>
+</script> --}}
 </body>
 </html>
