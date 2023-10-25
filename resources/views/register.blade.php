@@ -19,43 +19,19 @@
                             </a>
                         </div>
                         <h1
-                            class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                            Sign in to your account
+                            class="text-l font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                            Register account
                         </h1>
-
-                        @if (session()->has('loginError'))
-                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                                role="alert">
-                                <span class="font-medium">Log-In Gagal!</span>
-                                <p>Silahkan Coba Kembali.</p>
-                            </div>
-                        @endif
-
-                        @if (session()->has('success'))
-                            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                                role="alert">
-                                <span class="font-medium">Registrasi Berhasil!</span>
-                                <p>Silahkan Login Dengan Akun Baru.</p>
-                            </div>
-                        @endif
-
-                        @if (session()->has('logoutSuccess'))
-                            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                                role="alert">
-                                <span class="font-medium">Log Out Berhasil!</span>
-                                <p>Silahkan Login Kembali.</p>
-                            </div>
-                        @endif
                     </div>
 
-                    <form class="space-y-4 md:space-y-6" action="/login" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="/register" method="POST">
                         @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                 email</label>
                             <input type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Masukkan Email" required="" value="{{ old('email') }}">
+                                placeholder="Masukkan Email" required="">
                             @error('email')
                                 <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                     role="alert">
@@ -90,7 +66,7 @@
                         <div class="m-auto">
                             <button type="submit"
                                 class="w-full mr-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                Log In
+                                Register
                             </button>
                         </div>
 
@@ -106,8 +82,8 @@
                                 </div>
                             </div> --}}
                             <p class="text-center font-medium text-black-600 dark:text-primary-500">
-                                Belum memiliki akun? <a href="/register"
-                                    class="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline dark:text-primary-500">Register</a>
+                                Sudah memiliki akun? <a href="/login"
+                                    class="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline dark:text-primary-500">Login</a>
                             </p>
                         </div>
                     </form>
