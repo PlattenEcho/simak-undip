@@ -25,5 +25,11 @@ class Mahasiswa extends Model
         'provinsi',
         'email',
         'nomor_telepon',
+        'nip'
     ];
+
+    public function dosen_wali()
+    {
+        return $this->belongsTo(Doswal::class, 'nip');
+    }
 }
