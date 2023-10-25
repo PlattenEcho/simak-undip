@@ -13,25 +13,24 @@ class LoginController extends Controller
      */
     public function index()
     {
-        $loginError = session('loginError');
-
-        return view('login', compact('loginError'));
+        return view('login');
     }
 
     public function authenticate(LoginRequest $request)
     {
-
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => 'required|email:dns',
+            'password' => 'required'
+        ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
             return redirect()->intended('/dashboard');
         }
+        ;
 
-        return back()
-            ->withInput($request->only('email'))
-            ->with('loginError', 'Login gagal!');
+        return back()->with('loginError', 'Login Gagal');
     }
 
     public function logout(Request $request)
