@@ -17,45 +17,38 @@ class IRSController extends Controller
     }
 
     public function viewEntryIRS(Request $request)
-    {
-        // $request->validate([
-        //     'semester' => 'required'
-        // ]);
+    {   
+        $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
 
-        $semester = $request->input('semester');
+        $availableSemesters = range(1, 14);
 
-        $mataKuliah = Matkul::where('semester', ($semester % 2 == 0) ? 'Genap' : 'Ganjil')->get();
-        
-        return view('mahasiswa.entry_irs', ["semester" => $semester, "mataKuliah" => $mataKuliah]);
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+
+        return view('mahasiswa.entry_irs', ['remainingSemesters' => $remainingSemesters]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'semester' => 'required',
-            'matkul' => 'required',
+            'jml_sks' => 'required|numeric',
             'scan_irs' => 'required|max:5120',
         ]);
-    
+        
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
-        $errorMessage = '';
-    
-        foreach ($request->matkul as $kode_mk) {
-            $matkul = Matkul::where('kode_mk', $kode_mk)->first();
-    
-            try {
-                IRS::create([
-                    'nim' => $mahasiswa->nim, 
-                    'kode_mk' => $kode_mk,
-                    'semester' => $request->semester,
-                    'jml_sks' => $matkul->jml_sks,
-                    'scan_irs' => $request->scan_irs,
-                ]);
-            } catch (\Exception $e) {
-                $errorMessage = 'Gagal menyimpan data IRS.';
-            }
+        try {
+            IRS::create([
+            'nim' => $mahasiswa->nim, 
+            'semester' => $request->semester,
+            'jml_sks' => $request->jml_sks,
+            'scan_irs' => $request->scan_irs,
+            'nama_mhs' => $mahasiswa->nama,
+            'nama_doswal' => $mahasiswa->dosen_wali->nama,
+            ]);
+        } catch (\Exception $e) {
+            $errorMessage = 'Gagal menyimpan data IRS.';
         }
     
         if (!empty($errorMessage)) {

@@ -23,7 +23,7 @@ class Mahasiswa extends Model
         'alamat',
         'kabupaten',
         'provinsi',
-        'email',
+        'username',
         'nomor_telepon',
         'nip'
     ];

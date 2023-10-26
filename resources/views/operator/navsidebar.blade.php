@@ -43,10 +43,19 @@
                                         Neil Sims
                                     </p> --}}
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                        {{ auth()->user()->email }}
+                                        {{ auth()->user()->name }}
                                     </p>
                                 </div>
                                 <ul class="py-1" role="none">
+                                    <li>
+                                        <form action="#" method="get"
+                                            class="block h-full px-4 py-2 text-sm text-black-700 hover:bg-gray-100 dark:text-gray-300
+                                    dark:hover:bg-gray-600 dark:hover:text-black"
+                                            role="menuitem">
+                                            @csrf
+                                            <button type="submit" class="h-full w-full text-left">Profile</button>
+                                        </form>
+                                    </li>
                                     {{-- <li>
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"

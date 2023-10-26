@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doswal;
+use App\Models\GeneratedAccount;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class MahasiswaController extends Controller
     public function viewProfile()
     {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
         return view('mahasiswa.profile', ["mahasiswa" => $mahasiswa]);
     }
@@ -31,7 +32,7 @@ class MahasiswaController extends Controller
     public function viewEditProfile()
     {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
         return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
     }
@@ -44,37 +45,44 @@ class MahasiswaController extends Controller
             'angkatan' => 'required|integer|max:9999',
             'status' => 'in:Aktif,Cuti,Dropout',
             'jalur_masuk' => 'in:SBUB,SNMPTN,SBMPTN,Mandiri',
-            'email' => 'max:100|email|unique:mahasiswa,email',
             'doswal' => 'required',
         ]);
 
         if ($request->submit === 'generate') {
-            DB::beginTransaction(); // Memulai transaksi
+            DB::beginTransaction(); 
         
             try {
+                $username = Str::slug($request->nama, ''); 
+                $username .= Str::random(4);
+
                 $mahasiswa = new Mahasiswa();
                 $mahasiswa->nim = $request->nim;
                 $mahasiswa->nama = $request->nama;
                 $mahasiswa->angkatan = $request->angkatan;
                 $mahasiswa->status = $request->status;
                 $mahasiswa->jalur_masuk = $request->jalur_masuk;
-                $mahasiswa->email = $request->email;
                 $mahasiswa->nip = $request->doswal;
-        
+                $mahasiswa->username = $username;
+                
                 $mahasiswa->save();
-        
                 $password = Str::random(10);
+                
                 User::create([
                     'name' => $request->nama,
-                    'email' => $request->email,
+                    'username' => $username,
                     'password' => Hash::make($password),
                     'idrole' => 4,
+                ]);
+
+                GeneratedAccount::create([
+                    'username' => $username,
+                    'password' => $password,
                 ]);
         
                 DB::commit(); 
         
                 return redirect()->route('mahasiswa.showEntry')
-                    ->with('success', 'Data dan akun berhasil ditambahkan. Email: ' . $request->email . ' dan Password: ' . $password)->withInput();
+                    ->with('success', 'Data dan akun berhasil ditambahkan. Username: ' . $username . ' dan password: ' . $password)->withInput();
             } catch (\Exception $e) {
                 DB::rollback(); 
                 return redirect()->route('mahasiswa.showEntry')
@@ -85,9 +93,8 @@ class MahasiswaController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->alamat);
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
         $request->validate([
             'alamat' => 'required',
@@ -101,13 +108,14 @@ class MahasiswaController extends Controller
             return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
         }
     
+        $mahasiswa->nomor_telepon = $request->nomor_telepon;
         $mahasiswa->alamat = $request->alamat;
         $mahasiswa->provinsi = $request->provinsi;
         $mahasiswa->kabupaten = $request->kabupaten;
         
         $mahasiswa->save();
     
-        return redirect()->route('mahasiswa.viewEditProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
+        return redirect()->route('mahasiswa.viewProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
     }
     
 }

@@ -14,16 +14,11 @@ class IRS extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'kode_mk', 'semester', 'jml_sks', 'scan_irs'];
+    protected $fillable = ['nim', 'semester', 'jml_sks', 'scan_irs', 'nama_mhs', 'nama_doswal'];
 
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'nim');
-    }
-
-    public function matkul()
-    {
-        return $this->belongsTo(Matkul::class, 'kode_mk');
     }
 }
 

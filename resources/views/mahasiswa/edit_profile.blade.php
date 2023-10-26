@@ -1,4 +1,4 @@
-@extends('operator.navsidebar')
+@extends('mahasiswa.navsidebar')
 
 @section('content')
     <div class="p-4 sm:ml-64">
@@ -17,12 +17,14 @@
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
             @endif
+            <br>
             <h1
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Profil Mahasiswa
             </h1>
 
             <form class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('mahasiswa.update') }}" >
+            @csrf
             <div class="flex flex-col items-center mb-6">
                 <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                     <svg class="absolute w-23 h-23 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
@@ -37,13 +39,17 @@
                 <input type="text" id="nama" name="nama" value="{{ Auth::user()->name }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
             </div>
             <div class="form-group">
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username:</label>
+                <input type="text" id="username" name="username" value="{{ Auth::user()->username }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+            </div>
+            <div class="form-group">
                 <label for="angkatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Angkatan:</label>
                 <input type="text" id="angkatan" name="angkatan" value="{{ $mahasiswa->angkatan }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
                 <input type="email" id="email" name="email" value="{{ Auth::user()->email }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status:</label>
                 <input type="text" id="status" name="status" value="{{ $mahasiswa->status }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
@@ -57,8 +63,20 @@
                 <input type="text" id="doswal" name="doswal" value="{{ $mahasiswa->dosen_wali->nama }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
             </div>
             <div class="form-group">
+                <label for="nomor_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon:</label>
+                <input type="text" id="nomor_telepon" name="nomor_telepon" value="{{ $mahasiswa->nomor_telepon }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                @error('nomor_telepon')
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label for="alamat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat:</label>
-                <textarea id="alamat" name="alamat" value="{{ $mahasiswa->alamat }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $mahasiswa->alamat }}</textarea>
                 @error('alamat')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                         role="alert">

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('irs', function (Blueprint $table) {
             $table->increments('id_irs');
             $table->string('nim', 14);
-            $table->string('kode_mk', 10);
             $table->unsignedSmallInteger('semester');
             $table->unsignedSmallInteger('jml_sks');
             $table->string('scan_irs', 100);
+            $table->string('nama_mhs', 255);
+            $table->string('nama_doswal', 255);
+            $table->string('status', 10)->default("Unverified");
 
             $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('kode_mk')->references('kode_mk')->on('matkul')->onDelete('cascade');
         });
     }
 
@@ -28,7 +29,6 @@ return new class extends Migration
     {
         Schema::table('irs', function (Blueprint $table) {
             $table->dropForeign(['nim']);
-            $table->dropForeign(['kode_mk']);
         });
 
         Schema::dropIfExists('irs');
