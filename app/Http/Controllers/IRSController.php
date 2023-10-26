@@ -18,6 +18,10 @@ class IRSController extends Controller
 
     public function viewEntryIRS(Request $request)
     {
+        // $request->validate([
+        //     'semester' => 'required'
+        // ]);
+
         $semester = $request->input('semester');
 
         $mataKuliah = Matkul::where('semester', ($semester % 2 == 0) ? 'Genap' : 'Ganjil')->get();

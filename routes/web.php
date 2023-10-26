@@ -44,6 +44,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/operator/entry-data-mahasiswa', 'showEntryMhs')->name('mahasiswa.showEntry');
     Route::post('/operator/store-mahasiswa', 'store')->name('mahasiswa.store');
+    Route::get('/mahasiswa/profile', 'viewProfile')->name('mahasiswa.viewProfile');
+    Route::get('/mahasiswa/edit-profile', 'viewEditProfile')->name('mahasiswa.viewEditProfile');
+    Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
 });
 
 Route::controller(IRSController::class)->group(function() {

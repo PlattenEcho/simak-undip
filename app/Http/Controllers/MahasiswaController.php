@@ -6,6 +6,7 @@ use App\Models\Doswal;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -17,6 +18,22 @@ class MahasiswaController extends Controller
         $dosen_wali = Doswal::all();
 
         return view('operator.entry_mhs', ['dosen_wali' => $dosen_wali]);
+    }
+
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+
+        return view('mahasiswa.profile', ["mahasiswa" => $mahasiswa]);
+    }
+
+    public function viewEditProfile()
+    {
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+
+        return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
     }
 
     public function store(Request $request)
@@ -65,4 +82,32 @@ class MahasiswaController extends Controller
             }
         }
     }
+
+    public function update(Request $request)
+    {
+        dd($request->alamat);
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+
+        $request->validate([
+            'alamat' => 'required',
+            'provinsi' => 'required',
+            'kabupaten' => 'required',
+        ]);
+      
+        //$mahasiswa = Mahasiswa::find($nim);
+    
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
+        }
+    
+        $mahasiswa->alamat = $request->alamat;
+        $mahasiswa->provinsi = $request->provinsi;
+        $mahasiswa->kabupaten = $request->kabupaten;
+        
+        $mahasiswa->save();
+    
+        return redirect()->route('mahasiswa.viewEditProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
+    }
+    
 }
