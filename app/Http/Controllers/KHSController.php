@@ -49,8 +49,8 @@ class KHSController extends Controller
             'ips' => $request->ips,
             'ipk' => $request->ipk,
             'scan_khs' => $request->scan_khs,
-            'namaMhs' => $mahasiswa->nama,
-            'namaDoswal' => $mahasiswa->dosen_wali->nama,
+            'nama_mhs' => $mahasiswa->nama,
+            'nama_doswal' => $mahasiswa->dosen_wali->nama,
             ]);
         } catch (\Exception $e) {
             $errorMessage = 'Gagal menyimpan data KHS.';

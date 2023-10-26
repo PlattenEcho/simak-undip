@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('khs', function (Blueprint $table) {
-            $table->string('nama_doswal');
-            $table->string('nama_mhs');
+        Schema::create('pkl', function (Blueprint $table) {
+            $table->increments('idPKL');
+            $table->string('status');
+            $table->integer('nilai');
+            $table->string('scan_pkl', 100);
+            $table->string('nim', 14);
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('create_khs_table', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('pkl');
     }
 };
