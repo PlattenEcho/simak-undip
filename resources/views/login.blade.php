@@ -106,7 +106,7 @@
                                 </div>
                             </div> --}}
                             <p class="text-center font-medium text-black-600 dark:text-primary-500">
-                                Belum memiliki akun? <a href="/register"
+                                Belum memiliki akun? <a href="{{ route('register') }}"
                                     class="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline dark:text-primary-500">Register</a>
                             </p>
                         </div>

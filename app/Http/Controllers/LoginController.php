@@ -26,7 +26,17 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            $user = $request->user(); 
+        
+            if ($user->idrole === 1) {
+                return redirect()->intended('/operator/dashboard');
+            } else if ($user->idrole === 2) {
+                return redirect()->intended('/departemen/dashboard');
+            } else if ($user->idrole === 3) {
+                return redirect()->intended('/doswal/dashboard');
+            } else if ($user->idrole === 4) {
+                return redirect()->intended('/mahasiswa/dashboard');
+            }
         }
         ;
 

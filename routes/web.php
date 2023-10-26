@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IRSController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
@@ -21,24 +22,34 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
-Route::post('/logout', [LoginController::class, 'logout']);
-// Route::post('/login', [LoginController::class, 'authenticate']);
-// Route::post('/logout', [LoginController::class, 'logout']);
-
-Route::get('/register', [RegisterController::class, 'index'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->name('registerStore');
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-
-Route::controller(MahasiswaController::class)->group(function() {
-    Route::get('/entry-data-mahasiswa', 'showEntryMhs')->name('mahasiswa.showEntry');
-    Route::post('/store-mahasiswa', 'store')->name('mahasiswa.store');
+Route::controller(LoginController::class)->group(function() {
+    Route::get('/login', 'index')->middleware('guest')->name('login');
+    Route::post('/login', 'authenticate')->name('authenticate');
+    Route::post('/logout', 'logout');
 });
 
-Route::post('/generate-account', 'AccountController@generateAccount');
+// Route::get('/register', [RegisterController::class, 'index'])->middleware('guest')->name('register');
+// Route::post('/register', [RegisterController::class, 'store'])->name('registerStore');
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Route::view('/coba', 'coba');
+Route::controller(RegisterController::class)->group(function() {
+    Route::get('/register', 'index')->middleware('guest')->name('register');
+    Route::post('/register', 'store')->name('registerStore');
+});
+
+Route::controller(DashboardController::class)->middleware('auth')->group(function() {
+    Route::get('/operator/dashboard', 'viewDashboardOperator')->name('operator.dashboard');
+    Route::get('/mahasiswa/dashboard', 'viewDashboardMahasiswa')->name('mahasiswa.dashboard');
+});
+
+Route::controller(MahasiswaController::class)->group(function() {
+    Route::get('/operator/entry-data-mahasiswa', 'showEntryMhs')->name('mahasiswa.showEntry');
+    Route::post('/operator/store-mahasiswa', 'store')->name('mahasiswa.store');
+});
+
+Route::controller(IRSController::class)->group(function() {
+    Route::get('/mahasiswa/entry-irs', 'viewEntryIRS')->name('irs.viewEntry');
+    Route::get('/mahasiswa/irs', 'viewIRS')->name('irs.viewIRS');
+    //Route::post('/operator/store-mahasiswa', 'store')->name('mahasiswa.store');
+});
+
+Route::get('/get-matkul-by-semester/{semester}', 'MatkulController@getMatkulBySemester');
