@@ -49,7 +49,7 @@ Route::controller(MahasiswaController::class)->group(function() {
 Route::controller(IRSController::class)->group(function() {
     Route::get('/mahasiswa/entry-irs', 'viewEntryIRS')->name('irs.viewEntry');
     Route::get('/mahasiswa/irs', 'viewIRS')->name('irs.viewIRS');
-    //Route::post('/operator/store-mahasiswa', 'store')->name('mahasiswa.store');
+    Route::post('/mahasiswa/irs', 'store')->name('irs.store');
 });
 
 Route::get('/get-matkul-by-semester/{semester}', 'MatkulController@getMatkulBySemester');
