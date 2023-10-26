@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KHS;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class KHSController extends Controller
 {
