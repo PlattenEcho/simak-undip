@@ -97,12 +97,11 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
         $request->validate([
+            'nomor_telepon' => 'required|numeric',
             'alamat' => 'required',
             'provinsi' => 'required',
             'kabupaten' => 'required',
         ]);
-      
-        //$mahasiswa = Mahasiswa::find($nim);
     
         if (!$mahasiswa) {
             return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
@@ -114,7 +113,11 @@ class MahasiswaController extends Controller
         $mahasiswa->kabupaten = $request->kabupaten;
         
         $mahasiswa->save();
-    
+
+        User::where('username', $user->username)->update([
+            'profile_completed' => 1
+        ]);
+        
         return redirect()->route('mahasiswa.viewProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
     }
     
