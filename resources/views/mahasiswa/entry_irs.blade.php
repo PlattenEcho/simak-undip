@@ -9,6 +9,7 @@
                     role="alert">
                     <span class="font-medium">{{ session('success') }}</span>
                 </div>
+                <br>
             @endif
 
             @if (session('error'))
@@ -16,8 +17,8 @@
                     role="alert">
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
+                <br>
             @endif
-            <br>
             <h1
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Entry IRS
