@@ -27,11 +27,64 @@
                 </a>
             </div>
     </div>
-<!-- Main modal -->
 
-
-
-
+    <div id="accordion-collapse" data-accordion="collapse">
+                @foreach ($khsData as $khs)
+                <h2 id="accordion-collapse-heading-{{ $khs->semester }}">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover-bg-gray-800" data-accordion-target="#accordion-collapse-body-{{ $khs->semester }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ $khs->semester }}">
+                        <span class="text-l font-semibold leading-tight tracking-tight text-gray-900 md:text-l dark:text-white">Semester {{ $khs->semester }} | Jumlah SKS {{ $khs->sks_smt }} | IP Semester {{ $khs->ips }}</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-{{ $khs->semester }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ $khs->semester }}">
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+                        <h1 class="text-center text-lg font-semibold leading-tight tracking-tight text-gray-900 md:text-lg dark:text-white">
+                        @if ($khs->status === 'Unverified')
+                            Menunggu verifikasi dosen wali
+                        @elseif ($khs->status === 'Approved')
+                            <span class="text-base text-green-600 bg-green-100 p-2 rounded-lg">KHS sudah diverifikasi dosen wali</span>
+                        @elseif ($khs->status === 'Rejected')
+                            <span class="text-red-600">KHS tidak terverifikasi. Lakukan update data</span>
+                        @endif
+                        </h1>
+                        <br>
+                        <div class="form-group">
+                            <label for="semester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester</label>
+                            <input type="text" id="semester" name="semester" value="{{ $khs->semester }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="sks_smt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah SKS Semester</label>
+                            <input type="text" id="sks_smt" name="sks_smt" value="{{ $khs->sks_smt }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="sks_kum" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah SKS Kumulatif</label>
+                            <input type="text" id="sks_kum" name="sks_kum" value="{{ $khs->sks_kum }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="ips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">IP Semester</label>
+                            <input type="text" id="ips" name="ips" value="{{ $khs->ips }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="ipk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">IP Kumulatif</label>
+                            <input type="text" id="ipk" name="ipk" value="{{ $khs->ipk }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="scan_khs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan KHS</label>
+                            <input type="text" id="scan_khs" name="scan_khs" value="{{ $khs->scan_khs }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                        </div>
+                        @if ($khs->status === 'Rejected')
+                        <a href="{{ route('khs.viewEditKHS', [$khs->id_khs]) }}" class="mr-auto text-white bg-blue-500 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-400 dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-blue-600" type="button">
+                            Edit
+                        </a>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 @endsection
