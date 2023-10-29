@@ -27,8 +27,19 @@
             @csrf
             <div class="form-group">
                 <label for="semester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester:</label>
-                <input type="hidden" name="semester" value="{{ $semester }}">
-                <input type="text" id="semester" name="semester_display" value="{{ $semester }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Disabled input" disabled>
+                <select id="semester" name="semester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    <option value="">Pilih Semester</option>
+                    @foreach ($remainingSemesters as $semester)
+                        <option value="{{ $semester }}">{{ $semester }}</option>
+                    @endforeach
+                </select>
+                @error('semester')
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="nim" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIM:</label>
