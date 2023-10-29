@@ -96,17 +96,27 @@ class MahasiswaController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
-        $request->validate([
+        $validated = $request->validate([
             'nomor_telepon' => 'required|numeric',
             'alamat' => 'required',
             'provinsi' => 'required',
             'kabupaten' => 'required',
+            'foto' => 'nullable|image|max:10240',
         ]);
+
+        // if (!$mahasiswa) {
+        //     return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
+        // }
     
-        if (!$mahasiswa) {
-            return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
+        if ($request->has('foto')) {
+            $fotoPath = $request->file('foto')->store('profile', 'public');
+            $validated['foto'] = $fotoPath;
+
+            $request->user()->update([
+                'foto' => $validated['foto'],
+            ]);
         }
-    
+        
         $mahasiswa->nomor_telepon = $request->nomor_telepon;
         $mahasiswa->alamat = $request->alamat;
         $mahasiswa->provinsi = $request->provinsi;

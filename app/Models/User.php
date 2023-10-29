@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'idrole',
         'profile_completed',
+        'foto',
     ];
 
     /**
@@ -43,4 +44,11 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function getImageURL(){
+        if($this->foto){
+            return url("storage/" . $this->foto);
+        }
+        return "https://freesvg.org/img/abstract-user-flat-4.png";
+    }
 }

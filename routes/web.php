@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\KHSController;
@@ -64,4 +65,9 @@ Route::controller(KHSController::class)->group(function() {
     Route::post('/mahasiswa/khs', 'store')->name('khs.store');
 });
 
-Route::get('/get-matkul-by-semester/{semester}', 'MatkulController@getMatkulBySemester');
+Route::controller(AccountController::class)->group(function() {
+    Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
+    Route::post('/change-password', 'update')->name('account.update');
+});
+
+
