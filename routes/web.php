@@ -41,6 +41,7 @@ Route::controller(RegisterController::class)->group(function() {
 Route::controller(DashboardController::class)->middleware('auth')->group(function() {
     Route::get('/operator/dashboard', 'viewDashboardOperator')->middleware('only_operator')->name('operator.dashboard');
     Route::get('/mahasiswa/dashboard', 'viewDashboardMahasiswa')->middleware('only_mahasiswa')->name('mahasiswa.dashboard');
+    Route::get('/doswal/dashboard', 'viewDashboardDoswal')->middleware('only_doswal')->name('doswal.dashboard');
 });
 
 Route::controller(MahasiswaController::class)->group(function() {
@@ -49,6 +50,7 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/mahasiswa/profile', 'viewProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewProfile');
     Route::get('/mahasiswa/edit-profile', 'viewEditProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewEditProfile');
     Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
+    Route::get('/doswal/verifikasi', 'viewVerifikasi')->middleware('only_doswal')->name('mahasiswa.viewVerifikasi');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
@@ -59,13 +61,13 @@ Route::controller(IRSController::class)->middleware(['only_mahasiswa','profile_c
     Route::post('/mahasiswa/edit-irs/{id}', 'update')->name('irs.update');
 });
 
-Route::controller(KHSController::class)->group(function() {
+Route::controller(KHSController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
     Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
     Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
     Route::post('/mahasiswa/khs', 'store')->name('khs.store');
 });
 
-Route::controller(AccountController::class)->group(function() {
+Route::controller(AccountController::class)->middleware('auth')->group(function() {
     Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
     Route::post('/change-password', 'update')->name('account.update');
 });

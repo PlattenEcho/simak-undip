@@ -44,7 +44,7 @@
                         @if ($irs->status === 'Unverified')
                             Menunggu verifikasi dosen wali
                         @elseif ($irs->status === 'Approved')
-                            <span class="text-base text-green-600 bg-green-100 p-2 rounded-lg">IRS sudah diverifikasi dosen wali</span>
+                            <span class="text-base text-green-600 p-2 rounded-lg">IRS sudah diverifikasi dosen wali</span>
                         @elseif ($irs->status === 'Rejected')
                             <span class="text-red-600">IRS tidak terverifikasi. Lakukan update data</span>
                         @endif
@@ -59,8 +59,7 @@
                             <input type="text" id="jml_sks" name="jml_sks" value="{{ $irs->jml_sks }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="scan_irs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan IRS</label>
-                            <input type="text" id="scan_irs" name="scan_irs" value="{{ $irs->scan_irs }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            <label for="scan_irs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan IRS <a href="{{ asset('storage/' . $irs->scan_irs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
                         @if ($irs->status === 'Rejected')
                         <a href="{{ route('irs.viewEditIRS', [$irs->id_irs]) }}" class="mr-auto text-white bg-blue-500 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-400 dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-blue-600" type="button">
@@ -74,5 +73,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 @endsection

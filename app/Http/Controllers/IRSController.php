@@ -56,14 +56,20 @@ class IRSController extends Controller
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
         try {
+            if ($request->has('scan_irs')) {
+                $irsPath = $request->file('scan_irs')->store('scan_irs', 'public');
+                $validated['scan_irs'] = $irsPath;
+            }
+
             IRS::create([
             'nim' => $mahasiswa->nim, 
             'semester' => $request->semester,
             'jml_sks' => $request->jml_sks,
-            'scan_irs' => $request->scan_irs,
+            'scan_irs' => $validated['scan_irs'],
             'nama_mhs' => $mahasiswa->nama,
             'nama_doswal' => $mahasiswa->dosen_wali->nama,
             ]);
+
         } catch (\Exception $e) {
             $errorMessage = 'Gagal menyimpan data IRS.';
         }
@@ -79,22 +85,29 @@ class IRSController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'semester' => 'required',
             'jml_sks' => 'required|numeric',
-            'scan_irs' => 'required|max:5120',
+            'scan_irs' => 'nullable|max:5120',
         ]);
         
         try {
             $irs = IRS::where('id_irs', $id)
             ->first();
+
+            if ($request->has('scan_irs')) {
+                $irsPath = $request->file('scan_irs')->store('scan_irs', 'public');
+                $validated['scan_irs'] = $irsPath;
+
+                $irs->scan_irs = $validated['scan_irs'];
+            }
             
             $irs->semester = $request->semester;
             $irs->jml_sks = $request->jml_sks;
-            $irs->scan_irs = $request->scan_irs;
             $irs->status = "Unverified";
 
             $irs->save();
+            
         } catch (\Exception $e) {
             $errorMessage = 'Gagal memperbarui data IRS.';
         }

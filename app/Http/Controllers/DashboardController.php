@@ -15,4 +15,9 @@ class DashboardController extends Controller
     {
         return view("mahasiswa.dashboard");
     }
+
+    public function viewDashboardDoswal()
+    {
+        return view("doswal.dashboard");
+    }
 }

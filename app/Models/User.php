@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,5 +51,10 @@ class User extends Authenticatable
             return url("storage/" . $this->foto);
         }
         return "https://freesvg.org/img/abstract-user-flat-4.png";
+    }
+
+    public function mahasiswa(): HasOne
+    {
+        return $this->hasOne(Mahasiswa::class);
     }
 }

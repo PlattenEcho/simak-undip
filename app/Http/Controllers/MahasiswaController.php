@@ -24,7 +24,7 @@ class MahasiswaController extends Controller
     public function viewProfile()
     {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
 
         return view('mahasiswa.profile', ["mahasiswa" => $mahasiswa]);
     }
@@ -32,9 +32,15 @@ class MahasiswaController extends Controller
     public function viewEditProfile()
     {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
 
         return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
+    }
+
+    public function viewVerifikasi()
+    {
+
+        return view('doswal.verifikasi');
     }
 
     public function store(Request $request)
@@ -54,7 +60,15 @@ class MahasiswaController extends Controller
             try {
                 $username = Str::slug($request->nama, ''); 
                 $username .= Str::random(4);
+                $password = Str::random(10);
 
+                $user = User::create([
+                    'name' => $request->nama,
+                    'username' => $username,
+                    'password' => Hash::make($password),
+                    'idrole' => 4,
+                ]);
+            
                 $mahasiswa = new Mahasiswa();
                 $mahasiswa->nim = $request->nim;
                 $mahasiswa->nama = $request->nama;
@@ -63,16 +77,9 @@ class MahasiswaController extends Controller
                 $mahasiswa->jalur_masuk = $request->jalur_masuk;
                 $mahasiswa->nip = $request->doswal;
                 $mahasiswa->username = $username;
+                $mahasiswa->iduser = $user->id;
                 
                 $mahasiswa->save();
-                $password = Str::random(10);
-                
-                User::create([
-                    'name' => $request->nama,
-                    'username' => $username,
-                    'password' => Hash::make($password),
-                    'idrole' => 4,
-                ]);
 
                 GeneratedAccount::create([
                     'username' => $username,
@@ -92,31 +99,30 @@ class MahasiswaController extends Controller
     }
 
     public function update(Request $request)
-    {
+{
+    try {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
 
         $validated = $request->validate([
             'nomor_telepon' => 'required|numeric',
             'alamat' => 'required',
             'provinsi' => 'required',
             'kabupaten' => 'required',
+            'username' => 'required|unique:users,username,' . $user->id,
             'foto' => 'nullable|image|max:10240',
         ]);
-
-        // if (!$mahasiswa) {
-        //     return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
-        // }
     
         if ($request->has('foto')) {
             $fotoPath = $request->file('foto')->store('profile', 'public');
             $validated['foto'] = $fotoPath;
 
-            $request->user()->update([
+            $user->update([
                 'foto' => $validated['foto'],
             ]);
         }
         
+        $mahasiswa->username = $request->username;
         $mahasiswa->nomor_telepon = $request->nomor_telepon;
         $mahasiswa->alamat = $request->alamat;
         $mahasiswa->provinsi = $request->provinsi;
@@ -124,11 +130,16 @@ class MahasiswaController extends Controller
         
         $mahasiswa->save();
 
-        User::where('username', $user->username)->update([
+        $user->update([
+            'username' => $request->username,
             'profile_completed' => 1
         ]);
         
         return redirect()->route('mahasiswa.viewProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
+    } catch (\Exception $e) {
+        return redirect()->route('mahasiswa.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
     }
+}
+
     
 }
