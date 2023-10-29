@@ -9,7 +9,6 @@
                     role="alert">
                     <span class="font-medium">{{ session('success') }}</span>
                 </div>
-                <br>
             @endif
 
             @if (session('error'))
@@ -17,7 +16,6 @@
                     role="alert">
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
-                <br>
             @endif
             <h1
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
@@ -42,39 +40,52 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="nim" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIM:</label>
-                <input type="text" class="form-control" id="nim" name="nim" value="{{ $nim }}" pattern="[0-9]{14}">
-                @error('nim')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group">
                 <label for="sks_smt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah SKS Semester:</label>
-                <input type="text" class="form-control" id="sks_smt" name="sks_smt" value="{{ $sks_smt }}">
+                <input id="sks_smt" name="sks_smt" value="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('sks_smt')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="sks_kum" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah SKS Kumulatif:</label>
-                <input type="text" class="form-control" id="sks_kum" name="sks_kum" value="{{ $sks_kum }}">
+                <input id="sks_kum" name="sks_kum" value="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('sks_kum')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="ips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">IP Semester:</label>
-                <input type="text" class="form-control" id="ips" name="ips" value="{{ $ips }}">
+                <input id="ips" name="ips" value="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('ips')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
                 @enderror
+                <p class="text-xs text-gray-500 dark:text-gray-300 mt-2">Format: 9.99</p>
             </div>
             <div class="form-group">
                 <label for="ipk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">IP Kumulatif:</label>
-                <input type="text" class="form-control" id="ipk" name="ipk" value="{{ $ipk }}">
+                <input id="ipk" name="ipk" value="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('ipk')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
                 @enderror
+                <p class="text-xs text-gray-500 dark:text-gray-300 mt-2">Format: 9.99</p>
             </div>
                 <div class="form-group">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="scan_khs">Upload Scan KHS (PDF only):</label>
