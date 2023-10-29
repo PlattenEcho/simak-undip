@@ -14,7 +14,7 @@ class KHS extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'semester', 'sks_smt', 'sks_kum', 'ips', 'ipk', 'scan_khs'];
+    protected $fillable = ['nim', 'semester', 'sks_smt', 'sks_kum', 'ips', 'ipk', 'scan_khs', 'nama_mhs','nama_doswal'];
 
     public function mahasiswa()
     {

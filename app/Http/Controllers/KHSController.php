@@ -12,7 +12,11 @@ class KHSController extends Controller
 {
     public function viewKHS()
     {
-        return view('mahasiswa.khs');
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $khsData = $mahasiswa->khs;
+
+        return view('mahasiswa.khs', ['khsData' => $khsData]);
     }
 
     public function viewEntryKHS(Request $request)
@@ -27,22 +31,25 @@ class KHSController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    try {
         $request->validate([
             'semester' => 'required',
             'sks_smt' => 'required|numeric',
             'sks_kum' => 'required|numeric',
-            'ips' => 'required|double',
-            'ipk' => 'required|double',
-            'scan_khs' => 'required|max:5120',
+            'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
+            'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
+            'scan_khs' => 'required|max:100', 
+
+
         ]);
         
+
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
-        try {
-            KHS::create([
-            'nim' => $mahasiswa->nim, 
+        KHS::create([
+            'nim' => $mahasiswa->nim,
             'semester' => $request->semester,
             'sks_smt' => $request->sks_smt,
             'sks_kum' => $request->sks_kum,
@@ -51,17 +58,14 @@ class KHSController extends Controller
             'scan_khs' => $request->scan_khs,
             'nama_mhs' => $mahasiswa->nama,
             'nama_doswal' => $mahasiswa->dosen_wali->nama,
-            ]);
-        } catch (\Exception $e) {
-            $errorMessage = 'Gagal menyimpan data KHS.';
-        }
-    
-        if (!empty($errorMessage)) {
-            Session::flash('error', $errorMessage);
-        } else {
-            Session::flash('success',  'Data KHS berhasil disimpan.');
-        }
-    
-        return redirect()->route('khs.viewKHS');
+        ]);
+
+        Session::flash('success', 'Data KHS berhasil disimpan.');
+    } catch (\Exception $e) {
+        Session::flash('error', 'Gagal menyimpan data KHS. Pesan kesalahan: ' . $e->getMessage());
     }
+
+    return redirect()->route('khs.viewKHS');
+}
+
 }
