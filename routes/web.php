@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IRSController;
+use App\Http\Controllers\KHSController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
@@ -57,3 +58,10 @@ Route::controller(IRSController::class)->middleware(['only_mahasiswa','profile_c
     Route::post('/mahasiswa/edit-irs/{id}', 'update')->name('irs.update');
 });
 
+Route::controller(KHSController::class)->group(function() {
+    Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
+    Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
+    Route::post('/mahasiswa/khs', 'store')->name('khs.store');
+});
+
+Route::get('/get-matkul-by-semester/{semester}', 'MatkulController@getMatkulBySemester');

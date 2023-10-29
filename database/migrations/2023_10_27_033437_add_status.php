@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('khs', function (Blueprint $table) {
-            $table->string('nama_doswal');
-            $table->string('nama_mhs');
+            $table->string('status', 10)->default("Unverified");
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('create_khs_table', function (Blueprint $table) {
+        Schema::table('khs', function (Blueprint $table) {
             //
         });
     }

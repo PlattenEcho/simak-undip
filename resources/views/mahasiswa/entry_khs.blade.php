@@ -29,6 +29,13 @@
                 <input type="text" id="semester" name="semester_display" value="{{ $semester }}" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Disabled input" disabled>
             </div>
             <div class="form-group">
+                <label for="nim" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIM:</label>
+                <input type="text" class="form-control" id="nim" name="nim" value="{{ $nim }}" pattern="[0-9]{14}">
+                @error('nim')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label for="sks_smt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah SKS Semester:</label>
                 <input type="text" class="form-control" id="sks_smt" name="sks_smt" value="{{ $sks_smt }}">
                 @error('sks_smt')
