@@ -64,5 +64,10 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'only_operator' => \App\Http\Middleware\OnlyOperator::class,
+        'only_mahasiswa' => \App\Http\Middleware\OnlyMahasiswa::class,
+        'only_doswal' => \App\Http\Middleware\OnlyDoswal::class,
+        'only_departemen' => \App\Http\Middleware\OnlyDepartemen::class,
+        'profile_completed' => \App\Http\Middleware\CheckProfileCompleted::class,
     ];
 }

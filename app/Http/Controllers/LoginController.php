@@ -35,6 +35,9 @@ class LoginController extends Controller
             } else if ($user->idrole === 3) {
                 return redirect()->intended('/doswal/dashboard');
             } else if ($user->idrole === 4) {
+                if ($user->profile_completed === 0) {
+                    return redirect()->route('mahasiswa.viewEditProfile')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+                }
                 return redirect()->intended('/mahasiswa/dashboard');
             }
         }
