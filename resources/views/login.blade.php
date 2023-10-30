@@ -94,22 +94,12 @@
                             </button>
                         </div>
 
-                        {{-- <div class="flex flex-col items-center'">
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" type="checkbox"
-                                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                                        required="">
-                                </div>
-                                <div class="ml-3 text-sm">
-                                    <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-                                </div>
-                            </div> --}}
-                        {{-- <p class="text-center font-medium text-black-600 dark:text-primary-500">
+                        <div class="flex flex-col items-center'">
+                            <p class="text-center font-medium text-black-600 dark:text-primary-500">
                                 Belum memiliki akun? <a href="{{ route('register') }}"
                                     class="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline dark:text-primary-500">Register</a>
                             </p>
-                        </div> --}}
+                        </div>
                     </form>
                 </div>
             </div>
