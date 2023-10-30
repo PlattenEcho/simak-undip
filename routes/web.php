@@ -64,7 +64,9 @@ Route::controller(IRSController::class)->middleware(['only_mahasiswa','profile_c
 Route::controller(KHSController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
     Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
     Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
+    Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
     Route::post('/mahasiswa/khs', 'store')->name('khs.store');
+    Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
 });
 
 Route::controller(AccountController::class)->middleware('auth')->group(function() {
