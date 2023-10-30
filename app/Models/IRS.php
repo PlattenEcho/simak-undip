@@ -14,7 +14,7 @@ class IRS extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'semester', 'jml_sks', 'scan_irs', 'nama_mhs', 'nama_doswal'];
+    protected $fillable = ['nim', 'semester', 'jml_sks', 'scan_irs', 'nama_mhs', 'nama_doswal', 'status'];
 
     public function mahasiswa()
     {

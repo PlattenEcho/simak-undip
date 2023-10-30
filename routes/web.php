@@ -63,6 +63,8 @@ Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_
     Route::get('/mahasiswa/edit-irs/{id}', 'viewEditIRS')->name('irs.viewEditIRS');
     Route::post('/mahasiswa/irs', 'store')->name('irs.store');
     Route::post('/mahasiswa/edit-irs/{id}', 'update')->name('irs.update');
+    // Route::post('/doswal/info-akademik/verif-irs/{nim}', 'verifikasi')->withoutMiddleware('only_mahasiswa')->middleware('only_doswal')->name('irs.verifikasi');
+    // Route::post('/doswal/info-akademik/reject-irs/{nim}', 'reject')->withoutMiddleware('only_mahasiswa')->middleware('only_doswal')->name('irs.reject');
 });
 
 Route::controller(KHSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
@@ -103,4 +105,13 @@ Route::controller(AccountController::class)->middleware('auth')->group(function 
     Route::post('/change-password', 'update')->name('account.update');
 });
 
-
+Route::middleware(['only_doswal','auth'])->group(function() {
+    Route::post('/doswal/info-akademik/verif-irs/{id}', [IRSController::class, 'verifikasi'])->name('irs.verifikasi');
+    Route::post('/doswal/info-akademik/reject-irs/{id}', [IRSController::class, 'reject'])->name('irs.reject');
+    Route::post('/doswal/info-akademik/verif-khs/{id}', [KHSController::class, 'verifikasi'])->name('khs.verifikasi');
+    Route::post('/doswal/info-akademik/reject-khs/{id}', [KHSController::class, 'reject'])->name('khs.reject');
+    Route::post('/doswal/info-akademik/verif-pkl/{id}', [PKLController::class, 'verifikasi'])->name('pkl.verifikasi');
+    Route::post('/doswal/info-akademik/reject-pkl/{id}', [PKLController::class, 'reject'])->name('pkl.reject');
+    Route::post('/doswal/info-akademik/verif-skripsi/{id}', [SkripsiController::class, 'verifikasi'])->name('skripsi.verifikasi');
+    Route::post('/doswal/info-akademik/reject-skripsi/{id}', [SkripsiController::class, 'reject'])->name('skripsi.reject');
+});

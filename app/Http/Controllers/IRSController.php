@@ -121,21 +121,35 @@ class IRSController extends Controller
         return redirect()->route('irs.viewIRS');
     }
 
-    public function verifikasiIRS(int $id)
+    public function verifikasi(int $id)
     {
-        $irs = IRS::where('id', $id)->first();
+        try {
+            $irs = IRS::where('id_irs', $id)->first();
 
-        $irs->update([
-            "statusVerif" => 'Verified'
-        ]);
+            $irs->update([
+                "status" => 'Approved'
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil memverifikasi IRS.');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'Gagal memverifikasi IRS.');
+        }
     }
 
-    public function rejectIRS(int $id)
-    {
-        $irs = IRS::where('id', $id)->first();
 
-        $irs->update([
-            "statusVerif" => 'Rejected'
-        ]);
+    public function reject(int $id)
+    {
+        try {
+            $irs = IRS::where('id_irs', $id)->first();
+            
+            $irs->update([
+                "status" => 'Rejected'
+            ]);
+
+            return redirect()->back()->with('success', 'IRS berhasil ditolak.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menolak IRS.');
+        }
     }
 }

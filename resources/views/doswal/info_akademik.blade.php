@@ -123,9 +123,21 @@
                             </div>
                             @if($irs->status == 'Unverified')
                             <div class="m-auto">
-                                <br>
-                                <a href="#" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</a>
-                                <a href="#" class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</a>
+                            <br>
+                                <table>
+                                    <td>
+                                        <form action="{{ route('irs.verifikasi', $irs->id_irs) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
+                                        </form> 
+                                    </td>
+                                    <td>    
+                                        <form action="{{ route('irs.reject', $irs->id_irs) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
+                                        </form>  
+                                    </td>
+                                </table>     
                             </div>
                             @endif
                         </div>
@@ -160,6 +172,25 @@
                         <div class="form-group">
                             <label for="scan_khs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan KHS <a href="{{ asset('storage/' . $khs->scan_khs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
+                        @if($khs->status == 'Unverified')
+                        <div class="m-auto">
+                            <br>
+                                <table>
+                                    <td>
+                                        <form action="{{ route('khs.verifikasi', $khs->id_khs) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
+                                        </form> 
+                                    </td>
+                                    <td>    
+                                        <form action="{{ route('khs.reject', $khs->id_khs) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
+                                        </form>  
+                                    </td>
+                                </table>     
+                            </div>
+                        @endif
                     </div>
                     @else
                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="khs" role="tabpanel" aria-labelledby="khs-tab">
@@ -179,6 +210,25 @@
                         <div class="form-group">
                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $pkl->scan_pkl) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
+                        @if($pkl->statusVerif == 'Unverified')
+                            <div class="m-auto">
+                            <br>
+                                <table>
+                                    <td>
+                                        <form action="{{ route('pkl.verifikasi', $pkl->idPKL) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
+                                        </form> 
+                                    </td>
+                                    <td>    
+                                        <form action="{{ route('pkl.reject', $pkl->idPKL) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
+                                        </form>  
+                                    </td>
+                                </table>     
+                            </div>
+                        @endif
                     </div>
                     @else
                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="pkl" role="tabpanel" aria-labelledby="pkl-tab">
@@ -198,6 +248,25 @@
                         <div class="form-group">
                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $skripsi->scan_skripsi) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
+                        @if($skripsi->statusVerif == 'Unverified')
+                            <div class="m-auto">
+                            <br>
+                                <table>
+                                    <td>
+                                        <form action="{{ route('skripsi.verifikasi', $skripsi->id_skripsi) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
+                                        </form> 
+                                    </td>
+                                    <td>    
+                                        <form action="{{ route('skripsi.reject', $skripsi->id_skripsi) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
+                                        </form>  
+                                    </td>
+                                </table>     
+                            </div>
+                        @endif
                     </div>
                     @else
                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="skripsi" role="tabpanel" aria-labelledby="skripsi-tab">

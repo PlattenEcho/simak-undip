@@ -124,4 +124,35 @@ class KHSController extends Controller
         return redirect()->route('khs.viewKHS');
     }
 
+    public function verifikasi(int $id)
+    {
+        try {
+            $khs = KHS::where('id_khs', $id)->first();
+
+            $khs->update([
+                "status" => 'Approved'
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil memverifikasi KHS.');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'Gagal memverifikasi KHS.');
+        }
+    }
+
+
+    public function reject(int $id)
+    {
+        try {
+            $khs = KHS::where('id_khs', $id)->first();
+            
+            $khs->update([
+                "status" => 'Rejected'
+            ]);
+
+            return redirect()->back()->with('success', 'KHS berhasil ditolak.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menolak KHSS.');
+        }
+    }
 }

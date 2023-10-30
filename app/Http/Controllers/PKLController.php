@@ -119,4 +119,36 @@ class PKLController extends Controller
 
         return redirect()->route('pkl.viewPKL');
     }
+
+    public function verifikasi(int $id)
+    {
+        try {
+            $pkl = PKL::where('idPKL', $id)->first();
+
+            $pkl->update([
+                "statusVerif" => 'Approved'
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil memverifikasi PKL.');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'Gagal memverifikasi PKL.');
+        }
+    }
+
+
+    public function reject(int $id)
+    {
+        try {
+            $pkl = PKL::where('idPKL', $id)->first();
+            
+            $pkl->update([
+                "statusVerif" => 'Rejected'
+            ]);
+
+            return redirect()->back()->with('success', 'PKL berhasil ditolak.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menolak PKL.');
+        }
+    }
 }
