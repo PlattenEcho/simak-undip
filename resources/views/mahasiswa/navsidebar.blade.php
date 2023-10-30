@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('body')
-<section>
+    <section>
         <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
@@ -27,30 +27,41 @@
                     </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-3">
-                            <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
+                            <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
+                                class="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
+                                type="button">
                                 <span class="sr-only">Open user menu</span> {{ auth()->user()->name }}
                                 <!-- <img class="ml-2.5 w-7 h-7 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo"> -->
-                                <img class="ml-2.5 w-7 h-7 rounded-full" src="{{ Auth::user()->getImageURL() }}" alt="user photo" class="w-20 h-20 object-cover" />
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                            </svg>
+                                <img class="ml-2.5 w-7 h-7 rounded-full" src="{{ Auth::user()->getImageURL() }}"
+                                    alt="user photo" class="w-20 h-20 object-cover" />
+                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
                             </button>
                             <!-- Dropdown menu -->
-                            <div id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <div id="dropdownAvatarName"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
                                     <div class="font-medium ">{{ auth()->user()->name }}</div>
                                     <div class="truncate">{{ auth()->user()->username }}</div>
                                 </div>
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
                                     <li>
-                                        <a href="{{ route('mahasiswa.viewProfile') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                                        <a href="{{ route('mahasiswa.viewProfile') }}"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('account.viewChangePassword') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Change Password</a>
+                                        <a href="{{ route('account.viewChangePassword') }}"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Change
+                                            Password</a>
                                     </li>
                                     <li>
                                         <form action="/logout" method="post"
-                                            class="block h-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-red" role="menuitem">
+                                            class="block h-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-red"
+                                            role="menuitem">
                                             @csrf
                                             <button type="submit" class="h-full w-full text-left">Log out</button>
                                         </form>
@@ -119,7 +130,7 @@
                             <span
                                 class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                         </a>
-                    </li>--}}
+                    </li> --}}
                     <li>
                         <a href="#"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -133,7 +144,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('skripsi.viewSkripsi') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
