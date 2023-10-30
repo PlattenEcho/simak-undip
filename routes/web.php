@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\KHSController;
 use App\Http\Controllers\PKLController;
+use App\Http\Controllers\DoswalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
@@ -88,6 +89,14 @@ Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'prof
     // Route::post('/mahasiswa/khs', 'store')->name('khs.store');
     // Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
 });
+
+Route::controller(DoswalController::class)->group(function () {
+    Route::get('/view', 'show')->name('daftar_mhs');
+    Route::get('/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
+    Route::post('/search-mahasiswa', 'searchMahasiswa'); 
+});
+
+
 
 Route::controller(AccountController::class)->middleware('auth')->group(function () {
     Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
