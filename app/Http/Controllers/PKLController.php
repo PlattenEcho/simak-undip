@@ -12,11 +12,11 @@ class PKLController extends Controller
 {
     public function viewPKL()
     {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
-        $pklData = $mahasiswa->pkl;
+    $user = Auth::user();
+    $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+    $pklData = $mahasiswa->pkl;
 
-        return view('mahasiswa.pkl', ['pklData' => $pklData]);
+    return view('mahasiswa.pkl', ['pklData' => $pklData]);
     }
 
     public function viewEditPKL(int $id)
@@ -32,41 +32,44 @@ class PKLController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'status' => 'required',
-            'nilai' => 'required',
-            'scan_pkl' => 'required|max:5120',
+{
+    $request->validate([
+        'status' => 'required',
+        'nilai' => 'required',
+        'scan_pkl' => 'required|max:5120',
+    ]);
+
+    $user = Auth::user();
+    $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+
+    $validated = []; 
+
+    try {
+        if ($request->has('scan_pkl')) {
+            $pklPath = $request->file('scan_pkl')->store('scan_pkl', 'public');
+            $validated['scan_pkl'] = $pklPath; 
+        }
+
+        PKL::create([
+            'nim' => $mahasiswa->nim,
+            'status' => $request->status,
+            'nilai' => $request->nilai,
+            'scan_pkl' => $validated['scan_pkl'], 
         ]);
 
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
-
-        try {
-            if ($request->has('scan_pkl')) {
-                $pklPath = $request->file('scan_pkl')->store('scan_pkl', 'public');
-                $validated['scan_pkl'] = $pklPath;
-            }
-
-            PKL::create([
-                'nim' => $mahasiswa->nim,
-                'status' => $request->status,
-                'nilai' => $request->nilai,
-                'scan_pkl' => $validated['scan_pkl'],
-            ]);
-
-        } catch (\Exception $e) {
-            $errorMessage = 'Gagal menyimpan data PKL.';
-        }
-
-        if (!empty($errorMessage)) {
-            Session::flash('error', $errorMessage);
-        } else {
-            Session::flash('success',  'Data PKL berhasil disimpan.');
-        }
-
-        return redirect()->route('pkl.viewPKL');
+    } catch (\Exception $e) {
+        $errorMessage = 'Gagal menyimpan data PKL.';
     }
+
+    if (!empty($errorMessage)) {
+        Session::flash('error', $errorMessage);
+    } else {
+        Session::flash('success',  'Data PKL berhasil disimpan.');
+    }
+
+    return redirect()->route('pkl.viewPKL');
+}
+
 
     public function update(Request $request, int $id)
     {

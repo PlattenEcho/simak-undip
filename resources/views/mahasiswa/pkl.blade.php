@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="p-4 sm:ml-64">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+    < class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
         @if (session('success'))
             <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
@@ -34,8 +34,6 @@
 
         @if ($pklData && $pklData->count() > 0)
             @foreach ($pklData as $pkl)
-                <div id="accordion-collapse-body-{{ $pkl->id_pkl }}" class="hidden"
-                    aria-labelledby="accordion-collapse-heading-{{ $pkl->id_pkl }}">
                     <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
                         <h1 class="text-center text-lg font-semibold leading-tight tracking-tight text-gray-900 md:text-lg dark:text-white">
                             @if ($pkl->statusVerif === 'Unverified')
@@ -75,7 +73,7 @@
                             </a>
                         @endif
                     </div>
-                </div>
+                
             @endforeach
         @else
             <p class="text-lg text-gray-500 dark:text-gray-400">Belum ada progress PKL</p>
