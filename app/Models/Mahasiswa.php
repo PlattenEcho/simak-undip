@@ -48,8 +48,14 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(KHS::class, 'nim', 'nim');
     }
+
     public function pkl()
     {
         return $this->hasMany(PKL::class, 'nim', 'nim');
+    }
+
+    public function skripsi()
+    {
+        return $this->hasMany(Skripsi::class, 'nim', 'nim');
     }
 }

@@ -53,12 +53,24 @@ class MahasiswaController extends Controller
         $allSemester = range(1, 14);
         $semester = request()->query('semester'); // Mengambil nilai semester dari query parameter
 
-$irs = $mahasiswa->irs()
-    ->where('semester', $semester)
-    ->get();
+        $irs = $mahasiswa->irs()
+            ->where('semester', $semester)
+            ->first();
 
-    
-        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 'irs' => $irs]);
+        $khs = $mahasiswa->khs()
+            ->where('semester', $semester)
+            ->first();
+
+        // $pkl = $mahasiswa->pkl()
+        //     ->where('semester', $semester)
+        //     ->first();
+
+        $skripsi = $mahasiswa->skripsi()
+            ->where('semester', $semester)
+            ->first();
+        
+        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
+                    'irs' => $irs, 'khs' => $khs, 'skripsi' => $skripsi]);
     }
 
 
