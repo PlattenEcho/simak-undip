@@ -11,10 +11,9 @@ class PKL extends Model
 
     protected $table = 'pkl';
     protected $primaryKey = 'idPKL';
-    public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'status', 'nilai', 'scan_pkl'];
+    protected $fillable = ['nim', 'status', 'nilai', 'scan_pkl', 'statusVerif'];
 
     public function mahasiswa()
     {

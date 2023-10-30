@@ -10,8 +10,7 @@ class Skripsi extends Model
     use HasFactory;
 
     protected $table = 'skripsi';
-    protected $primaryKey = 'id';
-    public $incrementing = false;
+    protected $primaryKey = 'id_skripsi';
     public $timestamps = false;
 
     protected $fillable = ['nim', 'status', 'nilai', 'scan_scripsi', 'statusVerif'];

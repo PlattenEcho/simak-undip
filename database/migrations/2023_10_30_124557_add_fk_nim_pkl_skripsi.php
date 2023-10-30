@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::table('pkl', function (Blueprint $table) {
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
+        });
+
+        Schema::table('skripsi', function (Blueprint $table) {
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->string('nilai')->change();
+        });
     }
 
     /**

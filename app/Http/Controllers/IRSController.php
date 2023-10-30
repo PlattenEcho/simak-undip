@@ -120,4 +120,22 @@ class IRSController extends Controller
     
         return redirect()->route('irs.viewIRS');
     }
+
+    public function verifikasiIRS(int $id)
+    {
+        $irs = IRS::where('id', $id)->first();
+
+        $irs->update([
+            "statusVerif" => 'Verified'
+        ]);
+    }
+
+    public function rejectIRS(int $id)
+    {
+        $irs = IRS::where('id', $id)->first();
+
+        $irs->update([
+            "statusVerif" => 'Rejected'
+        ]);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doswal;
 use App\Models\GeneratedAccount;
+use App\Models\IRS;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -61,16 +62,16 @@ class MahasiswaController extends Controller
             ->where('semester', $semester)
             ->first();
 
-        // $pkl = $mahasiswa->pkl()
-        //     ->where('semester', $semester)
-        //     ->first();
+        $pkl = $mahasiswa->pkl()
+            ->where('nim', $nim)
+            ->first();
 
         $skripsi = $mahasiswa->skripsi()
-            ->where('semester', $semester)
+            ->where('nim', $nim)
             ->first();
         
         return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
-                    'irs' => $irs, 'khs' => $khs, 'skripsi' => $skripsi]);
+                    'irs' => $irs, 'khs' => $khs, 'pkl' => $pkl, 'skripsi' => $skripsi]);
     }
 
 
@@ -130,47 +131,45 @@ class MahasiswaController extends Controller
     }
 
     public function update(Request $request)
-{
-    try {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
+    {
+        try {
+            $user = Auth::user();
+            $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
 
-        $validated = $request->validate([
-            'nomor_telepon' => 'required|numeric',
-            'alamat' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
-            'username' => 'required|unique:users,username,' . $user->id,
-            'foto' => 'nullable|image|max:10240',
-        ]);
-    
-        if ($request->has('foto')) {
-            $fotoPath = $request->file('foto')->store('profile', 'public');
-            $validated['foto'] = $fotoPath;
+            $validated = $request->validate([
+                'nomor_telepon' => 'required|numeric',
+                'alamat' => 'required',
+                'provinsi' => 'required',
+                'kabupaten' => 'required',
+                'username' => 'required|unique:users,username,' . $user->id,
+                'foto' => 'nullable|image|max:10240',
+            ]);
+        
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                $validated['foto'] = $fotoPath;
+
+                $user->update([
+                    'foto' => $validated['foto'],
+                ]);
+            }
+            
+            $mahasiswa->username = $request->username;
+            $mahasiswa->nomor_telepon = $request->nomor_telepon;
+            $mahasiswa->alamat = $request->alamat;
+            $mahasiswa->provinsi = $request->provinsi;
+            $mahasiswa->kabupaten = $request->kabupaten;
+            
+            $mahasiswa->save();
 
             $user->update([
-                'foto' => $validated['foto'],
+                'username' => $request->username,
+                'profile_completed' => 1
             ]);
+            
+            return redirect()->route('mahasiswa.viewProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('mahasiswa.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
         }
-        
-        $mahasiswa->username = $request->username;
-        $mahasiswa->nomor_telepon = $request->nomor_telepon;
-        $mahasiswa->alamat = $request->alamat;
-        $mahasiswa->provinsi = $request->provinsi;
-        $mahasiswa->kabupaten = $request->kabupaten;
-        
-        $mahasiswa->save();
-
-        $user->update([
-            'username' => $request->username,
-            'profile_completed' => 1
-        ]);
-        
-        return redirect()->route('mahasiswa.viewProfile')->with('success', 'Data mahasiswa berhasil diperbarui.');
-    } catch (\Exception $e) {
-        return redirect()->route('mahasiswa.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
     }
-}
-
-    
 }
