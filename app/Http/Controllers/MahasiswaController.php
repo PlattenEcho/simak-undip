@@ -37,11 +37,30 @@ class MahasiswaController extends Controller
         return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
     }
 
-    public function viewVerifikasi()
+    public function viewDaftarMhs()
     {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = $doswal->mahasiswa;
 
-        return view('doswal.verifikasi');
+        return view('doswal.daftar_mhs', ['mhsData' => $mhsData]);
     }
+
+    public function viewInfoAkademik(string $nim)
+    {
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
+        $allSemester = range(1, 14);
+        $semester = request()->query('semester'); // Mengambil nilai semester dari query parameter
+
+$irs = $mahasiswa->irs()
+    ->where('semester', $semester)
+    ->get();
+
+    
+        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 'irs' => $irs]);
+    }
+
 
     public function store(Request $request)
     {

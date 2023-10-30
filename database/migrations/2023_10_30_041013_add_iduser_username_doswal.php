@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('matkul', function (Blueprint $table) {
-            $table->string('semester', 10)->change();
+        Schema::table('dosen_wali', function (Blueprint $table) {
+            $table->dropColumn('email');
+            $table->string('username', 100)->nullable();
+            $table->unsignedBigInteger('iduser');
+            $table->foreign('iduser')->references('id')->on('users');
         });
     }
 

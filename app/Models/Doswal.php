@@ -24,4 +24,9 @@ class Doswal extends Model
         'email',
         'nomor_telepon',
     ];
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'nip', 'nip');
+    }
 }
