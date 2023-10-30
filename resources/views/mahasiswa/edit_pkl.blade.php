@@ -22,15 +22,14 @@
             <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Edit PKL
             </h1>
-            <form enctype="multipart/form-data" class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('pkl.update', $pkl->id_pkl) }}" >
+            <form enctype="multipart/form-data" method="POST" action="{{ route('pkl.update', ['id' => $pkl->idPKL]) }}">
                 @csrf
-                @method('PUT')
+              
                 <div class="form-group">
                     <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status:</label>
                     <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                        <option value="Unverified" {{ $pkl->status === 'Unverified' ? 'selected' : '' }}>Unverified</option>
-                        <option value="Approved" {{ $pkl->status === 'Approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="Rejected" {{ $pkl->status === 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                        <option value="Lulus" {{ $pkl->status === 'Lulus' ? 'selected' : '' }}>Lulus</option>
+                        <option value="Tidak Lulus" {{ $pkl->status === 'Tidak Lulus' ? 'selected' : '' }}>Tidak Lulus</option>
                     </select>
                     @error('status')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -42,8 +41,14 @@
                 </div>
                 <div class="form-group">
                     <label for="nilai" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nilai:</label>
-                    <input id="nilai" name="nilai" value="{{ $pkl->nilai }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @error('nilai')
+                    <select id="nilai" name="nilai" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <option value="A" {{ $pkl->A === 'A' ? 'selected' : '' }}>A</option>
+                        <option value="B" {{ $pkl->B === 'B' ? 'selected' : '' }}>B</option>
+                        <option value="C" {{ $pkl->C === 'C' ? 'selected' : '' }}>C</option>
+                        <option value="D" {{ $pkl->D === 'D' ? 'selected' : '' }}>D</option>
+                        <option value="E" {{ $pkl->E === 'E' ? 'selected' : '' }}>E</option>
+                    </select>
+                    @error('status')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
                             <div>
                                 {{ $message }}

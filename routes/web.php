@@ -79,14 +79,6 @@ Route::controller(PKLController::class)->middleware(['only_mahasiswa','profile_c
     Route::post('/mahasiswa/edit-pkl/{id}', 'update')->name('pkl.update');
 });
 
-Route::controller(PKLController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
-    Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->name('pkl.viewEntry');
-    Route::get('/mahasiswa/pkl', 'viewPKL')->name('pkl.viewPKL');
-    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL')->name('pkl.viewEditPKL');
-    Route::post('/mahasiswa/pkl', 'store')->name('pkl.store');
-    Route::post('/mahasiswa/edit-pkl/{id}', 'update')->name('pkl.update');
-});
-
 Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
     Route::get('/mahasiswa/skripsi', 'viewSkripsi')->name('skripsi.viewSkripsi');
     // Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');

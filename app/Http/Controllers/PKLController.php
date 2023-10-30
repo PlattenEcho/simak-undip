@@ -21,15 +21,28 @@ class PKLController extends Controller
 
     public function viewEditPKL(int $id)
     {
-        $pkl = PKL::where('id_pkl', $id)->first();
+        $pkl = PKL::where('idPKL', $id)->first();
 
         return view('mahasiswa.edit_pkl', ['pkl' => $pkl]);
     }
 
     public function viewEntryPKL()
-    {
-        return view('mahasiswa.entry_pkl');
+{
+    // Cek apakah mahasiswa sudah memiliki progres PKL
+    $user = Auth::user();
+    $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+    $existingPKL = PKL::where('nim', $mahasiswa->nim)->first();
+
+    if ($existingPKL) {
+        // Jika sudah ada, beri pesan kesalahan
+        $errorMessage = 'Anda sudah memiliki progres PKL.';
+        Session::flash('error', $errorMessage);
+
+        return redirect()->route('pkl.viewPKL');
     }
+
+    return view('mahasiswa.entry_pkl');
+}
 
     public function store(Request $request)
 {
@@ -80,7 +93,7 @@ class PKLController extends Controller
         ]);
 
         try {
-            $pkl = PKL::where('id_pkl', $id)->first();
+            $pkl = PKL::where('idPKL', $id)->first();
 
             if ($request->has('scan_pkl')) {
                 $pklPath = $request->file('scan_pkl')->store('scan_pkl', 'public');
