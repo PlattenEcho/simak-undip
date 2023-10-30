@@ -21,7 +21,6 @@ class Doswal extends Model
         'gelar_depan',
         'gelar_belakang',
         'alamat',
-        'email',
         'nomor_telepon',
     ];
 
