@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\KHSController;
+use App\Http\Controllers\PKLController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
@@ -67,6 +68,14 @@ Route::controller(KHSController::class)->middleware(['only_mahasiswa','profile_c
     Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
     Route::post('/mahasiswa/khs', 'store')->name('khs.store');
     Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
+});
+
+Route::controller(PKLController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
+    Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->name('pkl.viewEntry');
+    Route::get('/mahasiswa/pkl', 'viewPKL')->name('pkl.viewPKL');
+    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL')->name('pkl.viewEditPKL');
+    Route::post('/mahasiswa/pkl', 'store')->name('pkl.store');
+    Route::post('/mahasiswa/edit-pkl/{id}', 'update')->name('pkl.update');
 });
 
 Route::controller(AccountController::class)->middleware('auth')->group(function() {
