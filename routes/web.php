@@ -55,6 +55,12 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->middleware('only_doswal')->name('mahasiswa.viewDaftarMhs');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->middleware('only_doswal')->name('mahasiswa.viewInfoAkademik');
+    Route::get('/mahasiswa', 'index');
+    Route::get('/generate-akun', 'viewGenerateAkun')->name('mahasiswa.viewGenerateAkun');
+    Route::post('/generate-akun', 'generateAccounts')->name('mahasiswa.generateAccounts');
+    Route::get('/daftar-akun', 'viewAccount')->name('mahasiswa.viewAccount');
+    Route::post('/mhs-import', 'import')->name('mahasiswa.import');
+    Route::get('/mhs-export', 'export')->name('mahasiswa.export');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
