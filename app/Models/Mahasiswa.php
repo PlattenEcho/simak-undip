@@ -31,7 +31,7 @@ class Mahasiswa extends Model
 
     public function dosen_wali()
     {
-        return $this->belongsTo(Doswal::class, 'nip');
+        return $this->belongsTo(Doswal::class, 'nip', 'nip');
     }
 
     public function users()
