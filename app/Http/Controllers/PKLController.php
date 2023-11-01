@@ -23,34 +23,47 @@ class PKLController extends Controller
     {
         $pkl = PKL::where('idPKL', $id)->first();
 
-        return view('mahasiswa.edit_pkl', ['pkl' => $pkl]);
+        $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+
+        $availableSemesters = range(6, 14);
+
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+
+        return view('mahasiswa.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
     }
 
     public function viewEntryPKL()
 {
-    // Cek apakah mahasiswa sudah memiliki progres PKL
     $user = Auth::user();
     $mahasiswa = Mahasiswa::where('username', $user->username)->first();
     $existingPKL = PKL::where('nim', $mahasiswa->nim)->first();
 
     if ($existingPKL) {
-        // Jika sudah ada, beri pesan kesalahan
         $errorMessage = 'Anda sudah memiliki progres PKL.';
         Session::flash('error', $errorMessage);
 
         return redirect()->route('pkl.viewPKL');
     }
 
-    return view('mahasiswa.entry_pkl');
+    $semesters = PKL::where('nim', auth()->user()->name)->pluck('semester')->toArray();
+
+    $availableSemesters = range(6, 14);
+
+    $remainingSemesters = array_diff($availableSemesters, $semesters);
+
+    return view('mahasiswa.entry_pkl', ['remainingSemesters' => $remainingSemesters]);
 }
+
 
     public function store(Request $request)
 {
     $request->validate([
+        'semester' => 'required|numeric|between:6,14',
         'status' => 'required',
         'nilai' => 'required',
         'scan_pkl' => 'required|max:5120',
     ]);
+    
 
     $user = Auth::user();
     $mahasiswa = Mahasiswa::where('username', $user->username)->first();
@@ -64,6 +77,7 @@ class PKLController extends Controller
         }
 
         PKL::create([
+            'semester' => $request->semester,
             'nim' => $mahasiswa->nim,
             'status' => $request->status,
             'nilai' => $request->nilai,
@@ -87,6 +101,7 @@ class PKLController extends Controller
     public function update(Request $request, int $id)
     {
         $validated = $request->validate([
+            'semeter' => 'required',
             'status' => 'required',
             'nilai' => 'required',
             'scan_pkl' => 'nullable|max:5120',
@@ -101,7 +116,8 @@ class PKLController extends Controller
 
                 $pkl->scan_pkl = $validated['scan_pkl'];
             }
-
+            
+            $pkl->semester = $request->semester;
             $pkl->status = $request->status;
             $pkl->nilai = $request->nilai;
 

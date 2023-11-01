@@ -26,7 +26,7 @@ class MahasiswaController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
-
+        dd($mahasiswa);
         return view('mahasiswa.profile', ["mahasiswa" => $mahasiswa]);
     }
 

@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('dosen_wali', function (Blueprint $table) {
-            // $table->dropColumn('email');
-            // $table->string('username', 100)->nullable();
-            // $table->unsignedBigInteger('iduser');
-            $table->foreign('iduser')->references('id')->on('users');
+        Schema::table('pkl', function (Blueprint $table) {
+            $table->unsignedSmallInteger('semester');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('pkl', function (Blueprint $table) {
+            //
+        });
     }
 };
