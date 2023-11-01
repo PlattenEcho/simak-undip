@@ -75,7 +75,7 @@ Route::controller(KHSController::class)->middleware(['only_mahasiswa', 'profile_
     Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
 });
 
-Route::controller(PKLController::class)->middleware(['only_mahasiswa','profile_completed'])->group(function() {
+Route::controller(PKLController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
     Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->name('pkl.viewEntry');
     Route::get('/mahasiswa/pkl', 'viewPKL')->name('pkl.viewPKL');
     Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL')->name('pkl.viewEditPKL');
@@ -95,7 +95,7 @@ Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'prof
 Route::controller(DoswalController::class)->group(function () {
     Route::get('/view', 'show')->name('daftar_mhs');
     Route::get('/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
-    Route::post('/search-mahasiswa', 'searchMahasiswa'); 
+    Route::post('/search-mahasiswa', 'searchMahasiswa');
 });
 
 
@@ -105,7 +105,7 @@ Route::controller(AccountController::class)->middleware('auth')->group(function 
     Route::post('/change-password', 'update')->name('account.update');
 });
 
-Route::middleware(['only_doswal','auth'])->group(function() {
+Route::middleware(['only_doswal', 'auth'])->group(function () {
     Route::post('/doswal/info-akademik/verif-irs/{id}', [IRSController::class, 'verifikasi'])->name('irs.verifikasi');
     Route::post('/doswal/info-akademik/reject-irs/{id}', [IRSController::class, 'reject'])->name('irs.reject');
     Route::post('/doswal/info-akademik/verif-khs/{id}', [KHSController::class, 'verifikasi'])->name('khs.verifikasi');
