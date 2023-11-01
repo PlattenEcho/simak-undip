@@ -22,6 +22,12 @@
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Entry Data Mahasiswa
             </h1>
+            <a href="{{ route('operator.dashboard') }}" class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-2">
+                Kembali
+            </a> <br>
+            <a href="{{ route('mahasiswa.uploadExcelForm') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Upload File Excel
+            </a>
             <form class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('mahasiswa.store') }}" >
             @csrf
             <div class="form-group">

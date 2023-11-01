@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Doswal;
 use App\Models\GeneratedAccount;
 use App\Models\IRS;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
 
 class MahasiswaController extends Controller
 {
@@ -171,5 +173,40 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('mahasiswa.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
         }
+    }
+
+    public function uploadExcelForm()
+    {
+        return view('operator.upload_excel');
+    }
+
+    public function uploadExcel(Request $request)
+    {
+        $file = $request->file('excel_file');
+
+        // Validasi file Excel
+        $this->validate($request, [
+            'excel_file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        // Baca data dari file Excel
+        $data = Excel::toArray([], $file);
+        
+        // Proses data dan masukkan ke dalam database
+        foreach ($data[0] as $row) {
+            Mahasiswa::create([
+                'nim' => $row[0],
+                'nama' => $row[1],
+                'angkatan' => $row[2],
+                'status' => $row[3],
+                'jalur_masuk' => $row[4],
+                'nip' => $row[5],
+            ]);
+
+
+            // Generate akun mahasiswa dan kirim informasi login (jika diperlukan)
+        }
+
+        return redirect()->back()->with('success', 'Data mahasiswa berhasil diunggah.');
     }
 }
