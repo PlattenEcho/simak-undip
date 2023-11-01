@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doswal;
+use App\Models\KHS;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function viewDashboardOperator()
     {
-        return view("operator.dashboard");
+        $totalMahasiswa = Mahasiswa::count();
+        $totalDosen = Doswal::count();
+        return view("operator.dashboard", compact('totalMahasiswa', 'totalDosen'));
     }
 
     public function viewDashboardMahasiswa()
     {
-        return view("mahasiswa.dashboard");
+        $user = auth()->user(); // Mendapatkan pengguna yang login
+        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
+        $ipkTertinggi = KHS::where('nim', $mahasiswa->nim)
+            ->orderBy('semester', 'desc')
+            ->first();
+        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi'));
     }
 
     public function viewDashboardDoswal()
