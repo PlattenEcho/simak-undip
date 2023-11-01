@@ -11,10 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('dosen_wali', function (Blueprint $table) {
-            // $table->dropColumn('email');
-            // $table->string('username', 100)->nullable();
-            // $table->unsignedBigInteger('iduser');
+        Schema::table('mahasiswa', function (Blueprint $table) {
             $table->foreign('iduser')->references('id')->on('users');
         });
     }
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            //
+        });
     }
 };

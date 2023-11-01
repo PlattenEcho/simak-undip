@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 class MahasiswaController extends Controller
 {
@@ -29,7 +28,6 @@ class MahasiswaController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
-
         return view('mahasiswa.profile', ["mahasiswa" => $mahasiswa]);
     }
 
@@ -207,40 +205,5 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('mahasiswa.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
         }
-    }
-
-    public function index()
-    {
-        
-  
-        return view('operator.import_mhs');
-    }
-
-    public function viewAccount()
-    {
-        $accounts = GeneratedAccount::all();
-  
-        return view('operator.daftar_akun', ["accounts" => $accounts]);
-    }
-
-    public function viewGenerateAkun()
-    {
-        $mhsData = Mahasiswa::whereNull('iduser')->get();
-  
-        return view('operator.generate_akun', ["mhsData" => $mhsData]);
-    }
-
-    public function import() 
-    {
-        Excel::import(new MahasiswaImport,request()->file('file'));
-        // $path1 = $request->file('file')->store('temp'); 
-        // $path=storage_path('app').'/'.$path1;  
-        // $data = Excel::import(new MahasiswaImport,$path);
-        return back();
-    }
-
-    public function export() 
-    {
-        return Excel::download(new GeneratedAccountExport, 'akun.xlsx');
     }
 }
