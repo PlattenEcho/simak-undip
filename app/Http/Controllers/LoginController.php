@@ -16,9 +16,6 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function reloadCaptcha(){
-        return response()->json(['captcha'=>captcha_img()]);
-    }
 
     public function post(Request $request){
         $request->validate([
