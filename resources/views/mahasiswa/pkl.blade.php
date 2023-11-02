@@ -8,12 +8,14 @@
                 <div class="p-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
                     <span class="font-medium">{{ session('success') }}</span>
                 </div>
+                <br>
             @endif
 
             @if (session('error'))
                 <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
+                <br>
             @endif
             <h1 class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Progress Praktik Kerja Lapangan
@@ -68,7 +70,8 @@
                     </div>
                     @endforeach
                 @else
-                    <p class="text-lg text-gray-500 dark:text-gray-400">Belum ada progress PKL</p>
+                    <br>
+                    <p class="text-base text-gray-500 dark:text-gray-400">Belum ada progress PKL</p>
                 @endif
             </div>
         </div>
