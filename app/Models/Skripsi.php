@@ -13,7 +13,16 @@ class Skripsi extends Model
     protected $primaryKey = 'id_skripsi';
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'status', 'nilai', 'scan_scripsi', 'statusVerif'];
+    protected $fillable = [
+        'nim',
+        'status',
+        'nilai',
+        'scan_scripsi',
+        'statusVerif',
+        'tanggal_sidang',
+        'lama_studi',
+        'semester',
+    ];
 
     public function mahasiswa()
     {
