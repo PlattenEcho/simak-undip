@@ -17,7 +17,7 @@ class LoginController extends Controller
     }
 
     public function reloadCaptcha(){
-        return respon()->json(['captcha'=>captcha_img()]);
+        return response()->json(['captcha'=>captcha_img()]);
     }
 
     public function post(Request $request){
