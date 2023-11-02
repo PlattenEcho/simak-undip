@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\PKL;
 use App\Models\Skripsi;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,21 +16,25 @@ class SkripsiController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
         $skripsiData = $mahasiswa->skripsi;
-
         return view('mahasiswa.skripsi', ['skripsiData' => $skripsiData]);
     }
 
-    public function viewEditSkripsi(int $id)
+    public function viewEntrySkripsi()
     {
-        $pkl = Skripsi::where('idPKL', $id)->first();
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $existingSkripsi = Skripsi::where('nim', $mahasiswa->nim)->first();
 
-        $semesters = Skripsi::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        if ($existingSkripsi) {
+            $errorMessage = 'Anda sudah memiliki progres Skripsi.';
+            Session::flash('error', $errorMessage);
+            return redirect()->route('pkl.viewPKL');
+        }
 
+        $semesters = Skripsi::where('nim', auth()->user()->name)->pluck('semester')->toArray();
         $availableSemesters = range(7, 14);
-
         $remainingSemesters = array_diff($availableSemesters, $semesters);
-
-        return view('mahasiswa.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
+        return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
     }
 
     public function verifikasi(int $id)
