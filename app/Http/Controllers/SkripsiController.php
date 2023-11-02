@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
-use App\Models\PKL;
 use App\Models\Skripsi;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -35,6 +34,50 @@ class SkripsiController extends Controller
         $availableSemesters = range(7, 14);
         $remainingSemesters = array_diff($availableSemesters, $semesters);
         return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'semester' => 'required|numeric|between:6,14',
+            'lama_studi' => 'required',
+            'status' => 'required',
+            'nilai' => 'required',
+            'scan_skripsi' => 'required|max:5120',
+        ]);
+
+
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+
+        $validated = [];
+
+        try {
+            if ($request->has('scan_skripsi')) {
+                $skripsiPath = $request->file('scan_skripsi')->store('scan_skripsi', 'public');
+                $validated['scan_skripsi'] = $skripsiPath;
+            }
+
+            Skripsi::create([
+                'semester' => $request->semester,
+                'lama_studi' => $request->lama_studi,
+                'nim' => $mahasiswa->nim,
+                'status' => $request->status,
+                'nilai' => $request->nilai,
+                'scan_skripsi' => $validated['scan_skripsi'],
+            ]);
+
+        } catch (\Exception $e) {
+            $errorMessage = 'Gagal menyimpan data Skripsi.';
+        }
+
+        if (!empty($errorMessage)) {
+            Session::flash('error', $errorMessage);
+        } else {
+            Session::flash('success', 'Data Skripsi berhasil disimpan.');
+        }
+
+        return redirect()->route('skripsi.viewSkripsi');
     }
 
     public function verifikasi(int $id)
