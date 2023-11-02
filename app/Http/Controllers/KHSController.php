@@ -37,11 +37,14 @@ class KHSController extends Controller
     {
         $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
 
-        $availableSemesters = range(1, 14);
+        if (empty($semesters)) {
+            $nextSemester = 1;
+        } else {
+            $maxSemester = max($semesters);
+            $nextSemester = $maxSemester + 1;
+        }
 
-        $remainingSemesters = array_diff($availableSemesters, $semesters);
-
-        return view('mahasiswa.entry_khs', ['remainingSemesters' => $remainingSemesters]);
+        return view('mahasiswa.entry_khs', ['nextSemester' => $nextSemester]);
     }
 
     public function store(Request $request)

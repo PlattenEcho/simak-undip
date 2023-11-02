@@ -55,12 +55,12 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->middleware('only_doswal')->name('mahasiswa.viewDaftarMhs');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->middleware('only_doswal')->name('mahasiswa.viewInfoAkademik');
-    Route::get('/mahasiswa', 'index');
-    Route::get('/generate-akun', 'viewGenerateAkun')->name('mahasiswa.viewGenerateAkun');
-    Route::post('/generate-akun', 'generateAccounts')->name('mahasiswa.generateAccounts');
-    Route::get('/daftar-akun', 'viewAccount')->name('mahasiswa.viewAccount');
-    Route::post('/mhs-import', 'import')->name('mahasiswa.import');
-    Route::get('/mhs-export', 'export')->name('mahasiswa.export');
+    // Route::get('/mahasiswa', 'index');
+    Route::get('/generate-akun', 'viewGenerateAkun')->middleware('only_operator')->name('mahasiswa.viewGenerateAkun');
+    Route::post('/generate-akun', 'generateAccounts')->middleware('only_operator')->name('mahasiswa.generateAccounts');
+    Route::get('/daftar-akun', 'viewAccount')->middleware('only_operator')->name('mahasiswa.viewAccount');
+    Route::post('/mhs-import', 'import')->middleware('only_operator')->name('mahasiswa.import');
+    Route::get('/mhs-export', 'export')->middleware('only_operator')->name('mahasiswa.export');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
@@ -69,8 +69,6 @@ Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_
     Route::get('/mahasiswa/edit-irs/{id}', 'viewEditIRS')->name('irs.viewEditIRS');
     Route::post('/mahasiswa/irs', 'store')->name('irs.store');
     Route::post('/mahasiswa/edit-irs/{id}', 'update')->name('irs.update');
-    // Route::post('/doswal/info-akademik/verif-irs/{nim}', 'verifikasi')->withoutMiddleware('only_mahasiswa')->middleware('only_doswal')->name('irs.verifikasi');
-    // Route::post('/doswal/info-akademik/reject-irs/{nim}', 'reject')->withoutMiddleware('only_mahasiswa')->middleware('only_doswal')->name('irs.reject');
 });
 
 Route::controller(KHSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
