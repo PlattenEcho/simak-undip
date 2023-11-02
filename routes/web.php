@@ -121,7 +121,3 @@ Route::middleware(['only_doswal', 'auth'])->group(function () {
     Route::post('/doswal/info-akademik/verif-skripsi/{id}', [SkripsiController::class, 'verifikasi'])->name('skripsi.verifikasi');
     Route::post('/doswal/info-akademik/reject-skripsi/{id}', [SkripsiController::class, 'reject'])->name('skripsi.reject');
 });
-
-Route::get('/',[CaptchaController::class,'login']);
-Route::get('/reload-captcha', [CaptchaController::class,'reloadCaptcha']);
-Route::post('/post',[CaptchaController::class, 'post']);
