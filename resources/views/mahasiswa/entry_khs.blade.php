@@ -21,7 +21,7 @@
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Entry KHS
             </h1>
-            <form class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('khs.store') }}" >
+            <form enctype="multipart/form-data" class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('khs.store') }}" >
             @csrf
             <div class="form-group">
                 <label for="semester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester:</label>

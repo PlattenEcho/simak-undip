@@ -17,7 +17,7 @@ class Skripsi extends Model
         'nim',
         'status',
         'nilai',
-        'scan_scripsi',
+        'scan_skripsi',
         'statusVerif',
         'tanggal_sidang',
         'lama_studi',

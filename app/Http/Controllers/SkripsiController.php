@@ -38,36 +38,41 @@ class SkripsiController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        //dd($request->scan_skripsi);
+        $validated = $request->validate([
             'semester' => 'required|numeric|between:6,14',
             'lama_studi' => 'required',
             'status' => 'required',
             'nilai' => 'required',
             'scan_skripsi' => 'required|max:5120',
         ]);
-
+        
 
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
 
-        $validated = [];
+        //$validated = [];
 
         try {
+            
             if ($request->has('scan_skripsi')) {
                 $skripsiPath = $request->file('scan_skripsi')->store('scan_skripsi', 'public');
                 $validated['scan_skripsi'] = $skripsiPath;
             }
+            //dd($validated['scan_skripsi']);
 
-            Skripsi::create([
+            $skripsi = Skripsi::create([
                 'semester' => $request->semester,
                 'lama_studi' => $request->lama_studi,
                 'nim' => $mahasiswa->nim,
+                'scan_skripsi' => $validated['scan_skripsi'],
                 'status' => $request->status,
                 'nilai' => $request->nilai,
-                'scan_skripsi' => $validated['scan_skripsi'],
+                
             ]);
 
         } catch (\Exception $e) {
+            dd($e->getMessage());
             $errorMessage = 'Gagal menyimpan data Skripsi.';
         }
 

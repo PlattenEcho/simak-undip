@@ -49,7 +49,6 @@ class KHSController extends Controller
 
     public function store(Request $request)
     {
-    try {
         $request->validate([
             'semester' => 'required',
             'sks_smt' => 'required|numeric',
@@ -59,10 +58,14 @@ class KHSController extends Controller
             'scan_khs' => 'required|max:100', 
         ]);
         
-
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
-
+    try {
+        if ($request->has('scan_khs')) {
+            $khsPath = $request->file('scan_khs')->store('scan_khs', 'public');
+            $validated['scan_khs'] = $khsPath;
+        }
+        
         KHS::create([
             'nim' => $mahasiswa->nim,
             'semester' => $request->semester,
@@ -70,13 +73,14 @@ class KHSController extends Controller
             'sks_kum' => $request->sks_kum,
             'ips' => $request->ips,
             'ipk' => $request->ipk,
-            'scan_khs' => $request->scan_khs,
+            'scan_khs' => $validated['scan_khs'],
             'nama_mhs' => $mahasiswa->nama,
             'nama_doswal' => $mahasiswa->dosen_wali->nama,
         ]);
 
         Session::flash('success', 'Data KHS berhasil disimpan.');
     } catch (\Exception $e) {
+        dd($e->getMessage());
         Session::flash('error', 'Gagal menyimpan data KHS.');
     }
 
