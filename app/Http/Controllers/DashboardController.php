@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charts\CountMahasiswaChart;
 use App\Models\Doswal;
+use App\Models\IRS;
 use App\Models\KHS;
 use App\Models\Mahasiswa;
 use DB;
@@ -31,7 +32,21 @@ class DashboardController extends Controller
         $ipkTertinggi = KHS::where('nim', $mahasiswa->nim)
             ->orderBy('semester', 'desc')
             ->first();
-        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi'));
+        // $semester = IRS::where('nim', $mahasiswa->nim)
+        //     ->
+
+        $semester = IRS::where('nim', $mahasiswa->nim)
+            ->where('status', 'Approved')
+            ->pluck('semester')
+            ->toArray();
+        
+        if (empty($semester)) {
+            $semesterAktif = 1;
+        } else {
+            $semesterAktif = max($semester);
+        }
+
+        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi', 'semesterAktif'));
     }
 
     public function viewDashboardDoswal()

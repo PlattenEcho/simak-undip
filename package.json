@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "apexcharts": "^3.44.0",
-        "chart.js": "^4.4.0"
+        "chart.js": "^4.4.0",
+        "flowbite-datepicker": "^1.2.2"
     }
 }

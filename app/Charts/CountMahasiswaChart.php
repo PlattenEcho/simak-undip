@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use App\Models\Mahasiswa;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class CountMahasiswaChart
 {
