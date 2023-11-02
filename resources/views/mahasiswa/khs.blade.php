@@ -29,6 +29,7 @@
     </div>
 
     <div id="accordion-collapse" data-accordion="collapse">
+        @if($khsData->count() > 0)
                 @foreach ($khsData as $khs)
                 <h2 id="accordion-collapse-heading-{{ $khs->semester }}">
                     <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover-bg-gray-800" data-accordion-target="#accordion-collapse-body-{{ $khs->semester }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ $khs->semester }}">
@@ -81,9 +82,13 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                    <br>
+                    <p class="text-base text-gray-500 dark:text-gray-400">Belum ada progress KHS</p>
+                @endif  
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
 @endsection
