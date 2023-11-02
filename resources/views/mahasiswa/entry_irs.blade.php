@@ -29,9 +29,9 @@
                 <label for="semester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester:</label>
                 <select id="semester" name="semester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     <option value="">Pilih Semester</option>
-                    @foreach ($remainingSemesters as $semester)
-                        <option value="{{ $semester }}">{{ $semester }}</option>
-                    @endforeach
+                    
+                        <option value="{{ $nextSemester }}">{{ $nextSemester }}</option>
+                    
                 </select>
                 @error('semester')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
