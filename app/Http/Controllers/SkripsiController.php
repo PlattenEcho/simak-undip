@@ -18,6 +18,19 @@ class SkripsiController extends Controller
         return view('mahasiswa.skripsi', ['skripsiData' => $skripsiData]);
     }
 
+    public function viewEditSkripsi(int $id)
+    {
+        $pkl = Skripsi::where('idPKL', $id)->first();
+
+        $semesters = Skripsi::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+
+        $availableSemesters = range(7, 14);
+
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+
+        return view('mahasiswa.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
+    }
+
     public function verifikasi(int $id)
     {
         try {
@@ -39,7 +52,7 @@ class SkripsiController extends Controller
     {
         try {
             $skripsi = Skripsi::where('id_skripsi', $id)->first();
-            
+
             $skripsi->update([
                 "statusVerif" => 'Rejected'
             ]);

@@ -93,7 +93,7 @@ Route::controller(PKLController::class)->middleware(['only_mahasiswa', 'profile_
 
 Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
     Route::get('/mahasiswa/skripsi', 'viewSkripsi')->name('skripsi.viewSkripsi');
-    // Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
+    Route::get('/mahasiswa/entry-skripsi', 'viewEntrySkripsi')->name('skripsi.viewEntry');
     // Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
     // Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
     // Route::post('/mahasiswa/khs', 'store')->name('khs.store');
