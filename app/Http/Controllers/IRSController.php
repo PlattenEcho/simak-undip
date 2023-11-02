@@ -35,13 +35,22 @@ class IRSController extends Controller
 
     public function viewEntryIRS(Request $request)
     {   
+        // $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+
+        // $availableSemesters = range(1, 14);
+
+        // $remainingSemesters = array_diff($availableSemesters, $semesters);
+
         $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
 
-        $availableSemesters = range(1, 14);
+        if (empty($semesters)) {
+            $nextSemester = 1;
+        } else {
+            $maxSemester = max($semesters);
+            $nextSemester = $maxSemester + 1;
+        }
 
-        $remainingSemesters = array_diff($availableSemesters, $semesters);
-
-        return view('mahasiswa.entry_irs', ['remainingSemesters' => $remainingSemesters]);
+        return view('mahasiswa.entry_irs', ['nextSemester' => $nextSemester]);
     }
 
     public function store(Request $request)
