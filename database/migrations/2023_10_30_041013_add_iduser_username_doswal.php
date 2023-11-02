@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,7 +13,7 @@ return new class extends Migration
         Schema::table('dosen_wali', function (Blueprint $table) {
             // $table->dropColumn('email');
             // $table->string('username', 100)->nullable();
-            // $table->unsignedBigInteger('iduser');
+            $table->unsignedBigInteger('iduser');
             $table->foreign('iduser')->references('id')->on('users');
         });
     }

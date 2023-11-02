@@ -29,6 +29,7 @@
                 </a>
             </div>
             <div id="accordion-collapse" data-accordion="collapse">
+            @if($irsData->count() > 0)
                 @foreach ($irsData as $irs)
                 <h2 id="accordion-collapse-heading-{{ $irs->semester }}">
                     <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover-bg-gray-800" data-accordion-target="#accordion-collapse-body-{{ $irs->semester }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ $irs->semester }}">
@@ -69,6 +70,10 @@
                     </div>
                 </div>
                 @endforeach
+            @else
+                <br>
+                <p class="text-base text-gray-500 dark:text-gray-400">Belum ada progress IRS</p>
+            @endif
             </div>
         </div>
     </div>

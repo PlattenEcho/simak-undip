@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\GeneratedAccountExport;
+use App\Imports\MahasiswaImport;
 use App\Models\Doswal;
 use App\Models\GeneratedAccount;
 use App\Models\IRS;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class MahasiswaController extends Controller
 {
@@ -131,6 +132,39 @@ class MahasiswaController extends Controller
         }
     }
 
+    public function generateAccounts()
+    {
+        try {
+            $allMahasiswa = Mahasiswa::whereNull('iduser')->get();
+
+            foreach ($allMahasiswa as $mahasiswa) {
+                $username = Str::slug($mahasiswa->nama, '') . Str::random(4);
+                $password = Str::random(10);
+
+                $user = User::create([
+                    'name' => $mahasiswa->nama,
+                    'username' => $username,
+                    'password' => Hash::make($password),
+                    'idrole' => 4,
+                ]);
+
+                $mahasiswa->username = $username;
+                $mahasiswa->iduser = $user->id;
+                $mahasiswa->save();
+
+                GeneratedAccount::create([
+                    'username' => $username,
+                    'password' => $password,
+                ]);
+            }
+            return redirect()->route('mahasiswa.viewAccount')->with('success', 'Akun berhasil dibuat untuk semua mahasiswa.');
+        } catch (\Exception $e) {
+            return redirect()->route('mahasiswa.viewGenerateAkun')->with('error', 'Terjadi kesalahan saat membuat akun untuk mahasiswa.');
+        }
+    }
+
+
+
     public function update(Request $request)
     {
         try {
@@ -174,38 +208,38 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function uploadExcelForm()
+    public function index()
     {
-        return view('operator.upload_excel');
+        
+  
+        return view('operator.import_mhs');
     }
 
-    public function uploadExcel(Request $request)
+    public function viewAccount()
     {
-        $file = $request->file('excel_file');
+        $accounts = GeneratedAccount::all();
+  
+        return view('operator.daftar_akun', ["accounts" => $accounts]);
+    }
 
-        // Validasi file Excel
-        $this->validate($request, [
-            'excel_file' => 'required|mimes:xlsx,xls',
-        ]);
+    public function viewGenerateAkun()
+    {
+        $mhsData = Mahasiswa::whereNull('iduser')->get();
+  
+        return view('operator.generate_akun', ["mhsData" => $mhsData]);
+    }
 
-        // Baca data dari file Excel
-        $data = Excel::toArray([], $file);
-        
-        // Proses data dan masukkan ke dalam database
-        foreach ($data[0] as $row) {
-            Mahasiswa::create([
-                'nim' => $row[0],
-                'nama' => $row[1],
-                'angkatan' => $row[2],
-                'status' => $row[3],
-                'jalur_masuk' => $row[4],
-                'nip' => $row[5],
-            ]);
+    public function import() 
+    {
+        Excel::import(new MahasiswaImport,request()->file('file'));
+        // $path1 = $request->file('file')->store('temp'); 
+        // $path=storage_path('app').'/'.$path1;  
+        // $data = Excel::import(new MahasiswaImport,$path);
+        return back();
+    }
 
-
-            // Generate akun mahasiswa dan kirim informasi login (jika diperlukan)
-        }
-
-        return redirect()->back()->with('success', 'Data mahasiswa berhasil diunggah.');
+    public function export() 
+    {
+        return Excel::download(new GeneratedAccountExport, 'akun.xlsx');
     }
 }

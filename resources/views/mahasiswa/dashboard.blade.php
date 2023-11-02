@@ -23,8 +23,14 @@
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
                         IPK
                     </div>
+                    @if($ipkTertinggi)
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                         {{ $ipkTertinggi->ipk }} </div>
+                   
+                    @else
+                    <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                        0.00 </div>
+                    @endif
                 </div>
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
                     style="width: 32.4%;">

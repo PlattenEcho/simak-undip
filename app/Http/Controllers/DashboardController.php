@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\CountMahasiswaChart;
 use App\Models\Doswal;
 use App\Models\KHS;
 use App\Models\Mahasiswa;
+use DB;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function viewDashboardOperator()
+    public function viewDashboardOperator(CountMahasiswaChart $chart)
     {
+        $chart = $chart->build();
         $totalMahasiswa = Mahasiswa::count();
         $totalDosen = Doswal::count();
-        return view("operator.dashboard", compact('totalMahasiswa', 'totalDosen'));
+        $countMahasiswa = Mahasiswa::select('angkatan', DB::raw('count(*) as total_mahasiswa'))
+            ->groupBy('angkatan')
+            ->get();
+
+
+        return view("operator.dashboard", compact('totalMahasiswa', 'totalDosen', 'countMahasiswa', 'chart'));
     }
 
     public function viewDashboardMahasiswa()
