@@ -49,8 +49,6 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
 Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/operator/entry-data-mahasiswa', 'showEntryMhs')->middleware('only_operator')->name('mahasiswa.showEntry');
-    Route::get('/operator/upload-excel', 'uploadExcelForm')->middleware('only_operator')->name('mahasiswa.uploadExcelForm');
-    Route::post('/operator/upload-excel', 'uploadExcel')->middleware('only_operator')->name('mahasiswa.uploadExcel');
     Route::post('/operator/store-mahasiswa', 'store')->middleware('only_operator')->name('mahasiswa.store');
     Route::get('/mahasiswa/profile', 'viewProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewProfile');
     Route::get('/mahasiswa/edit-profile', 'viewEditProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewEditProfile');
@@ -93,7 +91,7 @@ Route::controller(PKLController::class)->middleware(['only_mahasiswa', 'profile_
 
 Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
     Route::get('/mahasiswa/skripsi', 'viewSkripsi')->name('skripsi.viewSkripsi');
-    // Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
+    Route::get('/mahasiswa/entry-skripsi', 'viewEntrySkripsi')->name('skripsi.viewEntry');
     // Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
     // Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
     // Route::post('/mahasiswa/khs', 'store')->name('khs.store');

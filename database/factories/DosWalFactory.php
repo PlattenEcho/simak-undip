@@ -45,7 +45,8 @@ class DosWalFactory extends Factory
             'gelar_depan' => $this->faker->randomElement(['Ir.', 'Dr.', 'Dr.Eng.']),
             'gelar_belakang' => $this->faker->randomElement(['M.T.', 'M.Kom.', 'M.Si.', 'S.T.']),
             'alamat' => $this->faker->address,
-            'nomor_telepon' => $no_telp
+            'nomor_telepon' => $no_telp,
+            'iduser' => $user->getAttribute('id'),
         ];
     }
 }
