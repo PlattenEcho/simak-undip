@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use ReCaptcha\ReCaptcha;
 
 class LoginController extends Controller
 {
@@ -24,6 +25,17 @@ class LoginController extends Controller
     }
     public function authenticate(LoginRequest $request)
     {
+        $recaptchaSecretKey = '6LcSxewoAAAAAIoGbIVxZ7JrXMmU3B3gtZKzFop-';
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        
+        $recaptcha = new ReCaptcha($recaptchaSecretKey);
+        $recaptchaResult = $recaptcha->verify($recaptchaResponse, $_SERVER['REMOTE_ADDR']);
+
+        if (!$recaptchaResult->isSuccess()) {
+            return redirect()->back()->withErrors(['captcha' => 'Captcha verification failed.']);
+        }
+
+        
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
