@@ -25,7 +25,7 @@ class LoginController extends Controller
     }
     public function authenticate(LoginRequest $request)
     {
-        $recaptchaSecretKey = '6LcSxewoAAAAAIoGbIVxZ7JrXMmU3B3gtZKzFop-';
+        $recaptchaSecretKey = '';
         $recaptchaResponse = $request->input('g-recaptcha-response');
         
         $recaptcha = new ReCaptcha($recaptchaSecretKey);
