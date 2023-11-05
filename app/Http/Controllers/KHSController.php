@@ -133,6 +133,7 @@ class KHSController extends Controller
 
     public function verifikasi(int $id)
     {
+        dd($id);
         try {
             $khs = KHS::where('id_khs', $id)->first();
 

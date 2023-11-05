@@ -54,14 +54,14 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/profile', 'viewProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewProfile');
     Route::get('/mahasiswa/edit-profile', 'viewEditProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewEditProfile');
     Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
-    Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->middleware('only_doswal')->name('mahasiswa.viewDaftarMhs');
-    Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->middleware('only_doswal')->name('mahasiswa.viewInfoAkademik');
+    // Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->middleware('only_doswal')->name('mahasiswa.viewDaftarMhs');
+    // Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->middleware('only_doswal')->name('mahasiswa.viewInfoAkademik');
     // Route::get('/mahasiswa', 'index');
-    Route::get('/generate-akun', 'viewGenerateAkun')->middleware('only_operator')->name('mahasiswa.viewGenerateAkun');
-    Route::post('/generate-akun', 'generateAccounts')->middleware('only_operator')->name('mahasiswa.generateAccounts');
-    Route::get('/daftar-akun', 'viewAccount')->middleware('only_operator')->name('mahasiswa.viewAccount');
-    Route::post('/mhs-import', 'import')->middleware('only_operator')->name('mahasiswa.import');
-    Route::get('/mhs-export', 'export')->middleware('only_operator')->name('mahasiswa.export');
+    Route::get('/operator/generate-akun', 'viewGenerateAkun')->middleware('only_operator')->name('mahasiswa.viewGenerateAkun');
+    Route::post('/operator/generate-akun', 'generateAccounts')->middleware('only_operator')->name('mahasiswa.generateAccounts');
+    Route::get('/operator/daftar-akun', 'viewAccount')->middleware('only_operator')->name('mahasiswa.viewAccount');
+    Route::post('/operator/mhs-import', 'import')->middleware('only_operator')->name('mahasiswa.import');
+    Route::get('/operator/mhs-export', 'export')->middleware('only_operator')->name('mahasiswa.export');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
@@ -98,10 +98,14 @@ Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'prof
     // Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
 });
 
-Route::controller(DoswalController::class)->group(function () {
+Route::controller(DoswalController::class)->middleware('only_doswal')->group(function () {
     Route::get('/view', 'show')->name('daftar_mhs');
-    Route::get('/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
-    Route::post('/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/doswal/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
+    Route::post('/doswal/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/doswal/verifikasi-irs', 'viewVerifikasiIRS')->name('doswal.viewVerifikasiIRS');
+    Route::get('/doswal/filter-IRS', 'filterIRS')->name('doswal.filterIRS');
+    Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->name('doswal.viewDaftarMhs');
+    Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');
 });
 
 
