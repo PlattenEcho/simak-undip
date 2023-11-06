@@ -26,8 +26,13 @@ class OperatorFactory extends Factory
 
         return [
             'nama' => 'operatorinformatika',
-            'username' => 'operatorif',
-            'password' => '12345',
+            'username' => 'operatorif', 
+            'password' => bcrypt('12345'),
+            'nip' => '123456789',
+            'tahun_masuk' => '2018',
+            'alamat' => 'Jl. Sekayu',
+            'no_telepon' => '089647782266',
+            'iduser' => $user->id,
         ];
     }
 }
