@@ -1,4 +1,4 @@
-<h3><center>Daftar Sudah Lulus PKL Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
+<h3><center>Daftar Belum Lulus PKL Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
 <table border="1" cellspacing="0" cellpadding="5">
   <tr>
     <th>Nama</th>
