@@ -19,19 +19,13 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Belum Lulus PKL
+            Daftar Sudah Lulus PKL
         </h1>
-        <form class="flex items-center" action="{{ route('doswal.filterIRS') }}" method="GET">            
-            <div class="relative mt-1">
-                <select name="filter" id="filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    <option value="all">Semua Semester</option>    
-                     
-                </select>
-            </div>
-            <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Filter
-            </button>
-        </form>
+        <div>        
+            @if(count($pklData) > 0)
+                <a href="{{ route('doswal.cetakSudahPKL', $pklData[0]->mahasiswa->angkatan) }}" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
+            @endif
+        </div>
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
