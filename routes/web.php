@@ -113,6 +113,9 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/view', 'show')->name('daftar_mhs');
     Route::get('/doswal/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
     Route::post('/doswal/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/doswal/profile', 'viewProfile')->name('doswal.viewProfile');
+    Route::get('/doswal/edit-profile', 'viewEditProfile')->name('doswal.viewEditProfile');
+    Route::post('/doswal/edit-profile', 'update')->name('doswal.update');
     Route::get('/doswal/verifikasi-irs', 'viewVerifikasiIRS')->name('doswal.viewVerifikasiIRS');
     Route::get('/doswal/filter-IRS', 'filterIRS')->name('doswal.filterIRS');
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->name('doswal.viewDaftarMhs');

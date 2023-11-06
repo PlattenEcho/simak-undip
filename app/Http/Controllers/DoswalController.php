@@ -17,23 +17,23 @@ class DoswalController extends Controller
     public function viewProfile()
     {
         $user = Auth::user();
-        $dosen_wali = Doswal::where('iduser', $user->id)->first();
-        return view('dosen_wali.profile', ["dosen_wali" => $dosen_wali]);
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        return view('doswal.profile', ["doswal" => $doswal]);
     }
 
     public function viewEditProfile()
     {
         $user = Auth::user();
-        $dosen_wali = Doswal::where('iduser', $user->id)->first();
+        $doswal = Doswal::where('iduser', $user->id)->first();
 
-        return view('dosen_wali.edit_profile', ["dosen_wali" => $dosen_wali]);
+        return view('doswal.edit_profile', ["doswal" => $doswal]);
     }
 
     public function update(Request $request)
     {
         try {
             $user = Auth::user();
-            $dosen_wali = Doswal::where('iduser', $user->id)->first();
+            $doswal = Doswal::where('iduser', $user->id)->first();
 
             $validated = $request->validate([
                 'nama' => 'required',
@@ -56,25 +56,26 @@ class DoswalController extends Controller
                 ]);
             }
             
-            $dosen_wali->nama = $request->nama;
-            $dosen_wali->nip = $request->nip;
-            $dosen_wali->tahun_masuk = $request->tahun_masuk;
-            $dosen_wali->gelar_depan = $request->gelar_depan;
-            $dosen_wali->gelar_belakang = $request->gelar_belakang;
-            $dosen_wali->alamat = $request->alamat;
-            $dosen_wali->no_telepon = $request->no_telepon;
-            $dosen_wali->username = $request->username;
+            $doswal->nama = $request->nama;
+            $doswal->nip = $request->nip;
+            $doswal->tahun_masuk = $request->tahun_masuk;
+            $doswal->gelar_depan = $request->gelar_depan;
+            $doswal->gelar_belakang = $request->gelar_belakang;
+            $doswal->alamat = $request->alamat;
+            $doswal->no_telepon = $request->no_telepon;
+            $doswal->username = $request->username;
             
-            $dosen_wali->save();
+            $doswal->save();
 
             $user->update([
                 'username' => $request->username,
                 'profile_completed' => 1
             ]);
             
-            return redirect()->route('dosen_wali.viewProfile')->with('success', 'Data dosen wali berhasil diperbarui.');
+            
+            return redirect()->route('doswal.viewProfile')->with('success', 'Data dosen wali berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('dosen_wali.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data dosen wali.');
+            return redirect()->route('doswal.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data dosen wali.');
         }
     }
 
