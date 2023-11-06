@@ -9,8 +9,8 @@ class Operator extends Model
 {
     use HasFactory;
 
-    protected $table = 'operator';
-    protected $primaryKey = 'idOperator';
+    protected $table = 'operators';
+    protected $primaryKey = 'nip';
     public $incrementing = false;
     public $timestamps = false;
 
@@ -23,7 +23,6 @@ class Operator extends Model
         'iduser',
         'foto',
         'username',
-        'password'
     ];
 
     public function users()
