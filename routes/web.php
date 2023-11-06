@@ -28,6 +28,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/cetak', function () {
+    return view('doswal.sudah_pkl_pdf');
+});
+
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
     Route::post('/login', 'authenticate')->name('authenticate');
@@ -109,6 +113,7 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('doswal.viewSudahPKL');
     Route::get('/doswal/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('doswal.viewBelumPKL');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');
+    Route::get('/doswal/cetak-pkl/{angkatan}', 'cetakPKL')->name('doswal.cetakPKL');
 });
 
 

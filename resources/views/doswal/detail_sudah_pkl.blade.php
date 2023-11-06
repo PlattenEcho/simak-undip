@@ -31,7 +31,9 @@
             <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Filter
             </button>
+            <a href="{{  route('doswal.cetakPKL', $pklData[1]->mahasiswa->angkatan) }}" type="button" class="p-2.5 ml-5 text-sm font-medium text-white bg-green-400 rounded-lg border-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-500">Cetak PDF</a>
         </form>
+        
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
