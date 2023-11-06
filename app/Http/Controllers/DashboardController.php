@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Charts\CountMahasiswaChart;
+use App\Charts\CountMahasiswaPkl;
+use App\Charts\CountMahasiswaSkripsi;
 use App\Models\Doswal;
 use App\Models\IRS;
 use App\Models\KHS;
@@ -39,7 +41,7 @@ class DashboardController extends Controller
             ->where('status', 'Approved')
             ->pluck('semester')
             ->toArray();
-        
+
         if (empty($semester)) {
             $semesterAktif = 1;
         } else {
@@ -49,8 +51,19 @@ class DashboardController extends Controller
         return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi', 'semesterAktif'));
     }
 
-    public function viewDashboardDoswal()
+    public function viewDashboardDoswal(CountMahasiswaPkl $chartPKL, CountMahasiswaSkripsi $chartSkripsi)
     {
-        return view("doswal.dashboard");
+        $userID = auth()->user()->id;
+        $dosenWali = Doswal::where('iduser', $userID)->first();
+
+        $mahasiswaPerwalian = $dosenWali->mahasiswa;
+        $jumlahMahasiswaPerwalian = $mahasiswaPerwalian->count();
+        $jumlahMahasiswaAktif = $mahasiswaPerwalian->where('status', 'Aktif')->count();
+        $jumlahMahasiswaCuti = $mahasiswaPerwalian->where('status', 'Cuti')->count();
+
+        $chartPKL = $chartPKL->build();
+        $chartSkripsi = $chartSkripsi->build();
+
+        return view("doswal.dashboard", compact('mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
     }
 }

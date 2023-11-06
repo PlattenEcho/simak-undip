@@ -31,7 +31,7 @@
                                 class="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
                                 type="button">
                                 <span class="sr-only">Open user menu</span> {{ auth()->user()->name }}
-                                <img class="ml-2.5 w-7 h-7 rounded-full"
+                                <img class="ml-2.5 w-7 h-7 rounded-full" src="{{ Auth::user()->getImageURL() }}"
                                     src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo">
                                 <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 10 6">
@@ -49,7 +49,7 @@
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
                                     <li>
-                                        <a href="{{ route('mahasiswa.viewProfile') }}"
+                                        <a href="{{ route('operator.viewProfile') }}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                                     </li>
                                     <li>

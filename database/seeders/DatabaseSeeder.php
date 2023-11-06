@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             DosWalSeeder::class,
             OperatorSeeder::class,
+            DepartemenSeeder::class,
 
         ]);
         // \App\Models\User::factory(10)->create();
