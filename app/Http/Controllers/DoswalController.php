@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Mahasiswa;
 use App\Models\PKL;
 use App\Models\User;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Auth;
 
 class DoswalController extends Controller
@@ -159,5 +160,21 @@ class DoswalController extends Controller
                         ->get();
 
         return view('doswal.detail_belum_pkl', ['pklData' => $pklData]);
+    }
+
+    public function cetakPKL(int $angkatan)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->where('pkl.status', 'Lulus')
+                        ->where('mahasiswa.angkatan', $angkatan)
+                        ->get();
+    
+        // $pdf = PDF::loadview('viewSudahPKL',['pklData'=>$pklData]);
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.sudah_pkl_pdf', ['pklData' => $pklData]);
+        return $pdf->stream('rekap-sudah-pkl-pdf');
+
+        //return $pdf->download('rekap-sudah-pkl-pdf');
     }
 }

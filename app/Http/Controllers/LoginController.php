@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use ReCaptcha\ReCaptcha;
 
 class LoginController extends Controller
@@ -32,7 +34,7 @@ class LoginController extends Controller
         $recaptchaResult = $recaptcha->verify($recaptchaResponse, $_SERVER['REMOTE_ADDR']);
 
         if (!$recaptchaResult->isSuccess()) {
-            return redirect()->back()->withErrors(['captcha' => 'Captcha verification failed.']);
+            return back()->with('loginError', 'Verifikasi bukan robot gagal');
         }
 
         
@@ -40,6 +42,16 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
+
+        $user = User::where('username', $credentials['username'])->first();
+
+        if (!$user) {
+            return back()->with('loginError', 'Username tidak ditemukan');
+        }
+
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return back()->with('loginError', 'Password salah');
+        }
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SkripsiController;
+use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/cetak', function () {
+    return view('doswal.sudah_pkl_pdf');
 });
 
 Route::controller(LoginController::class)->group(function () {
@@ -62,6 +67,12 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/operator/daftar-akun', 'viewAccount')->middleware('only_operator')->name('mahasiswa.viewAccount');
     Route::post('/operator/mhs-import', 'import')->middleware('only_operator')->name('mahasiswa.import');
     Route::get('/operator/mhs-export', 'export')->middleware('only_operator')->name('mahasiswa.export');
+});
+
+Route::controller(OperatorController::class)->group(function () {
+    Route::get('/operator/profile', 'viewProfile')->middleware('only_operator')->name('operator.viewProfile');
+    Route::get('/operator/edit-profile', 'viewEditProfile')->middleware('only_operator')->name('operator.viewEditProfile');
+    Route::post('/operator/edit-profile', 'update')->name('operator.update');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
@@ -109,6 +120,7 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('doswal.viewSudahPKL');
     Route::get('/doswal/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('doswal.viewBelumPKL');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');
+    Route::get('/doswal/cetak-pkl/{angkatan}', 'cetakPKL')->name('doswal.cetakPKL');
 });
 
 
