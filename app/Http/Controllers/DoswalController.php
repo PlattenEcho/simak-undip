@@ -13,6 +13,70 @@ use Illuminate\Support\Facades\Auth;
 
 class DoswalController extends Controller
 {
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        $dosen_wali = Doswal::where('iduser', $user->id)->first();
+        return view('dosen_wali.profile', ["dosen_wali" => $dosen_wali]);
+    }
+
+    public function viewEditProfile()
+    {
+        $user = Auth::user();
+        $dosen_wali = Doswal::where('iduser', $user->id)->first();
+
+        return view('dosen_wali.edit_profile', ["dosen_wali" => $dosen_wali]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $dosen_wali = Doswal::where('iduser', $user->id)->first();
+
+            $validated = $request->validate([
+                'nama' => 'required',
+                'nip' => 'required',
+                'tahun_masuk' => 'required',
+                'gelar_depan' => 'required',
+                'gelar_belakang' => 'required',
+                'alamat' => 'required',
+                'nomor_telepon' => 'required',
+                'username' => 'required',
+                'foto' => 'nullable|image|max:10240',
+            ]); 
+        
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                $validated['foto'] = $fotoPath;
+
+                $user->update([
+                    'foto' => $validated['foto'],
+                ]);
+            }
+            
+            $dosen_wali->nama = $request->nama;
+            $dosen_wali->nip = $request->nip;
+            $dosen_wali->tahun_masuk = $request->tahun_masuk;
+            $dosen_wali->gelar_depan = $request->gelar_depan;
+            $dosen_wali->gelar_belakang = $request->gelar_belakang;
+            $dosen_wali->alamat = $request->alamat;
+            $dosen_wali->no_telepon = $request->no_telepon;
+            $dosen_wali->username = $request->username;
+            
+            $dosen_wali->save();
+
+            $user->update([
+                'username' => $request->username,
+                'profile_completed' => 1
+            ]);
+            
+            return redirect()->route('dosen_wali.viewProfile')->with('success', 'Data dosen wali berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('dosen_wali.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data dosen wali.');
+        }
+    }
+
     public function searchMahasiswa(Request $request)
     {
         $search = $request->input('search');
