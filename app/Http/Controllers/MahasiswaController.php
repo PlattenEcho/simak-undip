@@ -40,41 +40,41 @@ class MahasiswaController extends Controller
         return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
     }
 
-    public function viewDaftarMhs()
-    {
-        $user = Auth::user();
-        $doswal = Doswal::where('iduser', $user->id)->first();
-        $mhsData = $doswal->mahasiswa;
+    // public function viewDaftarMhs()
+    // {
+    //     $user = Auth::user();
+    //     $doswal = Doswal::where('iduser', $user->id)->first();
+    //     $mhsData = $doswal->mahasiswa;
 
-        return view('doswal.daftar_mhs', ['mhsData' => $mhsData]);
-    }
+    //     return view('doswal.daftar_mhs', ['mhsData' => $mhsData]);
+    // }
 
-    public function viewInfoAkademik(string $nim)
-    {
-        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
-        $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
-        $allSemester = range(1, 14);
-        $semester = request()->query('semester'); // Mengambil nilai semester dari query parameter
+    // public function viewInfoAkademik(string $nim)
+    // {
+    //     $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+    //     $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
+    //     $allSemester = range(1, 14);
+    //     $semester = request()->query('semester'); // Mengambil nilai semester dari query parameter
 
-        $irs = $mahasiswa->irs()
-            ->where('semester', $semester)
-            ->first();
+    //     $irs = $mahasiswa->irs()
+    //         ->where('semester', $semester)
+    //         ->first();
 
-        $khs = $mahasiswa->khs()
-            ->where('semester', $semester)
-            ->first();
+    //     $khs = $mahasiswa->khs()
+    //         ->where('semester', $semester)
+    //         ->first();
 
-        $pkl = $mahasiswa->pkl()
-            ->where('nim', $nim)
-            ->first();
+    //     $pkl = $mahasiswa->pkl()
+    //         ->where('nim', $nim)
+    //         ->first();
 
-        $skripsi = $mahasiswa->skripsi()
-            ->where('nim', $nim)
-            ->first();
+    //     $skripsi = $mahasiswa->skripsi()
+    //         ->where('nim', $nim)
+    //         ->first();
         
-        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
-                    'irs' => $irs, 'khs' => $khs, 'pkl' => $pkl, 'skripsi' => $skripsi]);
-    }
+    //     return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
+    //                 'irs' => $irs, 'khs' => $khs, 'pkl' => $pkl, 'skripsi' => $skripsi]);
+    // }
 
 
     public function store(Request $request)

@@ -42,11 +42,12 @@ class SkripsiController extends Controller
         $validated = $request->validate([
             'semester' => 'required|numeric|between:6,14',
             'lama_studi' => 'required',
+            'tanggal_sidang' => 'required',
             'status' => 'required',
             'nilai' => 'required',
             'scan_skripsi' => 'required|max:5120',
         ]);
-        
+
 
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
@@ -54,7 +55,7 @@ class SkripsiController extends Controller
         //$validated = [];
 
         try {
-            
+
             if ($request->has('scan_skripsi')) {
                 $skripsiPath = $request->file('scan_skripsi')->store('scan_skripsi', 'public');
                 $validated['scan_skripsi'] = $skripsiPath;
@@ -64,11 +65,12 @@ class SkripsiController extends Controller
             $skripsi = Skripsi::create([
                 'semester' => $request->semester,
                 'lama_studi' => $request->lama_studi,
+                'tanggal_sidang' => $request->tanggal_sidang,
                 'nim' => $mahasiswa->nim,
                 'scan_skripsi' => $validated['scan_skripsi'],
                 'status' => $request->status,
                 'nilai' => $request->nilai,
-                
+
             ]);
 
         } catch (\Exception $e) {
