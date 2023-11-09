@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('skripsi', function (Blueprint $table) {
             $table->date('tanggal_sidang');
-            $table->integer('lama_studi');
+            $table->double('lama_studi');
             $table->integer('semester');
 
         });

@@ -1,4 +1,4 @@
-@extends('doswal.navsidebar')
+@extends('departemen.navsidebar')
 
 @section('content')
     <div class="p-4 sm:ml-64">
@@ -6,7 +6,7 @@
             <div class="p-4 flex items-center h-48 mb-4 rounded-lg border-2 border-gray-200 bg-gray-50 dark:bg-gray-800">
                 <div class="flex items-center">
                     <div class="w-40 h-40 rounded-full overflow-hidden">
-                        <img src= "" alt="tes">
+                        <img src= "{{ asset('storage/' . auth()->user()->foto) }}" alt="{{ auth()->user()->name }}">
                     </div>
                     <div class="ml-6">
                         <p class="text-xl font-semibold">{{ auth()->user()->name }}</p>
