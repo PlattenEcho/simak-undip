@@ -41,6 +41,8 @@ class RedirectIfAuthenticated
             return redirect()->route('mahasiswa.dashboard');
         } elseif (Auth::user()->idrole == 3) {
             return redirect()->route('doswal.dashboard');
+        } elseif (Auth::user()->idrole == 2) {
+            return redirect()->route('departemen.dashboard');
         }
 
         // Jika pengguna tidak memiliki role yang sesuai, arahkan ke halaman default
