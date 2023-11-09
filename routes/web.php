@@ -51,6 +51,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/operator/dashboard', 'viewDashboardOperator')->middleware('only_operator')->name('operator.dashboard');
     Route::get('/mahasiswa/dashboard', 'viewDashboardMahasiswa')->middleware('only_mahasiswa')->name('mahasiswa.dashboard');
     Route::get('/doswal/dashboard', 'viewDashboardDoswal')->middleware('only_doswal')->name('doswal.dashboard');
+    Route::get('departemen/dashboard', 'viewDashboardDepartemen')->middleware('only_departemen')->name('departemen.dashboard');
 });
 
 Route::controller(MahasiswaController::class)->group(function () {

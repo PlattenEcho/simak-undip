@@ -9,6 +9,7 @@ use App\Models\Doswal;
 use App\Models\IRS;
 use App\Models\KHS;
 use App\Models\Mahasiswa;
+use App\Models\Operator;
 use DB;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ class DashboardController extends Controller
 {
     public function viewDashboardOperator(CountMahasiswaChart $chart)
     {
+        $user = auth()->user(); // Mendapatkan pengguna yang login
+        $operator = Operator::where('iduser', $user->id)->first();
         $chart = $chart->build();
         $totalMahasiswa = Mahasiswa::count();
         $totalDosen = Doswal::count();
@@ -24,7 +27,7 @@ class DashboardController extends Controller
             ->get();
 
 
-        return view("operator.dashboard", compact('totalMahasiswa', 'totalDosen', 'countMahasiswa', 'chart'));
+        return view("operator.dashboard", compact('operator', 'totalMahasiswa', 'totalDosen', 'countMahasiswa', 'chart'));
     }
 
     public function viewDashboardMahasiswa()
@@ -64,6 +67,12 @@ class DashboardController extends Controller
         $chartPKL = $chartPKL->build();
         $chartSkripsi = $chartSkripsi->build();
 
-        return view("doswal.dashboard", compact('mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
+        return view("doswal.dashboard", compact('dosenWali', 'mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
+    }
+
+    public function viewDashboardDepartemen()
+    {
+
+        return view("departemen.dashboard");
     }
 }

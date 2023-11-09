@@ -47,6 +47,7 @@ class DosWalFactory extends Factory
             'alamat' => $this->faker->address,
             'nomor_telepon' => $no_telp,
             'iduser' => $user->getAttribute('id'),
+            'username' => $user->getAttribute('username'),
         ];
     }
 }

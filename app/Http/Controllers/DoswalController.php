@@ -35,6 +35,7 @@ class DoswalController extends Controller
             $user = Auth::user();
             $doswal = Doswal::where('iduser', $user->id)->first();
 
+
             $validated = $request->validate([
                 'nama' => 'required',
                 'nip' => 'required',
@@ -62,8 +63,9 @@ class DoswalController extends Controller
             $doswal->gelar_depan = $request->gelar_depan;
             $doswal->gelar_belakang = $request->gelar_belakang;
             $doswal->alamat = $request->alamat;
-            $doswal->no_telepon = $request->no_telepon;
+            $doswal->nomor_telepon = $request->nomor_telepon;
             $doswal->username = $request->username;
+            
             
             $doswal->save();
 
