@@ -160,4 +160,9 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
+    Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
+    Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');
+    Route::get('/departemen/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('departemen.viewBelumPKL');
+    Route::get('/departemen/cetak-sudah-pkl/{angkatan}', 'cetakSudahPKL')->name('departemen.cetakSudahPKL');
+    Route::get('/departemen/cetak-belum-pkl/{angkatan}', 'cetakBelumPKL')->name('departemen.cetakBelumPKL');
 });
