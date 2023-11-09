@@ -64,6 +64,6 @@ class DashboardController extends Controller
         $chartPKL = $chartPKL->build();
         $chartSkripsi = $chartSkripsi->build();
 
-        return view("doswal.dashboard", compact('mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
+        return view("doswal.dashboard", compact('dosenWali', 'mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
     }
 }
