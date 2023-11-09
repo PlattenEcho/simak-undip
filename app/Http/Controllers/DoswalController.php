@@ -185,7 +185,11 @@ class DoswalController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->where('mahasiswa.nip', $doswal->nip)
                         ->select('pkl.*', 'mahasiswa.angkatan')
                         ->get();
 
@@ -275,8 +279,12 @@ class DoswalController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
+                        ->where('mahasiswa.nip', $doswal->nip)
                         ->get();
 
         $pklLulus = [];
@@ -359,7 +367,9 @@ class DoswalController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
-        $mhsData = Mahasiswa::where('angkatan', $angkatan);
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->get();
 
         $aktif = $mhsData->where('status', 'Aktif')->count();
         $cuti = $mhsData->where('status', 'Cuti')->count();

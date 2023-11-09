@@ -22,7 +22,7 @@
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Profil Departemen
             </h1>
-            <form class="space-y-4 md:space-y-6" method="GET" autocomplete="on" action="{{ route('doswal.viewEditProfile') }}" >
+            <form class="space-y-4 md:space-y-6" method="GET" autocomplete="on" action="{{ route('departemen.viewEditProfile') }}" >
             <div class="flex flex-col items-center mb-6">
                 <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                     <img src="{{ Auth::user()->getImageURL() }}" alt="user photo" class="w-20 h-20 object-cover" />

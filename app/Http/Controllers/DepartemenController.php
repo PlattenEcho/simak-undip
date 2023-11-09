@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Departemen;
 use App\Models\Mahasiswa;
 use App\Models\PKL;
@@ -50,7 +51,7 @@ class DepartemenController extends Controller
             
             $departemen->nama = $request->nama;
             $departemen->alamat = $request->alamat;
-            $departemen->nomor_telepon = $request->nomor_telepon;
+            $departemen->no_telepon = $request->no_telepon;
             $departemen->username = $request->username;
             
             

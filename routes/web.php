@@ -156,5 +156,7 @@ Route::middleware(['only_doswal', 'auth'])->group(function () {
 
 Route::controller(DepartemenController::class)->middleware('only_departemen')->group(function () {
     Route::get('/departemen/rekap-status', 'viewRekapStatus')->name('departemen.viewRekapStatus');
-    Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
+    Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
+    Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
+    Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
 });
