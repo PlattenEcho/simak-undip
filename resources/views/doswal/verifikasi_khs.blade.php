@@ -21,7 +21,7 @@
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Verifikasi KHS
         </h1>
-        <form class="flex items-center" action="{{ route('doswal.filterIRS') }}" method="GET">            
+        <form class="flex items-center" action="{{ route('doswal.filterKHS') }}" method="GET">            
             <div class="relative mt-1">
                 <select name="filter" id="filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     <option value="all">Semua Semester</option>    
@@ -36,9 +36,9 @@
         </form>
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            @if(!$irsData)
+            @if(!$khsData)
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada IRS yang perlu diverifikasi</p>
+                <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada KHS yang perlu diverifikasi</p>
             </div>
             @else
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -58,10 +58,19 @@
                                 Semester
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Jumlah SKS
+                                Jumlah SKS Semester
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Scan IRS
+                                Jumlah SKS Kumulatif
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                IP Semester
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                IP Kumulatif
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Scan KHS
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Action
@@ -69,32 +78,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($irsData as $irs)
+                    @foreach ($khsData as $khs)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $irs->mahasiswa->nama }}
+                            {{ $khs->mahasiswa->nama }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $irs->mahasiswa->nim }}
+                            {{ $khs->mahasiswa->nim }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $irs->mahasiswa->angkatan }}
+                            {{ $khs->mahasiswa->angkatan }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $irs->semester }}
+                            {{ $khs->semester }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $irs->jml_sks }}
+                            {{ $khs->sks_smt }}
                         </td>
                         <td class="px-6 py-4">
-                        <a href="{{ asset('storage/' . $irs->scan_irs) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
+                            {{ $khs->sks_kum }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $khs->ips }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $khs->ipk }}
+                        </td>
+                        <td class="px-6 py-4">
+                        <a href="{{ asset('storage/' . $khs->scan_khs) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
                         </td>
                         <td>
-                            <form action="{{ route('irs.verifikasi', $irs->id_irs) }}" method="post">
+                            <form action="{{ route('khs.verifikasi', $khs->id_khs) }}" method="post">
                                 @csrf
                                 <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
                             </form> 
-                            <form action="{{ route('irs.reject', $irs->id_irs) }}" method="post">
+                            <form action="{{ route('khs.reject', $khs->id_khs) }}" method="post">
                                 @csrf
                                 <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
                             </form> 
