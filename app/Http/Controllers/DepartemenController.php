@@ -150,6 +150,42 @@ class DepartemenController extends Controller
 
         return view('departemen.daftar_sudah_pkl', ['pklData' => $pklData]);
     }
+    public function viewBelumPKL(int $angkatan)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->where('pkl.status', 'Tidak Lulus')
+                        ->where('mahasiswa.angkatan', $angkatan)
+                        ->get();
+
+        return view('doswal.daftar_belum_pkl', ['pklData' => $pklData]);
+    }
+
+    public function cetakSudahPKL(int $angkatan)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->where('pkl.status', 'Lulus')
+                        ->where('mahasiswa.angkatan', $angkatan)
+                        ->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.sudah_pkl_pdf', ['pklData' => $pklData]);
+        return $pdf->download('rekap-sudah-pkl.pdf');
+    }
+
+    public function cetakBelumPKL(int $angkatan)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->where('pkl.status', 'Tidak Lulus')
+                        ->where('mahasiswa.angkatan', $angkatan)
+                        ->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.belum_pkl_pdf', ['pklData' => $pklData]);
+        return $pdf->download('rekap-belum-pkl.pdf');
+    }
 
 
     public function viewRekapSkripsi(Request $request)
