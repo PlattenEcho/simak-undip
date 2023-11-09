@@ -19,9 +19,9 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Rekap PKL
+            Rekap Skripsi
         </h1>
-        <form class="flex items-center" action="{{ route('departemen.viewRekapPKL') }}" method="GET">            
+        <form class="flex items-center" action="{{ route('departemen.viewRekapSkripsi') }}" method="GET">            
             <div class="relative mt-1">
                 <select name="tahun1" id="tahun1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     <option value="" selected disabled>Pilih Tahun</option>    
@@ -48,9 +48,9 @@
         
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            @if(!$pklData)
+            @if(!$skripsiData)
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data PKL</p>
+                <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data skripsi</p>
             </div>
             @else
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -85,11 +85,11 @@
                     <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         @for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++)
                         <td class="px-6 py-4">
-                            <a href="{{ route('departemen.viewSudahPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $pklLulus[$tahun] }}</a>
+                            <a href="{{ route('departemen.viewSudahSkripsi', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $skripsiLulus[$tahun] }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('departemen.viewBelumPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $pklTidakLulus[$tahun] }}</a>
-                        </td>
+                            <a href="{{ route('departemen.viewBelumSkripsi', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $skripsiTidakLulus[$tahun] }}</a>
+                        </td> 
                         @endfor
                     </tr>
                     </tbody>

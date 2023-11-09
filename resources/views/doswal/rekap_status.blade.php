@@ -62,7 +62,7 @@
                                 Undur Diri
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Lukus
+                                Lulus
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Meninggal Dunia
@@ -73,7 +73,7 @@
                     <tbody>            
                     <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif }}</a>
+                            <a href="{{ route('doswal.viewDaftarAktif', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif }}</a>
                         </td>
                         <td class="px-6 py-4">
                             <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti }}</a>

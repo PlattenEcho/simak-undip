@@ -134,6 +134,7 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('doswal.cetakSudahSkripsi');
     Route::get('/doswal/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('doswal.cetakBelumSkripsi');
     Route::get('/doswal/rekap-status', 'viewRekapStatus')->name('doswal.viewRekapStatus');
+    Route::get('/doswal/daftar-mhs-aktif/{angkatan}', 'viewDaftarAktif')->name('doswal.viewDaftarAktif');
 });
 
 
@@ -160,4 +161,13 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
     Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
+    Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');
+    Route::get('/departemen/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('departemen.viewBelumPKL');
+    Route::get('/departemen/cetak-sudah-pkl/{angkatan}', 'cetakSudahPKL')->name('departemen.cetakSudahPKL');
+    Route::get('/departemen/cetak-belum-pkl/{angkatan}', 'cetakBelumPKL')->name('departemen.cetakBelumPKL');
+    Route::get('/departemen/rekap-skripsi', 'viewRekapSkripsi')->name('departemen.viewRekapSkripsi');
+    Route::get('/departemen/daftar-sudah-skripsi/{angkatan}', 'viewSudahSkripsi')->name('departemen.viewSudahSkripsi');
+    Route::get('/departemen/daftar-belum-skripsi/{angkatan}', 'viewBelumSkripsi')->name('departemen.viewBelumSkripsi');
+    Route::get('/departemen/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('departemen.cetakSudahSkripsi');
+    Route::get('/departemen/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('departemen.cetakBelumSkripsi');
 });

@@ -19,28 +19,28 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Verifikasi KHS
+            Daftar Mahasiswa Perwalian Aktif
         </h1>
-        <form class="flex items-center" action="{{ route('doswal.filterKHS') }}" method="GET">            
-            <div class="relative mt-1">
-                <select name="filter" id="filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    <option value="all">Semua Semester</option>    
-                    @foreach ($semesters as $semester)
-                        <option value="{{ $semester }}">{{ $semester }}</option>
-                    @endforeach      
-                </select>
-            </div>
-            <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Filter
-            </button>
-        </form>
-        <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            @if(!$khsData)
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada KHS yang perlu diverifikasi</p>
+                <form class="flex items-center" action="{{ route('searchMahasiswa') }}" method="GET">   
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative mt-1">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                        </div>
+                        <input type="text" name="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari NIM/nama" required>
+                    </div>
+                    <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </form>
             </div>
-            @else
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -55,74 +55,60 @@
                                 Angkatan
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Semester
+                                Status
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Jumlah SKS Semester
+                                Jalur Masuk
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Jumlah SKS Kumulatif
+                                Alamat
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                IP Semester
+                                Kabupaten
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                IP Kumulatif
+                                Provinsi
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Scan KHS
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action
+                                Nomor Telepon
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($khsData as $khs)
+                    @foreach ($mhsData as $mhs)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $khs->mahasiswa->nama }}
+                            {{ $mhs['nama'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->mahasiswa->nim }}
+                            {{ $mhs['nim'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->mahasiswa->angkatan }}
+                            {{ $mhs['angkatan'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->semester }}
+                            {{ $mhs['status'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->sks_smt }}
+                            {{ $mhs['jalur_masuk'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->sks_kum }}
+                            {{ $mhs['alamat'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->ips }}
+                            {{ $mhs['kabupaten'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $khs->ipk }}
+                            {{ $mhs['provinsi'] }}
                         </td>
                         <td class="px-6 py-4">
-                        <a href="{{ asset('storage/' . $khs->scan_khs) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
-                        </td>
-                        <td>
-                            <form action="{{ route('khs.verifikasi', $khs->id_khs) }}" method="post">
-                                @csrf
-                                <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
-                            </form> 
-                            <form action="{{ route('khs.reject', $khs->id_khs) }}" method="post">
-                                @csrf
-                                <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
-                            </form> 
+                            {{ $mhs['nomor_telepon'] }}
                         </td>
                     </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-            @endif
         </div>
     </div>
 </div>

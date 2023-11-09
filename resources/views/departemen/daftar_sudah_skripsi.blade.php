@@ -19,11 +19,11 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Sudah Lulus PKL
+            Daftar Sudah Lulus Skripsi
         </h1>
         <div>        
-            @if(count($pklData) > 0)
-                <a href="{{ route('departemen.cetakSudahPKL', $pklData[0]->mahasiswa->angkatan) }}" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
+            @if(count($skripsiData) > 0)
+                <a href="{{ route('departemen.cetakSudahSkripsi', $skripsiData[0]->mahasiswa->angkatan) }}" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
             @endif
         </div>
         <br>
@@ -45,27 +45,39 @@
                                 Nilai
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Scan PKL
+                                Tanggal Sidang
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Lama Studi
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Scan Skripsi
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($pklData as $pkl)
+                    @foreach ($skripsiData as $skripsi)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $pkl->mahasiswa->nama }}
+                            {{ $skripsi->mahasiswa->nama }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $pkl->mahasiswa->nim }}
+                            {{ $skripsi->mahasiswa->nim }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $pkl->mahasiswa->angkatan }}
+                            {{ $skripsi->mahasiswa->angkatan }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $pkl->nilai }}
+                            {{ $skripsi->nilai }}
                         </td>
                         <td class="px-6 py-4">
-                        <a href="{{ asset('storage/' . $pkl->scan_pkl) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
+                            {{ $skripsi->tanggal_sidang }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $skripsi->lama_studi }}
+                        </td>
+                        <td class="px-6 py-4">
+                        <a href="{{ asset('storage/' . $skripsi->scan_skripsi) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
                         </td>
                     </tr>
                     @endforeach
