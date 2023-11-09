@@ -69,4 +69,10 @@ class DashboardController extends Controller
 
         return view("doswal.dashboard", compact('dosenWali', 'mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
     }
+
+    public function viewDashboardDepartemen()
+    {
+
+        return view("departemen.dashboard");
+    }
 }
