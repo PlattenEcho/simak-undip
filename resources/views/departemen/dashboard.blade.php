@@ -20,26 +20,29 @@
                 </div>
             </div>
             <div class="grid gap-4 grid-cols-1">
-                <div class="grid gap-4 grid-cols-3 grid-rows-1 w-2/3">
+                <div class="grid gap-4 grid-cols-3 grid-rows-1 lg:w-2/3 sm:w-full">
                     <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                        <div class="mx-4 my-4 text-xs font-semibold text-gray-800 dark:text-gray-500 md:text-xs lg:text-sm">
                             Total Mahasiswa
                         </div>
-                        <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                        <div
+                            class="mx-4 my-4 text-right text-sm font-bold text-gray-800 dark:text-gray-500 md:text-sm lg:text-lg">
                             {{ $mahasiswaCount }} </div>
                     </div>
                     <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                        <div class="mx-4 my-4 text-xs font-semibold text-gray-800 dark:text-gray-500 md:text-xs lg:text-sm">
                             Mahasiswa Aktif
                         </div>
-                        <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                        <div
+                            class="mx-4 my-4 text-right text-xs font-bold text-gray-800 dark:text-gray-500 md:text-sm lg:text-lg">
                             {{ $mahasiswaAktifCount }} </div>
                     </div>
                     <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                        <div class="mx-4 my-4 text-xs font-semibold text-gray-800 dark:text-gray-500 md:text-xs lg:text-sm">
                             Mahasiswa Non-Aktif
                         </div>
-                        <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                        <div
+                            class="mx-4 my-4 text-right text-xs font-bold text-gray-800 dark:text-gray-500 md:text-sm lg:text-lg">
                             {{ $mahasiswaTidakAktifCount }} </div>
                     </div>
                 </div>
@@ -49,7 +52,8 @@
                         <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
                             Statistik Jumlah Mahasiswa
                         </div>
-                        asdas
+                        {!! $chartCount->container() !!}
+
                     </div>
                 </div>
                 <div class="grid gap-4 grid-cols-2 grid-rows-1">
@@ -57,9 +61,9 @@
                         class="p-4 flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800">
                         <div>
                             <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
-                                Statistik Mahasiswa Skripsi
+                                Statistik Mahasiswa PKL
                             </div>
-                            asdasd
+                            {!! $chartPKL->container() !!}
                         </div>
                     </div>
                     <div id = 'mahasiswaChartContainer'
@@ -68,7 +72,7 @@
                             <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
                                 Statistik Mahasiswa Skripsi
                             </div>
-                            asdasd
+                            {!! $chartSkripsi->container() !!}
                         </div>
                     </div>
                 </div>
@@ -77,9 +81,12 @@
         </div>
     </div>
 
-    {{-- <script src="{{ $chartPKL->cdn() }}"></script>
+    <script src="{{ $chartCount->cdn() }}"></script>
+    {{ $chartCount->script() }}
+
+    <script src="{{ $chartPKL->cdn() }}"></script>
     {{ $chartPKL->script() }}
 
     <script src="{{ $chartSkripsi->cdn() }}"></script>
-    {{ $chartSkripsi->script() }} --}}
+    {{ $chartSkripsi->script() }}
 @endsection

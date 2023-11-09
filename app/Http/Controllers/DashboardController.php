@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Charts\CountMahasiswaChart;
+use App\Charts\CountMahasiswaForDepartement;
 use App\Charts\CountMahasiswaPkl;
+use App\Charts\CountMahasiswaPklForDepartemen;
 use App\Charts\CountMahasiswaSkripsi;
+use App\Charts\CountMahasiswaSkripsiForDepartement;
 use App\Models\Doswal;
 use App\Models\IRS;
 use App\Models\KHS;
@@ -70,14 +73,17 @@ class DashboardController extends Controller
         return view("doswal.dashboard", compact('dosenWali', 'mahasiswaPerwalian', 'jumlahMahasiswaPerwalian', 'jumlahMahasiswaAktif', 'jumlahMahasiswaCuti', 'chartPKL', 'chartSkripsi'));
     }
 
-    public function viewDashboardDepartemen()
+    public function viewDashboardDepartemen(CountMahasiswaForDepartement $chartCount, CountMahasiswaPklForDepartemen $chartPKL, CountMahasiswaSkripsiForDepartement $chartSkripsi)
     {
+        $chartCount = $chartCount->build();
+        $chartPKL = $chartPKL->build();
+        $chartSkripsi = $chartSkripsi->build();
 
         $mahasiswaCount = Mahasiswa::count();
         $mahasiswaAktifCount = Mahasiswa::where('status', 'Aktif')->count();
         $mahasiswaTidakAktifCount = Mahasiswa::whereIn('status', ['Tidak Aktif', 'Cuti', 'Mangkir', 'DO', 'Undur Diri', 'Lulus'])->count();
 
 
-        return view("departemen.dashboard", compact("mahasiswaCount", "mahasiswaAktifCount", "mahasiswaTidakAktifCount"));
+        return view("departemen.dashboard", compact("mahasiswaCount", "mahasiswaAktifCount", "mahasiswaTidakAktifCount", "chartCount", "chartPKL", "chartSkripsi"));
     }
 }
