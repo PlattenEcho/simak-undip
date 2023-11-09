@@ -6,7 +6,12 @@
             <div class="p-4 flex items-center h-48 mb-4 rounded-lg border-2 border-gray-200 bg-gray-50 dark:bg-gray-800">
                 <div class="flex items-center">
                     <div class="w-40 h-40 rounded-full overflow-hidden">
-                        <img src= "{{ asset('storage/' . auth()->user()->foto) }}" alt="{{ $mahasiswa->nama }}">
+                        @if (auth()->user()->foto)
+                            <img src= "{{ asset('storage/' . auth()->user()->foto) }}">
+                        @else
+                            <img
+                                src= "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg">
+                        @endif
                     </div>
                     <div class="ml-6">
                         <p class="text-xl font-semibold">{{ auth()->user()->name }}</p>
@@ -23,13 +28,12 @@
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
                         IPK
                     </div>
-                    @if($ipkTertinggi)
-                    <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                        {{ $ipkTertinggi->ipk }} </div>
-                   
+                    @if ($ipkTertinggi)
+                        <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                            {{ $ipkTertinggi->ipk }} </div>
                     @else
-                    <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                        0.00 </div>
+                        <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
+                            0.00 </div>
                     @endif
                 </div>
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"

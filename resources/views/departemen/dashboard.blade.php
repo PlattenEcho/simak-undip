@@ -15,54 +15,64 @@
                     </div>
                     <div class="ml-6">
                         <p class="text-xl font-semibold">{{ auth()->user()->name }}</p>
-                        <p class="text-lg text-gray-600">Dosen Wali</p>
+                        <p class="text-lg text-gray-600">Departemen Informatika</p>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-wrap w-full max-w-8xl space-x-4">
-                <div class="w-auto spac space-y-4" style="width: 32.4%;">
-                    <div class=" rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
+            <div class="grid gap-4 grid-cols-1">
+                <div class="grid gap-4 grid-cols-3 grid-rows-1 w-2/3">
+                    <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
-                            Mahasiswa Perwalian
+                            Total Mahasiswa
                         </div>
                         <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                            asdas </div>
+                            {{ $mahasiswaCount }} </div>
                     </div>
                     <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
-                            Mahasiswa Perwalian Aktif
+                            Mahasiswa Aktif
                         </div>
                         <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                            asda </div>
+                            {{ $mahasiswaAktifCount }} </div>
                     </div>
                     <div class="rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
-                            Mahasiswa Perwalian Non-Aktif
+                            Mahasiswa Non-Aktif
                         </div>
                         <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                            asdas </div>
+                            {{ $mahasiswaTidakAktifCount }} </div>
                     </div>
                 </div>
                 <div id = 'mahasiswaChartContainer'
-                    class="p-4 w-auto flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800"
-                    style="width: 32.4%">
+                    class="p-4 flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800">
                     <div>
                         <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
-                            Statistik Mahasiswa PKL
+                            Statistik Jumlah Mahasiswa
                         </div>
                         asdas
                     </div>
                 </div>
-                <div id = 'mahasiswaChartContainer'
-                    class="p-4 w-auto flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800"
-                    style="width: 32.4%">
-                    <div>
-                        <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
-                            Statistik Mahasiswa Skripsi
+                <div class="grid gap-4 grid-cols-2 grid-rows-1">
+                    <div id = 'mahasiswaChartContainer'
+                        class="p-4 flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800">
+                        <div>
+                            <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                Statistik Mahasiswa Skripsi
+                            </div>
+                            asdasd
                         </div>
-                        asdasd
+                    </div>
+                    <div id = 'mahasiswaChartContainer'
+                        class="p-4 flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800">
+                        <div>
+                            <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                Statistik Mahasiswa Skripsi
+                            </div>
+                            asdasd
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

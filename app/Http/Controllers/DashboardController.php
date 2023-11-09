@@ -73,6 +73,11 @@ class DashboardController extends Controller
     public function viewDashboardDepartemen()
     {
 
-        return view("departemen.dashboard");
+        $mahasiswaCount = Mahasiswa::count();
+        $mahasiswaAktifCount = Mahasiswa::where('status', 'Aktif')->count();
+        $mahasiswaTidakAktifCount = Mahasiswa::whereIn('status', ['Tidak Aktif', 'Cuti', 'Mangkir', 'DO', 'Undur Diri', 'Lulus'])->count();
+
+
+        return view("departemen.dashboard", compact("mahasiswaCount", "mahasiswaAktifCount", "mahasiswaTidakAktifCount"));
     }
 }
