@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\KHSController;
 use App\Http\Controllers\PKLController;
@@ -151,4 +152,11 @@ Route::middleware(['only_doswal', 'auth'])->group(function () {
     Route::post('/doswal/info-akademik/reject-pkl/{id}', [PKLController::class, 'reject'])->name('pkl.reject');
     Route::post('/doswal/info-akademik/verif-skripsi/{id}', [SkripsiController::class, 'verifikasi'])->name('skripsi.verifikasi');
     Route::post('/doswal/info-akademik/reject-skripsi/{id}', [SkripsiController::class, 'reject'])->name('skripsi.reject');
+});
+
+Route::controller(DepartemenController::class)->middleware('only_departemen')->group(function () {
+    Route::get('/departemen/rekap-status', 'viewRekapStatus')->name('departemen.viewRekapStatus');
+    Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
+    Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
+    Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
 });

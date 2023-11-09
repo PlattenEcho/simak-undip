@@ -10,14 +10,12 @@ class Departemen extends Model
     use HasFactory;
 
     protected $table = 'departemens';
-    protected $primaryKey = 'idDepartemen';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
         'nama',
-        'nip',
-        'tahun_masuk',
         'alamat',
         'no_telepon',
         'iduser',

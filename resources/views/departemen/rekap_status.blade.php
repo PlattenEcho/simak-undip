@@ -1,4 +1,4 @@
-@extends('doswal.navsidebar')
+@extends('departemen.navsidebar')
 
 @section('content')
 <div class="p-4 sm:ml-64">
@@ -21,7 +21,7 @@
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Rekap Mahasiswa Berdasarkan Status
         </h1>
-        <form class="flex items-center" action="{{ route('doswal.viewRekapStatus') }}" method="GET">            
+        <form class="flex items-center" action="{{ route('departemen.viewRekapStatus') }}" method="GET">            
             <div class="relative mt-1">
                 <select name="angkatan" id="angkatan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     <option value="" selected disabled>Pilih Angkatan</option>    
@@ -41,7 +41,7 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr scope="col" class="px-6 py-3 text-center">
-                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa Angkatan {{ $mhsData[0]->angkatan }} </th>
+                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa </th>
                         </tr>
                     </thead>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
