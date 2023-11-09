@@ -73,6 +73,7 @@ Route::controller(OperatorController::class)->group(function () {
     Route::get('/operator/profile', 'viewProfile')->middleware('only_operator')->name('operator.viewProfile');
     Route::get('/operator/edit-profile', 'viewEditProfile')->middleware('only_operator')->name('operator.viewEditProfile');
     Route::post('/operator/edit-profile', 'update')->name('operator.update');
+    Route::get('/operator/cetak-daftar-akun', 'cetakDaftarAkun')->name('operator.cetakDaftarAkun');
 });
 
 Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {

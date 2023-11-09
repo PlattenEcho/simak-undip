@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GeneratedAccount;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Operator;
@@ -67,6 +69,15 @@ class OperatorController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('operator.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data operator.');
         }
+    }
+
+    public function cetakDaftarAkun()
+    {
+        $accounts = GeneratedAccount::all();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('operator.daftar_akun_pdf', ['accounts' => $accounts]);
+        return $pdf->stream('daftar_akun.pdf');
     }
 
 }

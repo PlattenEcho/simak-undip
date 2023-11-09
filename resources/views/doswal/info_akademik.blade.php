@@ -54,7 +54,7 @@
                 <select id="semester" name="semester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     <option value="">Pilih Semester</option>
                     @for ($i = 1; $i <= 14; $i++)
-                        <option value="{{ $i }}" @if(old('semester') == $i) selected @endif>{{ $i }}</option>
+                        <option value="{{ $i }}">{{ $i }}</option>
                     @endfor
                 </select>
                 </td>
@@ -164,25 +164,6 @@
                         <div class="form-group">
                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $skripsi->scan_skripsi) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
-                        <!-- @if($skripsi->statusVerif == 'Unverified')
-                            <div class="m-auto">
-                            <br>
-                                <table>
-                                    <td>
-                                        <form action="{{ route('skripsi.verifikasi', $skripsi->id_skripsi) }}" method="post">
-                                            @csrf
-                                            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Verifikasi</button>
-                                        </form> 
-                                    </td>
-                                    <td>    
-                                        <form action="{{ route('skripsi.reject', $skripsi->id_skripsi) }}" method="post">
-                                            @csrf
-                                            <button type="submit" class="text-white bg-pink-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Reject</button>
-                                        </form>  
-                                    </td>
-                                </table>     
-                            </div>
-                        @endif -->
                     </div>
                     @else
                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="skripsi" role="tabpanel" aria-labelledby="skripsi-tab">

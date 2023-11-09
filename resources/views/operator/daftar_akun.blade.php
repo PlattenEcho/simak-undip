@@ -21,12 +21,15 @@
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Daftar Akun Mahasiswa 
         </h1>
-        <a href="{{ route('mahasiswa.export') }}" class="mr-auto text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 dark:hover:bg-green-500 focus:outline-none dark:focus:ring-green-600">Download Daftar Akun</a>
+        <a href="{{ route('operator.cetakDaftarAkun') }}" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
         <br><br>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Nama
+                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         Username
                                     </th>
@@ -37,15 +40,18 @@
                             </thead>
                             <tbody>
                             @foreach ($accounts as $account)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-                    <td class="px-6 py-4">
-                        {{ $account->username }}
-                    </td>  
-                    <td class="px-6 py-4">
-                        {{ $account->password }}
-                    </td>
-                </tr>
-                @endforeach
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
+                                <td class="px-6 py-4">
+                                    {{ $account->nama }}
+                                </td>  
+                                <td class="px-6 py-4">
+                                    {{ $account->username }}
+                                </td>  
+                                <td class="px-6 py-4">
+                                    {{ $account->password }}
+                                </td>
+                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

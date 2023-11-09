@@ -6,7 +6,9 @@ use App\Models\Doswal;
 use App\Models\Mahasiswa;
 use App\Models\PKL;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
-use DB;
+use Illuminate\Support\Facades\DB;
+
+//use DB;
 
 class CountMahasiswaPkl
 {
@@ -44,7 +46,7 @@ class CountMahasiswaPkl
 
         return $this->chart->barChart()
             ->addData('Jumlah Mahasiswa', $pklData)
-            ->setXAxis([$pklLabels[0], $pklLabels[1]])
+            ->setXAxis($pklLabels)
             ->setColors(['#ffc63b', '#ff6384'])
             ->setWidth(325) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel

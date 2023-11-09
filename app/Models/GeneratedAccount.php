@@ -10,5 +10,5 @@ class GeneratedAccount extends Model
     use HasFactory;
 
     protected $table = 'generated_accounts';
-    protected $fillable = ['username', 'password'];
+    protected $fillable = ['nama', 'username', 'password'];
 }

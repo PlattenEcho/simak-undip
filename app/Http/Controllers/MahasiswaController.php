@@ -116,6 +116,7 @@ class MahasiswaController extends Controller
                 $mahasiswa->save();
 
                 GeneratedAccount::create([
+                    'nama' => $mahasiswa->nama,
                     'username' => $username,
                     'password' => $password,
                 ]);
@@ -153,6 +154,7 @@ class MahasiswaController extends Controller
                 $mahasiswa->save();
 
                 GeneratedAccount::create([
+                    'nama' => $mahasiswa->nama,
                     'username' => $username,
                     'password' => $password,
                 ]);
