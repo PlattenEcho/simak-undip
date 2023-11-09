@@ -41,7 +41,7 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr scope="col" class="px-6 py-3 text-center">
-                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa </th>
+                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa Angkatan {{ $mhsData[0]->angkatan }} </th>
                         </tr>
                     </thead>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
