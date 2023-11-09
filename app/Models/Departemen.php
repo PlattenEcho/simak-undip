@@ -16,8 +16,6 @@ class Departemen extends Model
 
     protected $fillable = [
         'nama',
-        'nip',
-        'tahun_masuk',
         'alamat',
         'no_telepon',
         'iduser',

@@ -6,7 +6,12 @@
             <div class="p-4 flex items-center h-48 mb-4 rounded-lg border-2 border-gray-200 bg-gray-50 dark:bg-gray-800">
                 <div class="flex items-center">
                     <div class="w-40 h-40 rounded-full overflow-hidden">
-                        <img src= "{{ asset('storage/' . auth()->user()->foto) }}" alt="{{ auth()->user()->name }}">
+                        @if (auth()->user()->foto)
+                            <img src= "{{ asset('storage/' . auth()->user()->foto) }}">
+                        @else
+                            <img
+                                src= "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg">
+                        @endif
                     </div>
                     <div class="ml-6">
                         <p class="text-xl font-semibold">{{ auth()->user()->name }}</p>
