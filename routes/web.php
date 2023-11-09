@@ -159,4 +159,5 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
+    Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
 });
