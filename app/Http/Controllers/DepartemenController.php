@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartemenController extends Controller
 {
