@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Departemen;
 use App\Models\Mahasiswa;
+use App\Models\PKL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,5 +94,58 @@ class DepartemenController extends Controller
         return view('departemen.rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
                     'mangkir' => $mangkir, 'do' => $do,
                     'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+    }
+
+    public function viewRekapPKL(Request $request)
+    {
+        if($request->has('tahun1')) {
+            $tahun1 = $request->input('tahun1');
+        } else {
+            $tahun1 = date('Y') - 4;
+        }
+        
+        if($request->has('tahun2')) {
+            $tahun2 = $request->input('tahun2');
+        } else {
+            $tahun2 = date('Y');
+        }
+
+        $daftarAngkatan = Mahasiswa::distinct()
+                        ->orderBy('angkatan', 'asc')
+                        ->pluck('angkatan')
+                        ->toArray();
+
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->get();
+
+        $pklLulus = [];
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $pklData->where('angkatan', $tahun)->where('status', 'Lulus')->count();
+            $pklLulus[$tahun] = $count;
+        }
+
+        $pklTidakLulus = [];
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $pklData->where('angkatan', $tahun)->where('status', 'Tidak Lulus')->count();
+            $pklTidakLulus[$tahun] = $count;
+        }
+        
+        return view('departemen.rekap_pkl', ['pklData' => $pklData, 'daftarAngkatan' => $daftarAngkatan, 
+                    'tahun1' => $tahun1, 'tahun2' => $tahun2,
+                    'pklLulus' => $pklLulus, 'pklTidakLulus' => $pklTidakLulus]);
+    }
+
+    public function viewSudahPKL(int $angkatan)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->where('pkl.status', 'Lulus')
+                        ->where('mahasiswa.angkatan', $angkatan)
+                        ->get();
+
+        return view('departemen.daftar_sudah_pkl', ['pklData' => $pklData]);
     }
 }
