@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Departemen;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartemenController extends Controller
 {
@@ -63,5 +65,33 @@ class DepartemenController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('departemen.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data departemen.');
         }
+    }
+
+    public function viewRekapStatus(Request $request)
+    {
+        if($request->has('angkatan')) {
+            $angkatan = $request->input('angkatan');
+        } else {
+            $angkatan = date('Y');
+        }
+
+        $daftarAngkatan = Mahasiswa::distinct()
+                        ->orderBy('angkatan', 'asc')
+                        ->pluck('angkatan')
+                        ->toArray();
+
+        $mhsData = Mahasiswa::where('angkatan', $angkatan);
+
+        $aktif = $mhsData->where('status', 'Aktif')->count();
+        $cuti = $mhsData->where('status', 'Cuti')->count();
+        $mangkir = $mhsData->where('status', 'Mangkir')->count();
+        $do = $mhsData->where('status', 'Drop Out')->count();
+        $undurDiri = $mhsData->where('status', 'Undur Diri')->count();
+        $lulus = $mhsData->where('status', 'Lulus')->count();
+        $md = $mhsData->where('status', 'Meninggal Dunia')->count();
+
+        return view('departemen.rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
+                    'mangkir' => $mangkir, 'do' => $do,
+                    'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
     }
 }
