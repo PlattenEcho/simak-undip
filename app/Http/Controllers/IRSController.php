@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doswal;
 use App\Models\IRS;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class IRSController extends Controller
 
         $remainingSemesters = array_diff($availableSemesters, $semesters);
 
-        return view('mahasiswa.edit_irs', ['irs' => $irs, 'remainingSemesters' => $remainingSemesters]);
+        return view('doswal.edit_irs', ['irs' => $irs, 'remainingSemesters' => $remainingSemesters]);
     }
 
     public function viewEntryIRS(Request $request)
@@ -97,23 +98,14 @@ class IRSController extends Controller
         $validated = $request->validate([
             'semester' => 'required',
             'jml_sks' => 'required|numeric',
-            'scan_irs' => 'nullable|max:5120',
         ]);
         
         try {
             $irs = IRS::where('id_irs', $id)
             ->first();
-
-            if ($request->has('scan_irs')) {
-                $irsPath = $request->file('scan_irs')->store('scan_irs', 'public');
-                $validated['scan_irs'] = $irsPath;
-
-                $irs->scan_irs = $validated['scan_irs'];
-            }
             
             $irs->semester = $request->semester;
             $irs->jml_sks = $request->jml_sks;
-            $irs->status = "Unverified";
 
             $irs->save();
             
@@ -127,7 +119,7 @@ class IRSController extends Controller
             Session::flash('success',  'Data IRS berhasil diperbarui.');
         }
     
-        return redirect()->route('irs.viewIRS');
+        return redirect()->route('doswal.viewVerifikasiIRS');
     }
 
     public function verifikasi(int $id)
@@ -136,7 +128,7 @@ class IRSController extends Controller
             $irs = IRS::where('id_irs', $id)->first();
 
             $irs->update([
-                "status" => 'Approved'
+                "status" => '1'
             ]);
 
             return redirect()->back()->with('success', 'Berhasil memverifikasi IRS.');
@@ -146,19 +138,46 @@ class IRSController extends Controller
         }
     }
 
-
-    public function reject(int $id)
+    public function delete(int $id)
     {
         try {
             $irs = IRS::where('id_irs', $id)->first();
             
-            $irs->update([
-                "status" => 'Rejected'
-            ]);
+            $irs->delete();
 
-            return redirect()->back()->with('success', 'IRS berhasil ditolak.');
+            return redirect()->back()->with('success', 'Berhasil menghapus IRS.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menolak IRS.');
+            return redirect()->back()->with('error', 'Gagal menghapus IRS.');
         }
     }
+
+    public function filter(Request $request)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+
+        $semester = $request->input('filter');
+
+        if ($semester == 'all') {
+            $irsData = IRS::with('mahasiswa')
+            ->where('nama_doswal',$doswal->nama)
+            ->where('status', '0')
+            ->get();
+        } else {
+            $irsData = IRS::with('mahasiswa')
+            ->where('nama_doswal',$doswal->nama)
+            ->where('semester', $semester)
+            ->where('status', '0')
+            ->get();
+        }
+        
+        $semesters = IRS::where('status', '0')
+                        ->where('nama_doswal',$doswal->nama)
+                        ->distinct()
+                        ->pluck('semester')
+                        ->toArray();
+
+        return view('doswal.verifikasi_irs', ['semesters' => $semesters, 'irsData' => $irsData]);
+    } 
+
 }

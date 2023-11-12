@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doswal;
 use App\Models\KHS;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class KHSController extends Controller
 
         $remainingSemesters = array_diff($availableSemesters, $semesters);
 
-        return view('mahasiswa.edit_khs', ['khs' => $khs, 'remainingSemesters' => $remainingSemesters]);
+        return view('doswal.edit_khs', ['khs' => $khs, 'remainingSemesters' => $remainingSemesters]);
     }
 
     public function viewEntryKHS(Request $request)
@@ -95,26 +96,18 @@ class KHSController extends Controller
             'sks_kum' => 'required|numeric',
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
             'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
-            'scan_khs' => 'required|max:100', 
         ]);
         
         try {
             $khs = KHS::where('id_khs', $id)
             ->first();
 
-            if ($request->has('scan_khs')) {
-                $khsPath = $request->file('scan_khs')->store('scan_khs', 'public');
-                $validated['scan_khs'] = $khsPath;
-
-                $khs->scan_khs = $validated['scan_khs'];
-            }
-            
             $khs->semester = $request->semester;
             $khs->sks_smt = $request->sks_smt;
             $khs->sks_kum = $request->sks_kum;
             $khs->ips = $request->ips;
             $khs->ipk = $request->ipk;
-            $khs->status = "Unverified";
+            $khs->status = "0";
 
             $khs->save();
             
@@ -128,19 +121,18 @@ class KHSController extends Controller
             Session::flash('success',  'Data KHS berhasil diperbarui.');
         }
     
-        return redirect()->route('khs.viewKHS');
+        return redirect()->route('doswal.viewVerifikasiKHS');
     }
 
     public function verifikasi(int $id)
     {
-        dd($id);
         try {
             $khs = KHS::where('id_khs', $id)->first();
 
             $khs->update([
-                "status" => 'Approved'
+                "status" => "1"
             ]);
-
+         
             return redirect()->back()->with('success', 'Berhasil memverifikasi KHS.');
         } catch (\Exception $e) {
 
@@ -148,19 +140,46 @@ class KHSController extends Controller
         }
     }
 
-
-    public function reject(int $id)
+    public function delete(int $id)
     {
         try {
             $khs = KHS::where('id_khs', $id)->first();
             
-            $khs->update([
-                "status" => 'Rejected'
-            ]);
+            $khs->delete();
 
-            return redirect()->back()->with('success', 'KHS berhasil ditolak.');
+            return redirect()->back()->with('success', 'Berhasil menghapus KHS.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menolak KHSS.');
+            return redirect()->back()->with('error', 'Gagal menghapus KHS.');
         }
     }
+
+    public function filter(Request $request)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+
+        $semester = $request->input('filter');
+
+        if ($semester == 'all') {
+            $khsData = KHS::with('mahasiswa')
+            ->where('nama_doswal',$doswal->nama)
+            ->where('status', '0')
+            ->get();
+        } else {
+            $khsData = KHS::with('mahasiswa')
+            ->where('nama_doswal',$doswal->nama)
+            ->where('semester', $semester)
+            ->where('status', '0')
+            ->get();
+        }
+        
+        $semesters = KHS::where('status', '0')
+                        ->where('nama_doswal',$doswal->nama)
+                        ->distinct()
+                        ->pluck('semester')
+                        ->toArray();
+
+        return view('doswal.verifikasi_khs', ['semesters' => $semesters, 'khsData' => $khsData]);
+    } 
+
 }

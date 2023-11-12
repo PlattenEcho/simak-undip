@@ -78,20 +78,26 @@ Route::controller(OperatorController::class)->group(function () {
     Route::get('/operator/cetak-daftar-akun', 'cetakDaftarAkun')->name('operator.cetakDaftarAkun');
 });
 
-Route::controller(IRSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
-    Route::get('/mahasiswa/entry-irs', 'viewEntryIRS')->name('irs.viewEntry');
-    Route::get('/mahasiswa/irs', 'viewIRS')->name('irs.viewIRS');
-    Route::get('/mahasiswa/edit-irs/{id}', 'viewEditIRS')->name('irs.viewEditIRS');
-    Route::post('/mahasiswa/irs', 'store')->name('irs.store');
-    Route::post('/mahasiswa/edit-irs/{id}', 'update')->name('irs.update');
+Route::controller(IRSController::class)->group(function () {
+    Route::get('/mahasiswa/entry-irs', 'viewEntryIRS')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.viewEntry');
+    Route::get('/mahasiswa/irs', 'viewIRS')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.viewIRS');
+    Route::post('/mahasiswa/irs', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.store');
+    Route::post('/doswal/edit-irs/{id}', 'update')->middleware(['only_doswal'])->name('irs.update');
+    Route::post('/doswal/delete-irs/{id}', 'delete')->middleware(['only_doswal'])->name('irs.delete');
+    Route::get('/doswal/edit-irs/{id}', 'viewEditIRS')->middleware(['only_doswal'])->name('irs.viewEditIRS');
+    Route::post('/doswal/verif-irs/{id}','verifikasi')->middleware(['only_doswal'])->name('irs.verifikasi');
+    Route::get('/doswal/filter-irs', 'filter')->middleware(['only_doswal'])->name('irs.filter');
 });
 
-Route::controller(KHSController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
-    Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->name('khs.viewEntry');
-    Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
-    Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
-    Route::post('/mahasiswa/khs', 'store')->name('khs.store');
-    Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
+Route::controller(KHSController::class)->group(function () {
+    Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.viewEntry');
+    Route::get('/mahasiswa/khs', 'viewKHS')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.viewKHS');
+    Route::post('/mahasiswa/khs', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.store');
+    Route::post('/doswal/edit-khs/{id}', 'update')->middleware(['only_doswal'])->name('khs.update');
+    Route::post('/doswal/delete-khs/{id}', 'delete')->middleware(['only_doswal'])->name('khs.delete');
+    Route::get('/doswal/edit-khs/{id}', 'viewEditKHS')->middleware(['only_doswal'])->name('khs.viewEditKHS');
+    Route::post('/doswal/verif-khs/{id}','verifikasi')->middleware(['only_doswal'])->name('khs.verifikasi');
+    Route::get('/doswal/filter-khs', 'filter')->middleware(['only_doswal'])->name('khs.filter');
 });
 
 Route::controller(PKLController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
@@ -120,6 +126,7 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/edit-profile', 'viewEditProfile')->name('doswal.viewEditProfile');
     Route::post('/doswal/edit-profile', 'update')->name('doswal.update');
     Route::get('/doswal/verifikasi-irs', 'viewVerifikasiIRS')->name('doswal.viewVerifikasiIRS');
+    Route::get('/doswal/verifikasi-khs', 'viewVerifikasiKHS')->name('doswal.viewVerifikasiKHS');
     Route::get('/doswal/filter-IRS', 'filterIRS')->name('doswal.filterIRS');
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->name('doswal.viewDaftarMhs');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doswal;
 use App\Models\IRS;
+use App\Models\KHS;
 use Illuminate\Http\Request;
 use App\Models\Mahasiswa;
 use App\Models\PKL;
@@ -106,9 +107,12 @@ class DoswalController extends Controller
 
     public function viewVerifikasiIRS()
     {
-        $irsData = IRS::with('mahasiswa')->where('status', 'Unverified')->get();
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first(); 
 
-        $semesters = IRS::where('status', 'Unverified')
+        $irsData = IRS::with('mahasiswa')->where('status', '0')->where('nama_doswal',$doswal->nama)->get();
+
+        $semesters = IRS::where('status', '0')
                         ->distinct()
                         ->pluck('semester')
                         ->toArray();
@@ -138,6 +142,22 @@ class DoswalController extends Controller
 
         return view('doswal.verifikasi_irs', ['semesters' => $semesters, 'irsData' => $irsData]);
     } 
+
+    public function viewVerifikasiKHS()
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+
+        $khsData = KHS::with('mahasiswa')->where('status', "0")->where('nama_doswal',$doswal->nama)->get();
+
+        $semesters = KHS::where('status', 0)
+                        ->where('nama_doswal',$doswal->nama)
+                        ->distinct()
+                        ->pluck('semester')
+                        ->toArray();
+
+        return view('doswal.verifikasi_khs', ['semesters' => $semesters, 'khsData' => $khsData]);
+    }
 
     public function viewInfoAkademik(string $nim)
     {
