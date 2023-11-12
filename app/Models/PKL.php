@@ -13,7 +13,7 @@ class PKL extends Model
     protected $primaryKey = 'idPKL';
     public $timestamps = false;
 
-    protected $fillable = ['nim', 'semester', 'status', 'nilai', 'scan_pkl', 'statusVerif'];
+    protected $fillable = ['nim', 'semester', 'status', 'nilai', 'scan_pkl', 'statusVerif', 'nama_mhs', 'nama_doswal'];
 
     public function mahasiswa()
     {

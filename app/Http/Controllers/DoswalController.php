@@ -113,35 +113,13 @@ class DoswalController extends Controller
         $irsData = IRS::with('mahasiswa')->where('status', '0')->where('nama_doswal',$doswal->nama)->get();
 
         $semesters = IRS::where('status', '0')
+                        ->where('nama_doswal',$doswal->nama)
                         ->distinct()
                         ->pluck('semester')
                         ->toArray();
 
         return view('doswal.verifikasi_irs', ['semesters' => $semesters, 'irsData' => $irsData]);
     }
-
-    public function filterIRS(Request $request)
-    {
-        $semester = $request->input('filter');
-
-        if ($semester == 'all') {
-            $irsData = IRS::with('mahasiswa')
-            ->where('status', 'Unverified')
-            ->get();
-        } else {
-            $irsData = IRS::with('mahasiswa')
-            ->where('semester', $semester)
-            ->where('status', 'Unverified')
-            ->get();
-        }
-        
-        $semesters = IRS::where('status', 'Unverified')
-                        ->distinct()
-                        ->pluck('semester')
-                        ->toArray();
-
-        return view('doswal.verifikasi_irs', ['semesters' => $semesters, 'irsData' => $irsData]);
-    } 
 
     public function viewVerifikasiKHS()
     {
@@ -157,6 +135,38 @@ class DoswalController extends Controller
                         ->toArray();
 
         return view('doswal.verifikasi_khs', ['semesters' => $semesters, 'khsData' => $khsData]);
+    }
+
+    public function viewVerifikasiPKL()
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first(); 
+
+        $pklData = PKL::with('mahasiswa')->where('statusVerif', '0')->where('nama_doswal',$doswal->nama)->get();
+        
+        $semesters = PKL::where('statusVerif', '0')
+                        ->where('nama_doswal',$doswal->nama)
+                        ->distinct()
+                        ->pluck('semester')
+                        ->toArray();
+
+        return view('doswal.verifikasi_pkl', ['semesters' => $semesters, 'pklData' => $pklData]);
+    }
+
+    public function viewVerifikasiSkripsi()
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first(); 
+
+        $skripsiData = Skripsi::with('mahasiswa')->where('statusVerif', '0')->where('nama_doswal',$doswal->nama)->get();
+        
+        $semesters = Skripsi::where('statusVerif', '0')
+                        ->where('nama_doswal',$doswal->nama)
+                        ->distinct()
+                        ->pluck('semester')
+                        ->toArray();
+
+        return view('doswal.verifikasi_skripsi', ['semesters' => $semesters, 'skripsiData' => $skripsiData]);
     }
 
     public function viewInfoAkademik(string $nim)

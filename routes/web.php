@@ -100,19 +100,28 @@ Route::controller(KHSController::class)->group(function () {
     Route::get('/doswal/filter-khs', 'filter')->middleware(['only_doswal'])->name('khs.filter');
 });
 
-Route::controller(PKLController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
-    Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->name('pkl.viewEntry');
-    Route::get('/mahasiswa/pkl', 'viewPKL')->name('pkl.viewPKL');
-    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL')->name('pkl.viewEditPKL');
-    Route::post('/mahasiswa/pkl', 'store')->name('pkl.store');
-    Route::post('/mahasiswa/edit-pkl/{id}', 'update')->name('pkl.update');
+Route::controller(PKLController::class)->group(function () {
+    Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewEntry');
+    Route::get('/mahasiswa/pkl', 'viewPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewPKL');
+    Route::post('/mahasiswa/pkl', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.store');
+    
+    Route::post('/doswal/edit-pkl/{id}', 'update')->middleware(['only_doswal'])->name('pkl.update');
+    Route::post('/doswal/delete-pkl/{id}', 'delete')->middleware(['only_doswal'])->name('pkl.delete');
+    Route::get('/doswal/edit-pkl/{id}', 'viewEditPKL')->middleware(['only_doswal'])->name('pkl.viewEditPKL');
+    Route::post('/doswal/verif-pkl/{id}','verifikasi')->middleware(['only_doswal'])->name('pkl.verifikasi');
+    Route::get('/doswal/filter-pkl', 'filter')->middleware(['only_doswal'])->name('pkl.filter');
 });
 
-Route::controller(SkripsiController::class)->middleware(['only_mahasiswa', 'profile_completed'])->group(function () {
-    Route::get('/mahasiswa/skripsi', 'viewSkripsi')->name('skripsi.viewSkripsi');
-    Route::get('/mahasiswa/entry-skripsi', 'viewEntrySkripsi')->name('skripsi.viewEntry');
-    Route::post('/mahasiswa/skripsi', 'store')->name('skripsi.store');
+Route::controller(SkripsiController::class)->group(function () {
+    Route::get('/mahasiswa/skripsi', 'viewSkripsi')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewSkripsi');
+    Route::get('/mahasiswa/entry-skripsi', 'viewEntrySkripsi')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewEntry');
+    Route::post('/mahasiswa/skripsi', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.store');
 
+    Route::post('/doswal/edit-skripsi/{id}', 'update')->middleware(['only_doswal'])->name('skripsi.update');
+    Route::post('/doswal/delete-skripsi/{id}', 'delete')->middleware(['only_doswal'])->name('skripsi.delete');
+    Route::get('/doswal/edit-skripsi/{id}', 'viewEditSkripsi')->middleware(['only_doswal'])->name('skripsi.viewEditSkripsi');
+    Route::post('/doswal/verif-skripsi/{id}','verifikasi')->middleware(['only_doswal'])->name('skripsi.verifikasi');
+    Route::get('/doswal/filter-skripsi', 'filter')->middleware(['only_doswal'])->name('skripsi.filter');
     // Route::get('/mahasiswa/khs', 'viewKHS')->name('khs.viewKHS');
     // Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS')->name('khs.viewEditKHS');
     // Route::post('/mahasiswa/edit-khs/{id}', 'update')->name('khs.update');
@@ -127,6 +136,8 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::post('/doswal/edit-profile', 'update')->name('doswal.update');
     Route::get('/doswal/verifikasi-irs', 'viewVerifikasiIRS')->name('doswal.viewVerifikasiIRS');
     Route::get('/doswal/verifikasi-khs', 'viewVerifikasiKHS')->name('doswal.viewVerifikasiKHS');
+    Route::get('/doswal/verifikasi-pkl', 'viewVerifikasiPKL')->name('doswal.viewVerifikasiPKL');
+    Route::get('/doswal/verifikasi-skripsi', 'viewVerifikasiSkripsi')->name('doswal.viewVerifikasiSkripsi');
     Route::get('/doswal/filter-IRS', 'filterIRS')->name('doswal.filterIRS');
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->name('doswal.viewDaftarMhs');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');

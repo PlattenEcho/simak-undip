@@ -42,12 +42,11 @@
                 <div id="accordion-collapse-body-{{ $khs->semester }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ $khs->semester }}">
                     <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
                         <h1 class="text-center text-lg font-semibold leading-tight tracking-tight text-gray-900 md:text-lg dark:text-white">
-                        @if ($khs->status === 'Unverified')
+                        @if ($khs->status === '0')
+                            <span class="text-center text-lg font-semibold leading-tight tracking-tight text-red-600 md:text-lg dark:text-white">
                             Menunggu verifikasi dosen wali
-                        @elseif ($khs->status === 'Approved')
+                        @elseif ($khs->status === '1')
                             <span class="text-base text-green-600 bg-green-100 p-2 rounded-lg">KHS sudah diverifikasi dosen wali</span>
-                        @elseif ($khs->status === 'Rejected')
-                            <span class="text-red-600">KHS tidak terverifikasi. Lakukan update data</span>
                         @endif
                         </h1>
                         <br>
@@ -74,11 +73,6 @@
                         <div class="form-group">
                             <label for="scan_khs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan KHS <a href="{{ asset('storage/' . $khs->scan_khs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
-                        @if ($khs->status === 'Rejected')
-                        <a href="{{ route('khs.viewEditKHS', [$khs->id_khs]) }}" class="mr-auto text-white bg-blue-500 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-400 dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-blue-600" type="button">
-                            Edit
-                        </a>
-                        @endif
                     </div>
                 </div>
                 @endforeach

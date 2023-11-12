@@ -22,6 +22,8 @@ class Skripsi extends Model
         'tanggal_sidang',
         'lama_studi',
         'semester',
+        'nama_mhs', 
+        'nama_doswal'
     ];
 
     public function mahasiswa()
