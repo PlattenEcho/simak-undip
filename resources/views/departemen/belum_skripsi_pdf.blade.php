@@ -4,9 +4,7 @@
     <th>Nama</th>
     <th>NIM</th>
     <th>Angkatan</th>
-    <th>Nilai</th>
-    <th>Tanggal Sidang</th>
-    <th>Lama Studi</th>
+z
   </tr>
   @foreach ($skripsiData as $skripsi)
     <tr>
