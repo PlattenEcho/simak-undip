@@ -142,11 +142,13 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->name('doswal.viewDaftarMhs');
     Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->name('doswal.viewInfoAkademik');
     Route::get('/doswal/rekap-pkl', 'viewRekapPKL')->name('doswal.viewRekapPKL');
+    Route::get('/doswal/cetak-rekap-pkl/{tahun1}-{tahun2}', 'cetakRekapPKL')->name('doswal.cetakRekapPKL');
     Route::get('/doswal/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('doswal.viewSudahPKL');
     Route::get('/doswal/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('doswal.viewBelumPKL');
     Route::get('/doswal/cetak-sudah-pkl/{angkatan}', 'cetakSudahPKL')->name('doswal.cetakSudahPKL');
     Route::get('/doswal/cetak-belum-pkl/{angkatan}', 'cetakBelumPKL')->name('doswal.cetakBelumPKL');
     Route::get('/doswal/rekap-skripsi', 'viewRekapSkripsi')->name('doswal.viewRekapSkripsi');
+    Route::get('/doswal/cetak-rekap-skripsi/{tahun1}-{tahun2}', 'cetakRekapSkripsi')->name('doswal.cetakRekapSkripsi');
     Route::get('/doswal/daftar-sudah-skripsi/{angkatan}', 'viewSudahSkripsi')->name('doswal.viewSudahSkripsi');
     Route::get('/doswal/daftar-belum-skripsi/{angkatan}', 'viewBelumSkripsi')->name('doswal.viewBelumSkripsi');
     Route::get('/doswal/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('doswal.cetakSudahSkripsi');

@@ -250,6 +250,35 @@ class DoswalController extends Controller
                     'sudahPKL' => $sudahPKL, 'belumPKL' => $belumPKL]);
     }
 
+    public function cetakRekapPKL(int $tahun1, int $tahun2)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->where('mahasiswa.nip', $doswal->nip)
+                        ->where('statusVerif', '1')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->get();
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->count();
+            $sudahPKL[$tahun] = $count;
+        }
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $allNIM = Mahasiswa::where('nip',$doswal->nip)->where('angkatan',$tahun)->pluck('nim')->toArray();
+            $pklNIM = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumPKL[$tahun] = count(array_diff($allNIM, $pklNIM));
+        }
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.cetak_rekap_pkl', ['pklData' => $pklData, 
+                        'tahun1' => $tahun1, 'tahun2' => $tahun2,
+                        'sudahPKL' => $sudahPKL, 'belumPKL' => $belumPKL]);
+        return $pdf->stream('rekap-pkl.pdf');
+    }
+
     public function viewSudahPKL(int $angkatan)
     {
         $user = Auth::user();
@@ -300,7 +329,7 @@ class DoswalController extends Controller
                         ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.sudah_pkl_pdf', ['pklData' => $pklData]);
+        $pdf->loadView('doswal.cetak_sudah_pkl', ['pklData' => $pklData]);
         return $pdf->stream('rekap-sudah-pkl.pdf');
     }
 
@@ -324,7 +353,7 @@ class DoswalController extends Controller
                     ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.belum_pkl_pdf', ['belumPKL' => $belumPKL]);
+        $pdf->loadView('doswal.cetak_belum_pkl', ['belumPKL' => $belumPKL]);
         return $pdf->stream('rekap-belum-pkl.pdf');
     }
 
@@ -370,6 +399,35 @@ class DoswalController extends Controller
         return view('doswal.rekap_skripsi', ['skripsiData' => $skripsiData, 'daftarAngkatan' => $daftarAngkatan, 
                     'tahun1' => $tahun1, 'tahun2' => $tahun2,
                     'sudahSkripsi' => $sudahSkripsi, 'belumSkripsi' => $belumSkripsi]);
+    }
+
+    public function cetakRekapSkripsi(int $tahun1, int $tahun2)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        
+        $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
+                        ->select('skripsi.*', 'mahasiswa.angkatan')
+                        ->where('mahasiswa.nip', $doswal->nip)
+                        ->where('statusVerif', '1')
+                        ->get();
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $skripsiData->where('angkatan', $tahun)->count();
+            $sudahSkripsi[$tahun] = $count;
+        }
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $allNIM = Mahasiswa::where('nip',$doswal->nip)->where('angkatan',$tahun)->pluck('nim')->toArray();
+            $skripsiNIM = $skripsiData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumSkripsi[$tahun] = count(array_diff($allNIM, $skripsiNIM));
+        }
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.cetak_rekap_skripsi', ['skripsiData' => $skripsiData,
+                        'tahun1' => $tahun1, 'tahun2' => $tahun2,
+                        'sudahSkripsi' => $sudahSkripsi, 'belumSkripsi' => $belumSkripsi]);
+        return $pdf->stream('rekap-skripsi.pdf');
     }
 
     public function viewSudahSkripsi(int $angkatan)
@@ -425,7 +483,7 @@ class DoswalController extends Controller
                         ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.sudah_skripsi_pdf', ['skripsiData' => $skripsiData]);
+        $pdf->loadView('doswal.cetak_sudah_skripsi', ['skripsiData' => $skripsiData]);
         return $pdf->stream('rekap-sudah-skripsi.pdf');
     }
 
@@ -450,7 +508,7 @@ class DoswalController extends Controller
                     ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.belum_skripsi_pdf', ['belumSkripsi' => $belumSkripsi]);
+        $pdf->loadView('doswal.cetak_belum_skripsi', ['belumSkripsi' => $belumSkripsi]);
         return $pdf->stream('rekap-belum-skripsi.pdf');
     }
 
