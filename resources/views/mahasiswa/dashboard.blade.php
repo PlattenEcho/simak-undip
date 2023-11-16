@@ -42,7 +42,7 @@
                         SKS Kumulatif
                     </div>
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
-                        {{ $mahasiswa->irs->sum('jml_sks') }} </div>
+                        {{ $mahasiswa->khs->sum('sks_smt') }} </div>
                 </div>
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800"
                     style="width: 32.4%;">

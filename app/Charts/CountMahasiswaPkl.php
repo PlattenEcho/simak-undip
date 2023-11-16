@@ -26,28 +26,17 @@ class CountMahasiswaPkl
         $mahasiswaPerwalian = $dosenWali->mahasiswa;
 
         $pklMahasiswaPerwalian = PKL::whereIn('nim', $mahasiswaPerwalian->pluck('nim'))
-            ->select('status', DB::raw('count(*) as count'))
-            ->groupBy('status')
-            ->get();
+            ->where('statusVerif', '1')
+            ->pluck('nim')
+            ->toArray();
 
-        $pklData = $pklMahasiswaPerwalian->pluck('count')->toArray();
-        $pklLabels = $pklMahasiswaPerwalian->pluck('status')->toArray();
-
-        $pklColors = [];
-        foreach ($pklLabels as $label) {
-            if ($label === 'Lulus') {
-                $pklColors[] = '#00ff00'; // Warna hijau untuk status Lulus
-            } elseif ($label === 'Tidak Lulus') {
-                $pklColors[] = '#ff0000'; // Warna merah untuk status Tidak Lulus
-            } else {
-                $pklColors[] = '#000000'; // Warna default untuk status lainnya
-            }
-        }
+        $jumlahSudahPKL = count(array_unique($pklMahasiswaPerwalian));
+        $jumlahBelumPKL = count($mahasiswaPerwalian) - $jumlahSudahPKL;
 
         return $this->chart->barChart()
-            ->addData('Jumlah Mahasiswa', $pklData)
-            ->setXAxis($pklLabels)
-            ->setColors(['#ffc63b', '#ff6384'])
+            ->addData('Jumlah Mahasiswa', [$jumlahSudahPKL, $jumlahBelumPKL])
+            ->setXAxis(['Sudah', 'Belum'])
+            ->setColors(['#00ff00', '#ff0000'])
             ->setWidth(325) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat');

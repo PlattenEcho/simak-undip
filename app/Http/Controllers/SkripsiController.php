@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doswal;
+use App\Models\KHS;
 use App\Models\Mahasiswa;
 use App\Models\Skripsi;
 use Illuminate\Support\Facades\Session;
@@ -31,10 +32,22 @@ class SkripsiController extends Controller
             return redirect()->route('pkl.viewPKL');
         }
 
-        $semesters = Skripsi::where('nim', auth()->user()->name)->pluck('semester')->toArray();
-        $availableSemesters = range(7, 14);
-        $remainingSemesters = array_diff($availableSemesters, $semesters);
-        return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
+        $khs = KHS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
+        if ($khs) {
+            $sksKumulatif = $khs->sks_kum;
+
+            if ($sksKumulatif >= 100) {
+                $semesters = Skripsi::where('nim', auth()->user()->name)->pluck('semester')->toArray();
+                $availableSemesters = range(7, 14);
+                $remainingSemesters = array_diff($availableSemesters, $semesters);
+                return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
+            } else {
+                $errorMessage = 'Anda belum mencapai sks kumulatif minimal 100 sks untuk mengisi progres PKL';
+                Session::flash('error', $errorMessage);
+
+                return redirect()->route('skripsi.viewSkripsi');
+            }
+        }
     }
 
     public function viewEditSkripsi(int $id)
@@ -150,6 +163,18 @@ class SkripsiController extends Controller
         }
         if (auth()->user()->idrole == 4) {
             return redirect()->route('skripsi.viewSkripsi');
+        }
+    }
+
+    public function deleteM(int $id)
+    {
+        try {
+            $pkl = Skripsi::where('id_skripsi', $id)->first();
+            $pkl->delete();
+            Session::flash('success', 'Berhasil menghapus skripsi.');
+            return redirect()->route('skripsi.viewSkripsi');
+        } catch (\Exception $e) {
+            Session::flash('success', 'Data skripsi berhasil diperbarui.');
         }
     }
 
