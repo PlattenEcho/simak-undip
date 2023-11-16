@@ -6,6 +6,7 @@ use App\Models\Departemen;
 use App\Models\Mahasiswa;
 use App\Models\PKL;
 use App\Models\Skripsi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,6 +69,64 @@ class DepartemenController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('departemen.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data departemen.');
         }
+    }
+
+    public function viewDaftarMhs()
+    {
+        $mhsData = Mahasiswa::all();
+
+        return view('departemen.daftar_mhs', ['mhsData' => $mhsData]);
+    }
+
+    public function searchMahasiswa(Request $request)
+    {
+        $search = $request->input('search');
+
+        if (!empty($search)) {
+            $mhsData = Mahasiswa::where(function($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('nim', 'like', '%' . $search . '%');
+            })->get();
+        } 
+
+        return view('departemen.daftar_mhs', ['mhsData' => $mhsData]);
+    }   
+
+    public function viewInfoAkademik(string $nim)
+    {
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
+        $allSemester = range(1, 14);
+        $semester = request()->query('semester'); 
+
+        $allIRS = [];
+        
+        for ($i = 1; $i <= 14; $i++) {
+            $allIRS[$i] = $mahasiswa->irs()->where('semester', $i)->get(); 
+            $allKHS[$i] = $mahasiswa->khs()->where('semester', $i)->get(); 
+            $PKL[$i] = $mahasiswa->pkl()->where('semester', $i)->get(); 
+            $skripsi[$i] = $mahasiswa->skripsi()->where('semester', $i)->get(); 
+        }
+        //dd($skripsi);
+        $irs = $mahasiswa->irs()
+            ->where('semester', $semester)
+            ->first();
+
+        $khs = $mahasiswa->khs()
+            ->where('semester', $semester)
+            ->first();
+
+        // $pkl = $mahasiswa->pkl()
+        //     ->where('nim', $nim)
+        //     ->first();
+
+        // $skripsi = $mahasiswa->skripsi()
+        //     ->where('nim', $nim)
+        //     ->first();
+        
+        return view('departemen.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
+                    'irs' => $irs, 'khs' => $khs,  
+                    'allIRS' => $allIRS, 'allKHS' => $allKHS, 'PKL' => $PKL, 'skripsi' => $skripsi]);
     }
 
     public function viewRekapStatus(Request $request)

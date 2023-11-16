@@ -192,6 +192,10 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
+    Route::get('/departemen/daftar-mhs', 'viewDaftarMhs')->name('departemen.viewDaftarMhs');
+    Route::get('/departemen/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
+    Route::post('/departemen/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/departemen/info-akademik/{nim}', 'viewInfoAkademik')->name('departemen.viewInfoAkademik');
     Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
     Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');
     Route::get('/departemen/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('departemen.viewBelumPKL');
