@@ -56,7 +56,7 @@ class KHSController extends Controller
             'sks_kum' => 'required|numeric',
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
             'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
-            'scan_khs' => 'required|max:100', 
+            'scan_khs' => 'required|max:5120', 
         ]);
         
         $user = Auth::user();

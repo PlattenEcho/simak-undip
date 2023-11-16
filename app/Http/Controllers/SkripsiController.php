@@ -50,6 +50,24 @@ class SkripsiController extends Controller
         return view('doswal.edit_skripsi', ['skripsi' => $skripsi, 'remainingSemesters' => $remainingSemesters]);
     }
 
+    public function viewEditSkripsiM(int $id)
+    {
+        $skripsi = Skripsi::where('id_skripsi', $id)->first();
+        $semesters = Skripsi::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $availableSemesters = range(6, 14);
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+        return view('mahasiswa.edit_skripsi', ['skripsi' => $skripsi, 'remainingSemesters' => $remainingSemesters]);
+    }
+
+    public function viewDeleteSkripsiM(int $id)
+    {
+        $skripsi = Skripsi::where('id_skripsi', $id)->first();
+        $semesters = Skripsi::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $availableSemesters = range(6, 14);
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+        return view('mahasiswa.delete_skripsi', ['skripsi' => $skripsi, 'remainingSemesters' => $remainingSemesters]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
