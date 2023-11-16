@@ -23,18 +23,17 @@ class CountMahasiswaSkripsi
         $mahasiswaPerwalian = $dosenWali->mahasiswa;
 
         $skripsiMahasiswaPerwalian = Skripsi::whereIn('nim', $mahasiswaPerwalian->pluck('nim'))
-            ->select('status', DB::raw('count(*) as count'))
-            ->groupBy('status')
-            ->get();
+            ->where('statusVerif', '1') // Menambahkan kondisi statusVerif
+            ->pluck('nim')
+            ->toArray();
 
-        $skripsiData = $skripsiMahasiswaPerwalian->pluck('count')->toArray();
-        ;
-        $skripsiLabels = $skripsiMahasiswaPerwalian->pluck('status')->toArray();
-        ;
+        $jumlahSudahSkripsi = count(array_unique($skripsiMahasiswaPerwalian));
+        $jumlahBelumSkripsi = count($mahasiswaPerwalian) - $jumlahSudahSkripsi;
+
 
         return $this->chart->barChart()
-            ->addData('Jumlah Mahasiswa', $skripsiData)
-            ->setXAxis($skripsiLabels)
+            ->addData('Jumlah Mahasiswa', [$jumlahSudahSkripsi, $jumlahBelumSkripsi])
+            ->setXAxis(['Sudah', 'Belum'])
             ->setWidth(325) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat');
