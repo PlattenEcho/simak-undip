@@ -526,6 +526,10 @@ class DoswalController extends Controller
         $doswal = Doswal::where('iduser', $user->id)->first();
         $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->get();
 
+        if (!$mhsData) {
+            $angkatan = date('Y') - 1;
+        }
+
         $aktif = $mhsData->where('status', 'Aktif')->count();
         $cuti = $mhsData->where('status', 'Cuti')->count();
         $mangkir = $mhsData->where('status', 'Mangkir')->count();
