@@ -514,7 +514,7 @@ class DoswalController extends Controller
         if($request->has('angkatan')) {
             $angkatan = $request->input('angkatan');
         } else {
-            $angkatan = date('Y');
+            $angkatan = Mahasiswa::max('angkatan');
         }
 
         $daftarAngkatan = Mahasiswa::distinct()
@@ -525,10 +525,6 @@ class DoswalController extends Controller
         $user = Auth::user();
         $doswal = Doswal::where('iduser', $user->id)->first();
         $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->get();
-
-        if (!$mhsData) {
-            $angkatan = date('Y') - 1;
-        }
 
         $aktif = $mhsData->where('status', 'Aktif')->count();
         $cuti = $mhsData->where('status', 'Cuti')->count();
