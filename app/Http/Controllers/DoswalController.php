@@ -561,7 +561,7 @@ class DoswalController extends Controller
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('doswal.cetak_rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $tahun, 'aktif' => $aktif, 'cuti' => $cuti, 
                         'mangkir' => $mangkir, 'do' => $do,
-                        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+                        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md, 'tahun' => $tahun]);
         return $pdf->stream('rekap-status.pdf');
     }
 
