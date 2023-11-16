@@ -4,6 +4,7 @@ namespace App\Charts;
 
 use App\Models\PKL;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use App\Models\Mahasiswa;
 use DB;
 
 class CountMahasiswaPklForDepartemen
@@ -17,16 +18,16 @@ class CountMahasiswaPklForDepartemen
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        $pklPerStatus = PKL::select('status', DB::raw('count(*) as count'))
-            ->groupBy('status')
-            ->get();
+        $nimSudahPKL = PKL::pluck('nim')->toArray();
 
-        $pklData = $pklPerStatus->pluck('count')->toArray();
-        $pklLabels = $pklPerStatus->pluck('status')->toArray();
+        // Hitung jumlah mahasiswa yang sudah dan belum dalam tabel mahasiswa (misalnya)
+        $jumlahSudahPKL = Mahasiswa::whereIn('nim', $nimSudahPKL)->count();
+        $jumlahBelumPKL = Mahasiswa::whereNotIn('nim', $nimSudahPKL)->count();
 
+        // Bangun grafik
         return $this->chart->barChart()
-            ->addData('Jumlah Mahasiswa', $pklData)
-            ->setXAxis($pklLabels)
+            ->addData('Jumlah Mahasiswa', [$jumlahSudahPKL, $jumlahBelumPKL])
+            ->setXAxis(['Sudah', 'Belum'])
             ->setColors(['#ffc63b', '#ff6384'])
             ->setWidth(500) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
