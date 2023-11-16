@@ -63,12 +63,10 @@
 
                     <div class="form-group">
                         <label for="tanggal_sidang"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal
-                            Sidang</label>
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Sidang</label>
                         <input type="date" name="tanggal_sidang" id="tanggal_sidang"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             value="{{ $skripsi->tanggal_sidang }}">
-
                         @error('tanggal_sidang')
                             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">
