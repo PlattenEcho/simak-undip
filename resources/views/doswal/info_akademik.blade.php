@@ -61,9 +61,13 @@
                     @if ($PKL[$i][0]->statusVerif == '1')
                     <a data-modal-target="modal-{{ $i }}" data-modal-toggle="modal-{{ $i }}" type="button" class="text-white bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-400 dark:hover:bg-yellow-300 dark:focus:ring-yellow-400">{{ $i }}</a>
                     @endif
-                @elseif (count($allIRS[$i]) > 0 && count($allKHS[$i]) > 0)
-                    @if ($allIRS[$i][0]->status == '1' && $allKHS[$i][0]->status == '1')
-                    <a data-modal-target="modal-{{ $i }}" data-modal-toggle="modal-{{ $i }}" type="button" class="text-white bg-blue-700 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-400 dark:focus:ring-blue-500">{{ $i }}</a>
+                @elseif (count($allKHS[$i]) > 0)
+                    @if ($allKHS[$i][0]->status == '1')
+                    <a data-modal-target="modal-{{ $i }}" data-modal-toggle="modal-{{ $i }}" type="button" class="text-white bg-blue-800 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-400 dark:focus:ring-blue-500">{{ $i }}</a>
+                    @endif
+                @elseif (count($allIRS[$i]) > 0)
+                    @if ($allIRS[$i][0]->status == '1')
+                    <a data-modal-target="modal-{{ $i }}" data-modal-toggle="modal-{{ $i }}" type="button" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-400 dark:focus:ring-blue-500">{{ $i }}</a>
                     @else
                     <a data-modal-target="modal-{{ $i }}" data-modal-toggle="modal-{{ $i }}" type="button" class="text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-400 dark:focus:ring-red-500">{{ $i }}</a>
                     @endif
@@ -110,7 +114,7 @@
                                             <label for="scan_irs" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan IRS <a href="{{ asset('storage/' . $allIRS[$i][0]->scan_irs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                                         </div>
                                     @else
-                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Belum ada progress IRS</p>
+                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Tidak ada progress IRS</p>
                                     @endif
                                     </div>
                                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="khs-{{ $i }}" role="tabpanel" aria-labelledby="khs-tab">
@@ -139,7 +143,7 @@
                                         <label for="scan_khs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan KHS <a href="{{ asset('storage/' . $allKHS[$i][0]->scan_khs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                                     </div>
                                     @else
-                                    <p class="mb-3 text-gray-500 dark:text-gray-400">Belum ada progress KHS</p>
+                                    <p class="mb-3 text-gray-500 dark:text-gray-400">Tidak ada progress KHS</p>
                                     @endif
                                     </div>
                                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="pkl-{{ $i }}" role="tabpanel" aria-labelledby="pkl-tab">
@@ -156,7 +160,7 @@
                                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $PKL[$i][0]->scan_pkl) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                                         </div>
                                     @else
-                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Belum ada progress PKL</p>
+                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Tidak ada progress PKL</p>
                                     @endif
                                     </div>
                                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="skripsi-{{ $i }}" role="tabpanel" aria-labelledby="skripsi-tab">
@@ -173,7 +177,7 @@
                                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $skripsi[$i][0]->scan_skripsi) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                                         </div>
                                     @else
-                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Belum ada progress skripsi</p>
+                                        <p class="mb-3 text-gray-500 dark:text-gray-400">Tidak ada progress skripsi</p>
                                     @endif
                                     </div>
                                 </div>

@@ -173,36 +173,17 @@ class DoswalController extends Controller
     {
         $mahasiswa = Mahasiswa::where('nim', $nim)->first();
         $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
-        $allSemester = range(1, 14);
-        $semester = request()->query('semester'); 
 
         $allIRS = [];
         
         for ($i = 1; $i <= 14; $i++) {
-            $allIRS[$i] = $mahasiswa->irs()->where('semester', $i)->get(); 
-            $allKHS[$i] = $mahasiswa->khs()->where('semester', $i)->get(); 
-            $PKL[$i] = $mahasiswa->pkl()->where('semester', $i)->get(); 
-            $skripsi[$i] = $mahasiswa->skripsi()->where('semester', $i)->get(); 
+            $allIRS[$i] = $mahasiswa->irs()->where('semester', $i)->where('status','1')->get(); 
+            $allKHS[$i] = $mahasiswa->khs()->where('semester', $i)->where('status','1')->get(); 
+            $PKL[$i] = $mahasiswa->pkl()->where('semester', $i)->where('statusVerif','1')->get(); 
+            $skripsi[$i] = $mahasiswa->skripsi()->where('semester', $i)->where('statusVerif','1')->get(); 
         }
-        //dd($skripsi);
-        $irs = $mahasiswa->irs()
-            ->where('semester', $semester)
-            ->first();
-
-        $khs = $mahasiswa->khs()
-            ->where('semester', $semester)
-            ->first();
-
-        // $pkl = $mahasiswa->pkl()
-        //     ->where('nim', $nim)
-        //     ->first();
-
-        // $skripsi = $mahasiswa->skripsi()
-        //     ->where('nim', $nim)
-        //     ->first();
         
-        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
-                    'irs' => $irs, 'khs' => $khs,  
+        return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto,
                     'allIRS' => $allIRS, 'allKHS' => $allKHS, 'PKL' => $PKL, 'skripsi' => $skripsi]);
     }
 
