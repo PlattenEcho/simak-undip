@@ -76,6 +76,10 @@ Route::controller(OperatorController::class)->group(function () {
     Route::get('/operator/edit-profile', 'viewEditProfile')->middleware('only_operator')->name('operator.viewEditProfile');
     Route::post('/operator/edit-profile', 'update')->name('operator.update');
     Route::get('/operator/cetak-daftar-akun', 'cetakDaftarAkun')->name('operator.cetakDaftarAkun');
+    Route::get('/operator/daftar-mhs', 'viewDaftarMhs')->name('operator.viewDaftarMhs');
+    Route::get('/operator/view-status/{nim}', 'viewEditStatus')->middleware('only_operator')->name('operator.viewEditStatus');
+    Route::get('/operator/edit-status', 'editStatus')->middleware('only_operator')->name('operator.editStatus');
+
 });
 
 Route::controller(IRSController::class)->group(function () {
