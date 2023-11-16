@@ -56,7 +56,7 @@ class SkripsiController extends Controller
             'semester' => 'required|numeric|between:6,14',
             'lama_studi' => 'required',
             'tanggal_sidang' => 'required',
-            'status' => 'required',
+            // 'status' => 'required',
             'nilai' => 'required',
             'scan_skripsi' => 'required|max:5120',
         ]);
@@ -78,7 +78,7 @@ class SkripsiController extends Controller
                 'tanggal_sidang' => $request->tanggal_sidang,
                 'nim' => $mahasiswa->nim,
                 'scan_skripsi' => $validated['scan_skripsi'],
-                'status' => $request->status,
+                'status' => 'Lulus',
                 'nilai' => $request->nilai,
                 'nama_doswal' => $mahasiswa->dosen_wali->nama,
                 'nama_mhs' => $mahasiswa->nama,
@@ -106,7 +106,7 @@ class SkripsiController extends Controller
             'tanggal_sidang' => 'required',
             'nilai' => 'required',
         ]);
-        
+
         try {
             $skripsi = Skripsi::where('id_skripsi', $id)->first();
 
@@ -114,7 +114,7 @@ class SkripsiController extends Controller
             $skripsi->nilai = $request->nilai;
             $skripsi->lama_studi = $request->lama_studi;
             $skripsi->tanggal_sidang = $request->tanggal_sidang;
-            
+
             $skripsi->save();
 
         } catch (\Exception $e) {
@@ -151,7 +151,7 @@ class SkripsiController extends Controller
     {
         try {
             $pkl = Skripsi::where('id_skripsi', $id)->first();
-            
+
             $pkl->delete();
 
             return redirect()->back()->with('success', 'Berhasil menghapus skripsi.');
@@ -169,23 +169,23 @@ class SkripsiController extends Controller
 
         if ($semester == 'all') {
             $skripsiData = Skripsi::with('mahasiswa')
-            ->where('nama_doswal',$doswal->nama)
-            ->where('statusVerif', '0')
-            ->get();
+                ->where('nama_doswal', $doswal->nama)
+                ->where('statusVerif', '0')
+                ->get();
         } else {
             $skripsiData = Skripsi::with('mahasiswa')
-            ->where('nama_doswal',$doswal->nama)
-            ->where('semester', $semester)
-            ->where('statusVerif', '0')
-            ->get();
+                ->where('nama_doswal', $doswal->nama)
+                ->where('semester', $semester)
+                ->where('statusVerif', '0')
+                ->get();
         }
-        
+
         $semesters = Skripsi::where('statusVerif', '0')
-                        ->where('nama_doswal',$doswal->nama)
-                        ->distinct()
-                        ->pluck('semester')
-                        ->toArray();
+            ->where('nama_doswal', $doswal->nama)
+            ->distinct()
+            ->pluck('semester')
+            ->toArray();
 
         return view('doswal.verifikasi_skripsi', ['semesters' => $semesters, 'skripsiData' => $skripsiData]);
-    } 
+    }
 }
