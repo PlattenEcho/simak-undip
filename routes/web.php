@@ -117,8 +117,8 @@ Route::controller(SkripsiController::class)->group(function () {
     Route::get('/mahasiswa/entry-skripsi', 'viewEntrySkripsi')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewEntry');
     Route::post('/mahasiswa/skripsi', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.store');
     Route::get('/mahasiswa/edit-skripsi/{id}', 'viewEditSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewEditSkripsiM');
+    Route::post('/mahasiswa/edit-skripsi/{id}', 'update')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.updateM');
     Route::get('/mahasiswa/delete-skripsi/{id}', 'viewDeleteSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewDeleteSkripsiM');
-
 
     Route::post('/doswal/edit-skripsi/{id}', 'update')->middleware(['only_doswal'])->name('skripsi.update');
     Route::post('/doswal/delete-skripsi/{id}', 'delete')->middleware(['only_doswal'])->name('skripsi.delete');

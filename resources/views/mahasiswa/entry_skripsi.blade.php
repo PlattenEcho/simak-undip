@@ -84,7 +84,7 @@
                     <label for="status"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status:</label>
                     <input type="text" id="status" name="status" aria-label="disabled input" value="Lulus"
-                        class="mb-6 bg-gray-100 border border-gray-300 text-bold text-green-600 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="mb-6 bg-gray-100 border border-gray-300 font-medium text-green-600 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled>
                 </div>
                 <div class="form-group">
