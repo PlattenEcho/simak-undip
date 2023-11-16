@@ -134,7 +134,7 @@ class DepartemenController extends Controller
         if($request->has('angkatan')) {
             $angkatan = $request->input('angkatan');
         } else {
-            $angkatan = date('Y');
+            $angkatan = Mahasiswa::max('angkatan');
         }
 
         $daftarAngkatan = Mahasiswa::distinct()
@@ -142,7 +142,7 @@ class DepartemenController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
-        $mhsData = Mahasiswa::where('angkatan', $angkatan);
+        $mhsData = Mahasiswa::where('angkatan', $angkatan)->get();
 
         $aktif = $mhsData->where('status', 'Aktif')->count();
         $cuti = $mhsData->where('status', 'Cuti')->count();
