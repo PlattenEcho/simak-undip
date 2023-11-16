@@ -438,7 +438,6 @@ class DoswalController extends Controller
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
                         ->where('mahasiswa.nip', $doswal->nip)
-                        ->where('skripsi.status', 'Lulus')
                         ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
@@ -548,9 +547,62 @@ class DoswalController extends Controller
         $doswal = Doswal::where('iduser', $user->id)->first();
         $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Aktif')->get();
 
-        return view('doswal.daftar_aktif', ['mhsData' => $mhsData]);
+        return view('doswal.daftar_status_aktif', ['mhsData' => $mhsData]);
     }
 
+    public function viewDaftarCuti(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Cuti')->get();
+
+        return view('doswal.daftar_status_cuti', ['mhsData' => $mhsData]);
+    }
+
+    public function viewDaftarMangkir(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Mangkir')->get();
+
+        return view('doswal.daftar_status_mangkir', ['mhsData' => $mhsData]);
+    }
+
+    public function viewDaftarDO(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Drop Out')->get();
+
+        return view('doswal.daftar_status_do', ['mhsData' => $mhsData]);
+    }
+
+    public function viewDaftarUndurDiri(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Undur Diri')->get();
+
+        return view('doswal.daftar_status_undurdiri', ['mhsData' => $mhsData]);
+    }
+
+    public function viewDaftarLulus(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Lulus')->get();
+
+        return view('doswal.daftar_status_lulus', ['mhsData' => $mhsData]);
+    }
+
+    public function viewDaftarMeninggal(int $angkatan)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', 'Meninggal')->get();
+
+        return view('doswal.daftar_status_meninggal', ['mhsData' => $mhsData]);
+    }
 }
 
 
