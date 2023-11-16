@@ -25,24 +25,33 @@ class PKLController extends Controller
     {
         $pkl = PKL::where('idPKL', $id)->first();
 
-        // Hanya bisa edit jika status belum diverifikasi (0)
-        if ($pkl->statusVerif == '0') {
             $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
             $availableSemesters = range(6, 14);
             $remainingSemesters = array_diff($availableSemesters, $semesters);
     
             return view('doswal.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
-        } else {
-            return redirect()->back()->with('error', 'Gagal mengedit progres PKL yang sudah diverifikasi.');
-        }
-    }    
+        
+    }
+    
+    public function viewEditPKL2(int $id)
+    {
+        $pkl = PKL::where('idPKL', $id)->first();
+
+            $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+            $availableSemesters = range(6, 14);
+            $remainingSemesters = array_diff($availableSemesters, $semesters);
+    
+            return view('mahasiswa.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
+    
+    }
+
     public function viewEntryPKL()
     {
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
-        $khs = KHS::where('nim', $mahasiswa->nim)->first();
+        $khs = KHS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
         $existingPKL = PKL::where('nim', $mahasiswa->nim)->first();
-
+// dd($khs);
         if ($existingPKL) {
             $errorMessage = 'Anda sudah memiliki progres PKL.';
             Session::flash('error', $errorMessage);
@@ -51,15 +60,18 @@ class PKLController extends Controller
         }
 
         // SKS Kumulatif minimal 100 sks supaya bisa entry progres PKL
-        $sksKumulatif = $khs -> sks_kum;
-        if ($sksKumulatif >= 100) {
-            $semesters = PKL::where('nim', auth()->user()->name)->pluck('semester')->toArray();
-    
-            $availableSemesters = range(6, 14);
-    
-            $remainingSemesters = array_diff($availableSemesters, $semesters);
-    
-            return view('mahasiswa.entry_pkl', ['remainingSemesters' => $remainingSemesters]);
+        if ($khs) {
+            $sksKumulatif = $khs -> sks_kum;
+
+            if ($sksKumulatif >= 100) {
+                $semesters = PKL::where('nim', auth()->user()->name)->pluck('semester')->toArray();
+        
+                $availableSemesters = range(6, 14);
+        
+                $remainingSemesters = array_diff($availableSemesters, $semesters);
+        
+                return view('mahasiswa.entry_pkl', ['remainingSemesters' => $remainingSemesters]);
+            } 
         } else {
             $errorMessage = 'Anda belum mencapai sks kumulatif minimal 100 sks untuk mengisi progres PKL.';
             Session::flash('error', $errorMessage);
@@ -81,7 +93,6 @@ class PKLController extends Controller
     {
         $request->validate([
             'semester' => 'required|numeric|between:6,14',
-            'status' => 'required',
             'nilai' => 'required',
             'scan_pkl' => 'required|max:5120',
         ]);
@@ -101,7 +112,7 @@ class PKLController extends Controller
             PKL::create([
                 'semester' => $request->semester,
                 'nim' => $mahasiswa->nim,
-                'status' => $request->status,
+                'status' => $request->status='Lulus',
                 'nilai' => $request->nilai,
                 'scan_pkl' => $validated['scan_pkl'], 
                 'nama_doswal' => $mahasiswa->dosen_wali->nama,
@@ -126,7 +137,6 @@ class PKLController extends Controller
     {
         $validated = $request->validate([
             'semester' => 'required',
-            'status' => 'required',
             'nilai' => 'required',
         ]);
         

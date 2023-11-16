@@ -50,12 +50,20 @@
                         <div class="form-group">
                             <label for="scan_pkl" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan PKL <a href="{{ asset('storage/' . $pkl->scan_pkl) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
-                        <a href="{{ route('pkl.viewEditPKL', ['id' => $pkl->idPKL]) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium px-4 py-2 rounded-md">Edit</a>
-                        <form action="{{ route('pkl.delete2', ['id' => $pkl->idPKL]) }}" method="POST" class="inline">
-                            @csrf
-                            
-                            <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus progres PKL ini?')" class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md">Delete</button>
-                        </form>
+                        @if ($pkl->statusVerif === '0')
+                        <div class="form-group mt-2">
+                            <a href="{{ route('pkl.viewEditPKL2', ['id' => $pkl->idPKL]) }}"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="button">
+                                Edit 
+                            </a>
+                            <a href="{{ route('pkl.delete2', ['id' => $pkl->idPKL]) }}"
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                type="button">
+                                Delete 
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 @endforeach
             @else
