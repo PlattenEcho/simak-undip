@@ -18,7 +18,7 @@ class CountMahasiswaPklForDepartemen
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        $nimSudahPKL = PKL::pluck('nim')->toArray();
+        $nimSudahPKL = PKL::where('statusVerif', '1')->pluck('nim')->toArray();
 
         // Hitung jumlah mahasiswa yang sudah dan belum dalam tabel mahasiswa (misalnya)
         $jumlahSudahPKL = Mahasiswa::whereIn('nim', $nimSudahPKL)->count();

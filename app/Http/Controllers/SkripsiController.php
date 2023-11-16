@@ -145,7 +145,12 @@ class SkripsiController extends Controller
             Session::flash('success', 'Data skripsi berhasil diperbarui.');
         }
 
-        return redirect()->route('doswal.viewVerifikasiSkripsi');
+        if (auth()->user()->idrole == 3) {
+            return redirect()->route('doswal.viewVerifikasiSkripsi');
+        }
+        if (auth()->user()->idrole == 4) {
+            return redirect()->route('skripsi.viewSkripsi');
+        }
     }
 
     public function verifikasi(int $id)

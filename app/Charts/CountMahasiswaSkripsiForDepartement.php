@@ -18,7 +18,7 @@ class CountMahasiswaSkripsiForDepartement
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        $nimSudahSkripsi = Skripsi::pluck('nim')->toArray();
+        $nimSudahSkripsi = Skripsi::where('statusVerif', '1')->pluck('nim')->toArray();
 
         // Hitung jumlah mahasiswa yang sudah dan belum dalam tabel mahasiswa (misalnya)
         $jumlahSudahSkripsi = Mahasiswa::whereIn('nim', $nimSudahSkripsi)->count();

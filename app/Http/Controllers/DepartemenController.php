@@ -118,33 +118,32 @@ class DepartemenController extends Controller
                         ->toArray();
 
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->where('statusVerif', '1')
                         ->select('pkl.*', 'mahasiswa.angkatan')
                         ->get();
 
-        $pklLulus = [];
 
         for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
-            $count = $pklData->where('angkatan', $tahun)->where('status', 'Lulus')->count();
-            $pklLulus[$tahun] = $count;
+            $count = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->count();
+            $sudahPKL[$tahun] = $count;
         }
 
-        $pklTidakLulus = [];
-
         for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
-            $count = $pklData->where('angkatan', $tahun)->where('status', 'Tidak Lulus')->count();
-            $pklTidakLulus[$tahun] = $count;
+            $allNIM = Mahasiswa::where('angkatan',$tahun)->pluck('nim')->toArray();
+            $pklNIM = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumPKL[$tahun] = count(array_diff($allNIM, $pklNIM));
         }
         
         return view('departemen.rekap_pkl', ['pklData' => $pklData, 'daftarAngkatan' => $daftarAngkatan, 
                     'tahun1' => $tahun1, 'tahun2' => $tahun2,
-                    'pklLulus' => $pklLulus, 'pklTidakLulus' => $pklTidakLulus]);
+                    'sudahPKL' => $sudahPKL, 'belumPKL' => $belumPKL]);
     }
 
     public function viewSudahPKL(int $angkatan)
     {
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
                         ->select('pkl.*', 'mahasiswa.angkatan')
-                        ->where('pkl.status', 'Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
@@ -154,37 +153,49 @@ class DepartemenController extends Controller
     {
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
                         ->select('pkl.*', 'mahasiswa.angkatan')
-                        ->where('pkl.status', 'Tidak Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
-        return view('doswal.daftar_belum_pkl', ['pklData' => $pklData]);
+        $pklNIM = $pklData->pluck('nim')->toArray();
+
+        $belumPKL = Mahasiswa::where('angkatan', $angkatan)
+                    ->whereNotIn('nim', $pklNIM)
+                    ->get();
+
+        return view('departemen.daftar_belum_pkl', ['belumPKL' => $belumPKL]);
     }
 
     public function cetakSudahPKL(int $angkatan)
     {
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
                         ->select('pkl.*', 'mahasiswa.angkatan')
-                        ->where('pkl.status', 'Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.sudah_pkl_pdf', ['pklData' => $pklData]);
-        return $pdf->download('rekap-sudah-pkl.pdf');
+        $pdf->loadView('departemen.sudah_pkl_pdf', ['pklData' => $pklData]);
+        return $pdf->stream('rekap-sudah-pkl.pdf');
     }
 
     public function cetakBelumPKL(int $angkatan)
     {
         $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
                         ->select('pkl.*', 'mahasiswa.angkatan')
-                        ->where('pkl.status', 'Tidak Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
+        $pklNIM = $pklData->pluck('nim')->toArray();
+
+        $belumPKL = Mahasiswa::where('angkatan', $angkatan)
+                    ->whereNotIn('nim', $pklNIM)
+                    ->get();
+
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('doswal.belum_pkl_pdf', ['pklData' => $pklData]);
-        return $pdf->download('rekap-belum-pkl.pdf');
+        $pdf->loadView('departemen.belum_pkl_pdf', ['belumPKL' => $belumPKL]);
+        return $pdf->stream('rekap-belum-pkl.pdf');
     }
 
 
@@ -209,30 +220,32 @@ class DepartemenController extends Controller
 
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
+                        ->where('statusVerif', '1')
                         ->get();
 
         for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
-            $count = $skripsiData->where('angkatan', $tahun)->where('status', 'Lulus')->count();
-            $skripsiLulus[$tahun] = $count;
+            $count = $skripsiData->where('angkatan', $tahun)->count();
+            $sudahSkripsi[$tahun] = $count;
         }
 
 
         for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
-            $count = $skripsiData->where('angkatan', $tahun)->where('status', 'Tidak Lulus')->count();
-            $skripsiTidakLulus[$tahun] = $count;
+            $allNIM = Mahasiswa::where('angkatan',$tahun)->pluck('nim')->toArray();
+            $skripsiNIM = $skripsiData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumSkripsi[$tahun] = count(array_diff($allNIM, $skripsiNIM));
         }
         
         
         return view('departemen.rekap_skripsi', ['skripsiData' => $skripsiData, 'daftarAngkatan' => $daftarAngkatan, 
         'tahun1' => $tahun1, 'tahun2' => $tahun2,
-        'skripsiLulus' => $skripsiLulus, 'skripsiTidakLulus' => $skripsiTidakLulus]);
+        'sudahSkripsi' => $sudahSkripsi, 'belumSkripsi' => $belumSkripsi]);
     }
 
     public function viewSudahSkripsi(int $angkatan)
     {
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
-                        ->where('skripsi.status', 'Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
@@ -243,37 +256,49 @@ class DepartemenController extends Controller
     {
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
-                        ->where('skripsi.status', 'Tidak Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
-        return view('departemen.daftar_belum_skripsi', ['skripsiData' => $skripsiData]);
+        $skripsiNIM = $skripsiData->pluck('nim')->toArray();
+
+        $belumSkripsi = Mahasiswa::where('angkatan', $angkatan)
+                    ->whereNotIn('nim', $skripsiNIM)
+                    ->get();
+
+        return view('departemen.daftar_belum_skripsi', ['belumSkripsi' => $belumSkripsi]);
     }
 
     public function cetakSudahSkripsi(int $angkatan)
     {
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
-                        ->where('skripsi.status', 'Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('departemen.sudah_skripsi_pdf', ['skripsiData' => $skripsiData]);
-        return $pdf->download('rekap-sudah-skripsi.pdf');
+        return $pdf->stream('rekap-sudah-skripsi.pdf');
     }
 
     public function cetakBelumSkripsi(int $angkatan)
     {
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
-                        ->where('skripsi.status', 'Tidak Lulus')
+                        ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
+        $skripsiNIM = $skripsiData->pluck('nim')->toArray();
+
+        $belumSkripsi = Mahasiswa::where('angkatan', $angkatan)
+                    ->whereNotIn('nim', $skripsiNIM)
+                    ->get();
+
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('departemen.belum_skripsi_pdf', ['skripsiData' => $skripsiData]);
-        return $pdf->download('rekap-belum-skripsi.pdf');
+        $pdf->loadView('departemen.belum_skripsi_pdf', ['belumSkripsi' => $belumSkripsi]);
+        return $pdf->stream('rekap-belum-skripsi.pdf');
     }
 
 }

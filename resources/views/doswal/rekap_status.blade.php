@@ -19,7 +19,7 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Rekap Mahasiswa Berdasarkan Status
+            Rekap Mahasiswa Perwalian Berdasarkan Status
         </h1>
         <form class="flex items-center" action="{{ route('doswal.viewRekapStatus') }}" method="GET">            
             <div class="relative mt-1">
@@ -76,22 +76,22 @@
                             <a href="{{ route('doswal.viewDaftarAktif', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti }}</a>
+                            <a href="{{ route('doswal.viewDaftarCuti', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir }}</a>
+                            <a href="{{ route('doswal.viewDaftarMangkir', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do }}</a>
+                            <a href="{{ route('doswal.viewDaftarDO', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri }}</a>
+                            <a href="{{ route('doswal.viewDaftarUndurDiri', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus }}</a>
+                            <a href="{{ route('doswal.viewDaftarLulus', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md }}</a>
+                            <a href="{{ route('doswal.viewDaftarMeninggal', $mhsData[0]->angkatan) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md }}</a>
                         </td>
                     </tr>
                     </tbody>
