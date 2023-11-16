@@ -153,6 +153,18 @@ class SkripsiController extends Controller
         }
     }
 
+    public function deleteM(int $id)
+    {
+        try {
+            $pkl = Skripsi::where('id_skripsi', $id)->first();
+            $pkl->delete();
+            Session::flash('success', 'Berhasil menghapus skripsi.');
+            return redirect()->route('skripsi.viewSkripsi');
+        } catch (\Exception $e) {
+            Session::flash('success', 'Data skripsi berhasil diperbarui.');
+        }
+    }
+
     public function verifikasi(int $id)
     {
         try {

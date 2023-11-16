@@ -125,6 +125,8 @@ Route::controller(SkripsiController::class)->group(function () {
     Route::get('/mahasiswa/edit-skripsi/{id}', 'viewEditSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewEditSkripsiM');
     Route::post('/mahasiswa/edit-skripsi/{id}', 'update')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.updateM');
     Route::get('/mahasiswa/delete-skripsi/{id}', 'viewDeleteSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewDeleteSkripsiM');
+    Route::post('/mahasiswa/delete-skripsi/{id}', 'deleteM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.deleteM');
+
 
     Route::post('/doswal/edit-skripsi/{id}', 'update')->middleware(['only_doswal'])->name('skripsi.update');
     Route::post('/doswal/delete-skripsi/{id}', 'delete')->middleware(['only_doswal'])->name('skripsi.delete');
@@ -193,6 +195,10 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/profile', 'viewProfile')->name('departemen.viewProfile');
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
+    Route::get('/departemen/daftar-mhs', 'viewDaftarMhs')->name('departemen.viewDaftarMhs');
+    Route::get('/departemen/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
+    Route::post('/departemen/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/departemen/info-akademik/{nim}', 'viewInfoAkademik')->name('departemen.viewInfoAkademik');
     Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
     Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');
     Route::get('/departemen/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('departemen.viewBelumPKL');
