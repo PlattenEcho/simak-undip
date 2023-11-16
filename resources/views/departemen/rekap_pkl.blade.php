@@ -85,10 +85,10 @@
                     <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         @for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++)
                         <td class="px-6 py-4">
-                            <a href="{{ route('departemen.viewSudahPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $pklLulus[$tahun] }}</a>
+                            <a href="{{ route('departemen.viewSudahPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $sudahPKL[$tahun] }}</a>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('departemen.viewBelumPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $pklTidakLulus[$tahun] }}</a>
+                            <a href="{{ route('departemen.viewBelumPKL', $tahun) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $belumPKL[$tahun] }}</a>
                         </td>
                         @endfor
                     </tr>
