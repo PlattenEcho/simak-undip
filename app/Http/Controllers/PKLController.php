@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doswal;
 use App\Models\PKL;
+use App\Models\KHS;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,25 +25,45 @@ class PKLController extends Controller
     {
         $pkl = PKL::where('idPKL', $id)->first();
 
-        $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
-
-        $availableSemesters = range(6, 14);
-
-        $remainingSemesters = array_diff($availableSemesters, $semesters);
-
-        return view('doswal.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
-    }
-
+        // Hanya bisa edit jika status belum diverifikasi (0)
+        if ($pkl->statusVerif == '0') {
+            $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+            $availableSemesters = range(6, 14);
+            $remainingSemesters = array_diff($availableSemesters, $semesters);
+    
+            return view('doswal.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengedit progres PKL yang sudah diverifikasi.');
+        }
+    }    
     public function viewEntryPKL()
     {
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $khs = KHS::where('nim', $mahasiswa->nim)->first();
         $existingPKL = PKL::where('nim', $mahasiswa->nim)->first();
 
         if ($existingPKL) {
             $errorMessage = 'Anda sudah memiliki progres PKL.';
             Session::flash('error', $errorMessage);
 
+            return redirect()->route('pkl.viewPKL');
+        }
+
+        // SKS Kumulatif minimal 100 sks supaya bisa entry progres PKL
+        $sksKumulatif = $khs -> sks_kum;
+        if ($sksKumulatif >= 100) {
+            $semesters = PKL::where('nim', auth()->user()->name)->pluck('semester')->toArray();
+    
+            $availableSemesters = range(6, 14);
+    
+            $remainingSemesters = array_diff($availableSemesters, $semesters);
+    
+            return view('mahasiswa.entry_pkl', ['remainingSemesters' => $remainingSemesters]);
+        } else {
+            $errorMessage = 'Anda belum mencapai sks kumulatif minimal 100 sks untuk mengisi progres PKL.';
+            Session::flash('error', $errorMessage);
+    
             return redirect()->route('pkl.viewPKL');
         }
 
@@ -151,12 +172,16 @@ class PKLController extends Controller
     {
         try {
             $pkl = PKL::where('idPKL', $id)->first();
-            
-            $pkl->delete();
-
-            return redirect()->back()->with('success', 'Berhasil menghapus PKL.');
+    
+            // Hanya bisa menghapus jika status belum diverifikasi (0)
+            if ($pkl->statusVerif == '0') {
+                $pkl->delete();
+                return redirect()->back()->with('success', 'Berhasil menghapus progres PKL.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal menghapus progres PKL yang sudah diverifikasi.');
+            }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menghapus PKL.');
+            return redirect()->back()->with('error', 'Gagal menghapus progres PKL.');
         }
     }
 
