@@ -27,6 +27,32 @@ class OperatorController extends Controller
         return view('operator.edit_profile', ["operator" => $operator]);
     }
 
+    public function viewEditStatus(string $nim)
+    {
+        
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+
+        return view('operator.edit_status', ["mahasiswa" => $mahasiswa]);
+    }
+
+    public function editStatus(Request $request, $nim)
+    {
+        try {
+            $validated = $request->validate([
+                'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
+            ]);
+
+            $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+
+            $mahasiswa->status = $validated['status'];
+            $mahasiswa->save();
+
+            return redirect()->route('operator.viewDaftarMhs')->with('success', 'Status mahasiswa berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('operator.viewDaftarMhs')->with('error', 'Terjadi kesalahan saat memperbarui status mahasiswa.');
+        }
+    }
+
     public function update(Request $request)
     {
         try {
@@ -81,6 +107,27 @@ class OperatorController extends Controller
         return $pdf->stream('daftar_akun.pdf');
     }
 
+    public function searchMahasiswa(Request $request)
+    {
+        $search = $request->input('search');
+
+        if (!empty($search)) {
+            $mhsData = Mahasiswa::where(function($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('nim', 'like', '%' . $search . '%');
+            })->get();
+        } 
+
+        return view('operator.daftar_mhs', ['mhsData' => $mhsData]);
+    }   
+    public function viewDaftarMhs()
+    {
+        $user = Auth::user();
+        $operator = Operator::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::all();
+
+        return view('operator.daftar_mhs', ['mhsData' => $mhsData]);
+    }
     public function viewRekapPKL(Request $request)
     {
         if($request->has('tahun1')) {

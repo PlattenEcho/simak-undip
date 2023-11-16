@@ -1,7 +1,7 @@
-<h3><center>Rekap PKL Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
+<h3><center>Rekap Status Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
 <table border="1" cellspacing="0" cellpadding="5">
   <tr>
-    <th colspan="7">Angkatan</th>
+    <th colspan="7">Angkatan {{ $tahun }}</th>
     </tr>
     <tr>
         <th>Aktif</th>

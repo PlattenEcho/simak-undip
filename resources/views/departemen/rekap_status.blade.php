@@ -41,7 +41,7 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr scope="col" class="px-6 py-3 text-center">
-                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa </th>
+                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa Angkatan {{ $mhsData[0]->angkatan }}</th>
                         </tr>
                     </thead>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -96,6 +96,9 @@
                     </tr>
                     </tbody>
                 </table>
+                <div class="p-3">        
+                    <a href="#" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
+                </div>
             </div>
         </div>
     </div>

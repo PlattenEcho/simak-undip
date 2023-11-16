@@ -19,7 +19,7 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Mahasiswa Perwalian
+            Daftar Mahasiswa
         </h1>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
@@ -72,40 +72,52 @@
                             <th scope="col" class="px-6 py-3">
                                 Nomor Telepon
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Aksi
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($mhsData as $mhs)
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                <a href="{{ route('doswal.viewInfoAkademik', $mhs['nim']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mhs['nama'] }}</a>
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['nim'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['angkatan'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['status'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['jalur_masuk'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['alamat'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['kabupaten'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['provinsi'] }}
-            </td>
-            <td class="px-6 py-4">
-                {{ $mhs['nomor_telepon'] }}
-            </td>
-        </tr>
-        @endforeach
+                        @if ($mhsData)
+                            @foreach ($mhsData as $mhs)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
+                                     <td class="px-6 py-4">
+                                        {{ $mhs['nama'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['nim'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['angkatan'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['status'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['jalur_masuk'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['alamat'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['kabupaten'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['provinsi'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs['nomor_telepon'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <a href="{{ route('operator.viewEditStatus', $mhs['nim']) }}" class="text-blue-600 hover:underline">Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
