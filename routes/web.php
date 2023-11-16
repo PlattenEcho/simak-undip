@@ -71,11 +71,33 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/operator/mhs-export', 'export')->middleware('only_operator')->name('mahasiswa.export');
 });
 
-Route::controller(OperatorController::class)->group(function () {
+Route::controller(OperatorController::class)->middleware('only_operator')->group(function () {
     Route::get('/operator/profile', 'viewProfile')->middleware('only_operator')->name('operator.viewProfile');
     Route::get('/operator/edit-profile', 'viewEditProfile')->middleware('only_operator')->name('operator.viewEditProfile');
     Route::post('/operator/edit-profile', 'update')->name('operator.update');
     Route::get('/operator/cetak-daftar-akun', 'cetakDaftarAkun')->name('operator.cetakDaftarAkun');
+
+    Route::get('/operator/rekap-pkl', 'viewRekapPKL')->name('operator.viewRekapPKL');
+    Route::get('/operator/cetak-rekap-pkl/{tahun1}-{tahun2}', 'cetakRekapPKL')->name('operator.cetakRekapPKL');
+    Route::get('/operator/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('operator.viewSudahPKL');
+    Route::get('/operator/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('operator.viewBelumPKL');
+    Route::get('/operator/cetak-sudah-pkl/{angkatan}', 'cetakSudahPKL')->name('operator.cetakSudahPKL');
+    Route::get('/operator/cetak-belum-pkl/{angkatan}', 'cetakBelumPKL')->name('operator.cetakBelumPKL');
+    Route::get('/operator/rekap-skripsi', 'viewRekapSkripsi')->name('operator.viewRekapSkripsi');
+    Route::get('/operator/cetak-rekap-skripsi/{tahun1}-{tahun2}', 'cetakRekapSkripsi')->name('operator.cetakRekapSkripsi');
+    Route::get('/operator/daftar-sudah-skripsi/{angkatan}', 'viewSudahSkripsi')->name('operator.viewSudahSkripsi');
+    Route::get('/operator/daftar-belum-skripsi/{angkatan}', 'viewBelumSkripsi')->name('operator.viewBelumSkripsi');
+    Route::get('/operator/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('operator.cetakSudahSkripsi');
+    Route::get('/operator/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('operator.cetakBelumSkripsi');
+    Route::get('/operator/rekap-status', 'viewRekapStatus')->name('operator.viewRekapStatus');
+    Route::get('/operator/cetak-rekap-status/{tahun}', 'cetakRekapStatus')->name('operator.cetakRekapStatus');
+    Route::get('/operator/daftar-mahasiswa-aktif/{angkatan}', 'viewDaftarAktif')->name('operator.viewDaftarAktif');
+    Route::get('/operator/daftar-mahasiswa-cuti/{angkatan}', 'viewDaftarCuti')->name('operator.viewDaftarCuti');
+    Route::get('/operator/daftar-mahasiswa-mangkir/{angkatan}', 'viewDaftarMangkir')->name('operator.viewDaftarMangkir');
+    Route::get('/operator/daftar-mahasiswa-do/{angkatan}', 'viewDaftarDO')->name('operator.viewDaftarDO');
+    Route::get('/operator/daftar-mahasiswa-undur-diri/{angkatan}', 'viewDaftarUndurDiri')->name('operator.viewDaftarUndurDiri');
+    Route::get('/operator/daftar-mahasiswa-lulus/{angkatan}', 'viewDaftarLulus')->name('operator.viewDaftarLulus');
+    Route::get('/operator/daftar-mahasiswa-meninggal/{angkatan}', 'viewDaftarMeninggal')->name('operator.viewDaftarMeninggal');
 });
 
 Route::controller(IRSController::class)->group(function () {
