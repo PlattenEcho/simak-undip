@@ -93,6 +93,9 @@ Route::controller(KHSController::class)->group(function () {
     Route::get('/mahasiswa/entry-khs', 'viewEntryKHS')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.viewEntry');
     Route::get('/mahasiswa/khs', 'viewKHS')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.viewKHS');
     Route::post('/mahasiswa/khs', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('khs.store');
+    Route::post('/mahasiswa/edit-khs/{id}', 'update2')->middleware(['only_mahasiswa'])->name('khs.update2');
+    Route::post('/mahasiswa/delete-khs/{id}', 'delete')->middleware(['only_mahasiswa'])->name('khs.delete2');
+    Route::get('/mahasiswa/edit-khs/{id}', 'viewEditKHS2')->middleware(['only_mahasiswa'])->name('khs.viewEditKHS2');
     Route::post('/doswal/edit-khs/{id}', 'update')->middleware(['only_doswal'])->name('khs.update');
     Route::post('/doswal/delete-khs/{id}', 'delete')->middleware(['only_doswal'])->name('khs.delete');
     Route::get('/doswal/edit-khs/{id}', 'viewEditKHS')->middleware(['only_doswal'])->name('khs.viewEditKHS');
@@ -104,6 +107,9 @@ Route::controller(PKLController::class)->group(function () {
     Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewEntry');
     Route::get('/mahasiswa/pkl', 'viewPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewPKL');
     Route::post('/mahasiswa/pkl', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.store');
+    Route::post('/mahasiswa/edit-pkl/{id}', 'update')->middleware(['only_doswal'])->name('pkl.update2');
+    Route::post('/mahasiswa/delete-pkl/{id}', 'delete')->middleware(['only_doswal'])->name('pkl.delete2');
+    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL2')->middleware(['only_doswal'])->name('pkl.viewEditPKL2');
 
     Route::post('/doswal/edit-pkl/{id}', 'update')->middleware(['only_doswal'])->name('pkl.update');
     Route::post('/doswal/delete-pkl/{id}', 'delete')->middleware(['only_doswal'])->name('pkl.delete');

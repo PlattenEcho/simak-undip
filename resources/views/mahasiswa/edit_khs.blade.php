@@ -1,4 +1,4 @@
-@extends('doswal.navsidebar')
+@extends('mahasiswa.navsidebar')
 
 @section('content')
     <div class="p-4 sm:ml-64">
@@ -27,13 +27,7 @@
             @csrf
             <div class="form-group">
                 <label for="semester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester:</label>
-                <select id="semester" name="semester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    <option value="">Pilih Semester</option>
-                    <option value="{{ $khs->semester }}" selected>{{ $khs->semester }}</option>
-                    @foreach ($remainingSemesters as $semester)
-                        <option value="{{ $semester }}">{{ $semester }}</option>
-                    @endforeach
-                </select>
+                <input type="text" id="semester" name="semester" value="{{ $khs->semester}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" disabled>
                 @error('semester')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
                         <div>
@@ -90,7 +84,7 @@
                     </div>
                 @enderror
             </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="scan_irs">Upload Scan KHS (PDF only):</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     aria-describedby="file_input_help" id="scan_khs" name="scan_khs" type="file" accept="application/pdf">
@@ -102,16 +96,12 @@
                         </div>
                     </div>
                 @enderror
-            </div> -->
+            </div>
             <div class="m-auto">
                 <button type="submit" name="submit"
                     class="mr-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                     Submit
                 </button>
-                <a href="{{ route('doswal.viewVerifikasiKHS') }}"
-                    class="mr-auto text-white bg-gray-400 hover-bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-400 dark:hover-bg-gray-500 focus:outline-none dark:focus:ring-gray-600">
-                    Cancel
-                </a>
             </div>
         </form>
     </div>

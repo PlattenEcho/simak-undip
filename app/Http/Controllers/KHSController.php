@@ -34,6 +34,20 @@ class KHSController extends Controller
         return view('doswal.edit_khs', ['khs' => $khs, 'remainingSemesters' => $remainingSemesters]);
     }
 
+    public function viewEditKHS2(int $id)
+    {
+        $khs = KHS::where('id_khs', $id)
+        ->first();
+
+        $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+
+        $availableSemesters = range(1, 14);
+
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+
+        return view('mahasiswa.edit_khs', ['khs' => $khs, 'remainingSemesters' => $remainingSemesters]);
+    }
+
     public function viewEntryKHS(Request $request)
     {
         $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
@@ -91,7 +105,6 @@ class KHSController extends Controller
     public function update(Request $request, int $id)
     {
         $validated = $request->validate([
-            'semester' => 'required',
             'sks_smt' => 'required|numeric',
             'sks_kum' => 'required|numeric',
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
@@ -102,7 +115,6 @@ class KHSController extends Controller
             $khs = KHS::where('id_khs', $id)
             ->first();
 
-            $khs->semester = $request->semester;
             $khs->sks_smt = $request->sks_smt;
             $khs->sks_kum = $request->sks_kum;
             $khs->ips = $request->ips;
@@ -122,6 +134,40 @@ class KHSController extends Controller
         }
     
         return redirect()->route('doswal.viewVerifikasiKHS');
+    }
+
+    public function update2(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'sks_smt' => 'required|numeric',
+            'sks_kum' => 'required|numeric',
+            'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
+            'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
+        ]);
+        
+        try {
+            $khs = KHS::where('id_khs', $id)
+            ->first();
+
+            $khs->sks_smt = $request->sks_smt;
+            $khs->sks_kum = $request->sks_kum;
+            $khs->ips = $request->ips;
+            $khs->ipk = $request->ipk;
+            $khs->status = "0";
+
+            $khs->save();
+            
+        } catch (\Exception $e) {
+            $errorMessage = 'Gagal memperbarui data KHS.';
+        }
+    
+        if (!empty($errorMessage)) {
+            Session::flash('error', $errorMessage);
+        } else {
+            Session::flash('success',  'Data KHS berhasil diperbarui.');
+        }
+    
+        return redirect()->route('khs.viewKHS');
     }
 
     public function verifikasi(int $id)

@@ -73,6 +73,20 @@
                         <div class="form-group">
                             <label for="scan_khs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Scan KHS <a href="{{ asset('storage/' . $khs->scan_khs) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a></label>
                         </div>
+                        @if ($khs->status === '0')
+                        <div class="form-group mt-2">
+                            <a href="{{ route('khs.viewEditKHS2', ['id' => $khs->id_khs]) }}"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="button">
+                                Edit
+                            </a>
+                            <a href="{{ route('khs.delete2', ['id' => $khs->id_khs]) }}"
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                type="button">
+                                Delete
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach
