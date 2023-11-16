@@ -453,7 +453,6 @@ class DoswalController extends Controller
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
                         ->where('mahasiswa.nip', $doswal->nip)
-                        ->where('skripsi.status', 'Tidak Lulus')
                         ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
@@ -494,7 +493,6 @@ class DoswalController extends Controller
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
                         ->where('mahasiswa.nip', $doswal->nip)
-                        ->where('skripsi.status', 'Tidak Lulus')
                         ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
@@ -539,6 +537,32 @@ class DoswalController extends Controller
         return view('doswal.rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
                     'mangkir' => $mangkir, 'do' => $do,
                     'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+    }
+
+    public function cetakRekapStatus(int $tahun)
+    {
+        $daftarAngkatan = Mahasiswa::distinct()
+                        ->orderBy('angkatan', 'asc')
+                        ->pluck('angkatan')
+                        ->toArray();
+
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $tahun)->get();
+
+        $aktif = $mhsData->where('status', 'Aktif')->count();
+        $cuti = $mhsData->where('status', 'Cuti')->count();
+        $mangkir = $mhsData->where('status', 'Mangkir')->count();
+        $do = $mhsData->where('status', 'Drop Out')->count();
+        $undurDiri = $mhsData->where('status', 'Undur Diri')->count();
+        $lulus = $mhsData->where('status', 'Lulus')->count();
+        $md = $mhsData->where('status', 'Meninggal Dunia')->count();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.cetak_rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $tahun, 'aktif' => $aktif, 'cuti' => $cuti, 
+                        'mangkir' => $mangkir, 'do' => $do,
+                        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+        return $pdf->stream('rekap-status.pdf');
     }
 
     public function viewDaftarAktif(int $angkatan)
