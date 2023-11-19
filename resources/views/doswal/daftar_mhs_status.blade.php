@@ -19,7 +19,7 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Mahasiswa Perwalian Aktif
+            Daftar Mahasiswa Perwalian {{$status}}
         </h1>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">

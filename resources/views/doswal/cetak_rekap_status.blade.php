@@ -1,24 +1,53 @@
 <h3><center>Rekap Status Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
+
 <table border="1" cellspacing="0" cellpadding="5">
-  <tr>
-    <th colspan="7">Angkatan {{ $tahun }}</th>
+    <tr>
+        <th>Status</th>
+        @foreach ($daftarAngkatan as $angkatan)
+        <th>{{ $angkatan }}</th>
+        @endforeach
     </tr>
     <tr>
-        <th>Aktif</th>
-        <th>Cuti</th>
-        <th>Mangkir</th>
-        <th>Drop Out</th>
-        <th>Undur Diri</th>
-        <th>Lulus</th>
-        <th>Meninggal Dunia</th>
+        <td>Aktif</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $aktif[$angkatan] }}</td>
+        @endforeach
     </tr>
     <tr>
-        <td>{{ $aktif }}</td>
-        <td>{{ $cuti }}</td>
-        <td>{{ $mangkir }}</td>
-        <td>{{ $do }}</td>
-        <td>{{ $undurDiri }}</td>
-        <td>{{ $lulus }}</td>
-        <td>{{ $md }}</td>
+        <td>Cuti</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $cuti[$angkatan] }}</td>
+        @endforeach
     </tr>
+    <tr>
+        <td>Mangkir</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $mangkir[$angkatan] }}</td>
+        @endforeach
+    </tr>
+    <tr>
+        <td>Drop Out</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $do[$angkatan] }}</td>
+        @endforeach
+    </tr>
+    <tr>
+        <td>Undur Diri</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $undurDiri[$angkatan] }}</td>
+        @endforeach
+    </tr>
+    <tr>
+        <td>Lulus</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $lulus[$angkatan] }}</td>
+        @endforeach
+    </tr>
+    <tr>
+        <td>Meninggal Dunia</td>
+        @foreach ($daftarAngkatan as $angkatan)
+        <td>{{ $md[$angkatan] }}</td>
+        @endforeach
+    </tr>
+
 </table>

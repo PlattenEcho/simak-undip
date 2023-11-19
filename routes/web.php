@@ -95,7 +95,7 @@ Route::controller(OperatorController::class)->middleware('only_operator')->group
     Route::get('/operator/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('operator.cetakBelumSkripsi');
     Route::get('/operator/rekap-status', 'viewRekapStatus')->name('operator.viewRekapStatus');
     Route::get('/operator/cetak-rekap-status/{tahun}', 'cetakRekapStatus')->name('operator.cetakRekapStatus');
-    Route::get('/operator/daftar-mahasiswa-aktif/{angkatan}', 'viewDaftarAktif')->name('operator.viewDaftarAktif');
+    Route::get('/operator/daftar-mahasiswa-aktif/{angkatan}/{status}', 'viewDaftarAktif')->name('operator.viewDaftarAktif');
     Route::get('/operator/daftar-mahasiswa-cuti/{angkatan}', 'viewDaftarCuti')->name('operator.viewDaftarCuti');
     Route::get('/operator/daftar-mahasiswa-mangkir/{angkatan}', 'viewDaftarMangkir')->name('operator.viewDaftarMangkir');
     Route::get('/operator/daftar-mahasiswa-do/{angkatan}', 'viewDaftarDO')->name('operator.viewDaftarDO');
@@ -188,14 +188,8 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('doswal.cetakSudahSkripsi');
     Route::get('/doswal/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('doswal.cetakBelumSkripsi');
     Route::get('/doswal/rekap-status', 'viewRekapStatus')->name('doswal.viewRekapStatus');
-    Route::get('/doswal/cetak-rekap-status/{tahun}', 'cetakRekapStatus')->name('doswal.cetakRekapStatus');
-    Route::get('/doswal/daftar-mahasiswa-aktif/{angkatan}', 'viewDaftarAktif')->name('doswal.viewDaftarAktif');
-    Route::get('/doswal/daftar-mahasiswa-cuti/{angkatan}', 'viewDaftarCuti')->name('doswal.viewDaftarCuti');
-    Route::get('/doswal/daftar-mahasiswa-mangkir/{angkatan}', 'viewDaftarMangkir')->name('doswal.viewDaftarMangkir');
-    Route::get('/doswal/daftar-mahasiswa-do/{angkatan}', 'viewDaftarDO')->name('doswal.viewDaftarDO');
-    Route::get('/doswal/daftar-mahasiswa-undur-diri/{angkatan}', 'viewDaftarUndurDiri')->name('doswal.viewDaftarUndurDiri');
-    Route::get('/doswal/daftar-mahasiswa-lulus/{angkatan}', 'viewDaftarLulus')->name('doswal.viewDaftarLulus');
-    Route::get('/doswal/daftar-mahasiswa-meninggal/{angkatan}', 'viewDaftarMeninggal')->name('doswal.viewDaftarMeninggal');
+    Route::get('/doswal/cetak-rekap-status', 'cetakRekapStatus')->name('doswal.cetakRekapStatus');
+    Route::get('/doswal/daftar-mahasiswa/{angkatan}/{status}', 'viewDaftarAktif')->name('doswal.viewDaftarAktif');
 });
 
 
