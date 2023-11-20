@@ -189,7 +189,8 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('doswal.cetakBelumSkripsi');
     Route::get('/doswal/rekap-status', 'viewRekapStatus')->name('doswal.viewRekapStatus');
     Route::get('/doswal/cetak-rekap-status', 'cetakRekapStatus')->name('doswal.cetakRekapStatus');
-    Route::get('/doswal/daftar-mahasiswa/{angkatan}/{status}', 'viewDaftarAktif')->name('doswal.viewDaftarAktif');
+    Route::get('/doswal/daftar-mahasiswa/{angkatan}/{status}', 'viewDaftarMhsStatus')->name('doswal.viewDaftarMhsStatus');
+    Route::get('/doswal/cetak-daftar-mahasiswa/{angkatan}/{status}', 'cetakDaftarMhsStatus')->name('doswal.cetakDaftarMhsStatus');
 });
 
 

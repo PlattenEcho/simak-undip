@@ -566,8 +566,6 @@ class DoswalController extends Controller
             $lulus[$angkatan] = $jmlLulus;
             $md[$angkatan] = $jmlMeninggal;
         }
-        
-        //return view('doswal.rekap_status', );
 
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('doswal.cetak_rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
@@ -576,13 +574,24 @@ class DoswalController extends Controller
         return $pdf->stream('rekap-status.pdf');
     }
 
-    public function viewDaftarAktif(int $angkatan, string $status)
+    public function viewDaftarMhsStatus(int $angkatan, string $status)
     {
         $user = Auth::user();
         $doswal = Doswal::where('iduser', $user->id)->first();
         $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', $status)->get();
 
         return view('doswal.daftar_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
+    }
+
+    public function cetakDaftarMhsStatus(int $angkatan, string $status)
+    {
+        $user = Auth::user();
+        $doswal = Doswal::where('iduser', $user->id)->first();
+        $mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->where('status', $status)->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('doswal.cetak_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
+        return $pdf->stream('daftar-mhs.pdf');
     }
 
     public function viewDaftarCuti(int $angkatan)
