@@ -36,6 +36,18 @@ class OperatorController extends Controller
         return view('operator.edit_status', ["mahasiswa" => $mahasiswa]);
     }
 
+    public function delete2($nim)
+    {
+        try {
+            $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+            
+            $mahasiswa->delete();
+
+            return redirect()->back()->with('success', 'Berhasil menghapus data mahasiswa.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus data mahasiswa.');
+        }
+    }
     public function update2(Request $request)
 {
     try {
