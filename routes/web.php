@@ -79,6 +79,7 @@ Route::controller(OperatorController::class)->middleware('only_operator')->group
     Route::get('/operator/daftar-mhs', 'viewDaftarMhs')->name('operator.viewDaftarMhs');
     Route::get('/operator/view-status/{nim}', 'viewEditStatus')->middleware('only_operator')->name('operator.viewEditStatus');
     Route::get('/operator/edit-status', 'editStatus')->middleware('only_operator')->name('operator.editStatus');
+    Route::get('/operator/search-mahasiswa', 'searchMahasiswa')->name('operator.searchMahasiswa');
 
 
     Route::get('/operator/rekap-pkl', 'viewRekapPKL')->name('operator.viewRekapPKL');
@@ -94,14 +95,9 @@ Route::controller(OperatorController::class)->middleware('only_operator')->group
     Route::get('/operator/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('operator.cetakSudahSkripsi');
     Route::get('/operator/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('operator.cetakBelumSkripsi');
     Route::get('/operator/rekap-status', 'viewRekapStatus')->name('operator.viewRekapStatus');
-    Route::get('/operator/cetak-rekap-status/{tahun}', 'cetakRekapStatus')->name('operator.cetakRekapStatus');
-    Route::get('/operator/daftar-mahasiswa-aktif/{angkatan}/{status}', 'viewDaftarAktif')->name('operator.viewDaftarAktif');
-    Route::get('/operator/daftar-mahasiswa-cuti/{angkatan}', 'viewDaftarCuti')->name('operator.viewDaftarCuti');
-    Route::get('/operator/daftar-mahasiswa-mangkir/{angkatan}', 'viewDaftarMangkir')->name('operator.viewDaftarMangkir');
-    Route::get('/operator/daftar-mahasiswa-do/{angkatan}', 'viewDaftarDO')->name('operator.viewDaftarDO');
-    Route::get('/operator/daftar-mahasiswa-undur-diri/{angkatan}', 'viewDaftarUndurDiri')->name('operator.viewDaftarUndurDiri');
-    Route::get('/operator/daftar-mahasiswa-lulus/{angkatan}', 'viewDaftarLulus')->name('operator.viewDaftarLulus');
-    Route::get('/operator/daftar-mahasiswa-meninggal/{angkatan}', 'viewDaftarMeninggal')->name('operator.viewDaftarMeninggal');
+    Route::get('/operator/cetak-rekap-status', 'cetakRekapStatus')->name('operator.cetakRekapStatus');
+    Route::get('/operator/daftar-mahasiswa/{angkatan}/{status}', 'viewDaftarMhsStatus')->name('operator.viewDaftarMhsStatus');
+    Route::get('/operator/cetak-daftar-mahasiswa/{angkatan}/{status}', 'cetakDaftarMhsStatus')->name('operator.cetakDaftarMhsStatus');
 });
 
 Route::controller(IRSController::class)->group(function () {
@@ -163,8 +159,8 @@ Route::controller(SkripsiController::class)->group(function () {
 
 Route::controller(DoswalController::class)->middleware('only_doswal')->group(function () {
     Route::get('/view', 'show')->name('daftar_mhs');
-    Route::get('/doswal/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
-    Route::post('/doswal/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/doswal/search-mahasiswa', 'searchMahasiswa')->name('doswal.searchMahasiswa');
+    //Route::post('/doswal/search-mahasiswa', 'searchMahasiswa');
     Route::get('/doswal/profile', 'viewProfile')->name('doswal.viewProfile');
     Route::get('/doswal/edit-profile', 'viewEditProfile')->name('doswal.viewEditProfile');
     Route::post('/doswal/edit-profile', 'update')->name('doswal.update');
@@ -217,8 +213,8 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     Route::get('/departemen/edit-profile', 'viewEditProfile')->name('departemen.viewEditProfile');
     Route::post('/departemen/edit-profile', 'update')->name('departemen.update');
     Route::get('/departemen/daftar-mhs', 'viewDaftarMhs')->name('departemen.viewDaftarMhs');
-    Route::get('/departemen/search-mahasiswa', 'searchMahasiswa')->name('searchMahasiswa');
-    Route::post('/departemen/search-mahasiswa', 'searchMahasiswa');
+    Route::get('/departemen/search-mahasiswa', 'searchMahasiswa')->name('departemen.searchMahasiswa');
+    //Route::post('/departemen/search-mahasiswa', 'searchMahasiswa');
     Route::get('/departemen/info-akademik/{nim}', 'viewInfoAkademik')->name('departemen.viewInfoAkademik');
     Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
     Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');

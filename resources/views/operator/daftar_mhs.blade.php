@@ -23,7 +23,7 @@
         </h1>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <form class="flex items-center" action="{{ route('searchMahasiswa') }}" method="GET">   
+                <form class="flex items-center" action="{{ route('operator.searchMahasiswa') }}" method="GET">   
                     <label for="simple-search" class="sr-only">Search</label>
                     <div class="relative mt-1">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

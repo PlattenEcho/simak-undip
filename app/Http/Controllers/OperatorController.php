@@ -97,6 +97,7 @@ class OperatorController extends Controller
             return redirect()->route('operator.viewProfile')->with('error', 'Terjadi kesalahan saat memperbarui data operator.');
         }
     }
+    
 
     public function cetakDaftarAkun()
     {
@@ -133,7 +134,7 @@ class OperatorController extends Controller
         if($request->has('tahun1')) {
             $tahun1 = $request->input('tahun1');
         } else {
-            $tahun1 = date('Y') - 4;
+            $tahun1 = date('Y') - 6;
         }
         
         if($request->has('tahun2')) {
@@ -258,7 +259,7 @@ class OperatorController extends Controller
         if($request->has('tahun1')) {
             $tahun1 = $request->input('tahun1');
         } else {
-            $tahun1 = date('Y') - 4;
+            $tahun1 = date('Y') - 6;
         }
         
         if($request->has('tahun2')) {
@@ -392,92 +393,79 @@ class OperatorController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->get();
+        foreach ($daftarAngkatan as $angkatan) {
+            $mhs = Mahasiswa::where('angkatan', $angkatan);
 
-        $aktif = $mhsData->where('status', 'Aktif')->count();
-        $cuti = $mhsData->where('status', 'Cuti')->count();
-        $mangkir = $mhsData->where('status', 'Mangkir')->count();
-        $do = $mhsData->where('status', 'Drop Out')->count();
-        $undurDiri = $mhsData->where('status', 'Undur Diri')->count();
-        $lulus = $mhsData->where('status', 'Lulus')->count();
-        $md = $mhsData->where('status', 'Meninggal Dunia')->count();
+            $jmlAktif = $mhs->where('status', 'Aktif')->count();
+            $jmlCuti = $mhs->where('status', 'Cuti')->count();
+            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
+            $jmlDO = $mhs->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
+            $jmlLulus = $mhs->where('status', 'Lulus')->count();
+            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
         
-        return view('operator.rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
+            $aktif[$angkatan] = $jmlAktif;
+            $cuti[$angkatan] = $jmlCuti;
+            $mangkir[$angkatan] = $jmlMangkir;
+            $do[$angkatan] = $jmlDO;
+            $undurDiri[$angkatan] = $jmlUndurDiri;
+            $lulus[$angkatan] = $jmlLulus;
+            $md[$angkatan] = $jmlMeninggal;
+        }
+
+        return view('operator.rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
                     'mangkir' => $mangkir, 'do' => $do,
                     'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
     }
 
-    public function cetakRekapStatus(int $tahun)
+    public function cetakRekapStatus()
     {
-        $daftarAngkatan = Mahasiswa::distinct()
+       $daftarAngkatan = Mahasiswa::distinct()
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
                         ->toArray();
 
-        $mhsData = Mahasiswa::where('angkatan', $tahun)->get();
+        foreach ($daftarAngkatan as $angkatan) {
+            $mhs = Mahasiswa::where('angkatan', $angkatan);
 
-        $aktif = $mhsData->where('status', 'Aktif')->count();
-        $cuti = $mhsData->where('status', 'Cuti')->count();
-        $mangkir = $mhsData->where('status', 'Mangkir')->count();
-        $do = $mhsData->where('status', 'Drop Out')->count();
-        $undurDiri = $mhsData->where('status', 'Undur Diri')->count();
-        $lulus = $mhsData->where('status', 'Lulus')->count();
-        $md = $mhsData->where('status', 'Meninggal Dunia')->count();
+            $jmlAktif = $mhs->where('status', 'Aktif')->count();
+            $jmlCuti = $mhs->where('status', 'Cuti')->count();
+            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
+            $jmlDO = $mhs->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
+            $jmlLulus = $mhs->where('status', 'Lulus')->count();
+            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
+        
+            $aktif[$angkatan] = $jmlAktif;
+            $cuti[$angkatan] = $jmlCuti;
+            $mangkir[$angkatan] = $jmlMangkir;
+            $do[$angkatan] = $jmlDO;
+            $undurDiri[$angkatan] = $jmlUndurDiri;
+            $lulus[$angkatan] = $jmlLulus;
+            $md[$angkatan] = $jmlMeninggal;
+        }
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('operator.cetak_rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $tahun, 'aktif' => $aktif, 'cuti' => $cuti, 
-                        'mangkir' => $mangkir, 'do' => $do,
-                        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+        $pdf->loadView('operator.cetak_rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
+        'mangkir' => $mangkir, 'do' => $do,
+        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
         return $pdf->stream('rekap-status.pdf');
     }
 
-    public function viewDaftarAktif(int $angkatan)
+    public function viewDaftarMhsStatus(int $angkatan, string $status)
     {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Aktif')->get();
+        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', $status)->get();
 
-        return view('operator.daftar_status_aktif', ['mhsData' => $mhsData]);
+        return view('operator.daftar_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
     }
 
-    public function viewDaftarCuti(int $angkatan)
+    public function cetakDaftarMhsStatus(int $angkatan, string $status)
     {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Cuti')->get();
+        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', $status)->get();
 
-        return view('operator.daftar_status_cuti', ['mhsData' => $mhsData]);
-    }
-
-    public function viewDaftarMangkir(int $angkatan)
-    {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Mangkir')->get();
-
-        return view('operator.daftar_status_mangkir', ['mhsData' => $mhsData]);
-    }
-
-    public function viewDaftarDO(int $angkatan)
-    {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Drop Out')->get();
-
-        return view('operator.daftar_status_do', ['mhsData' => $mhsData]);
-    }
-
-    public function viewDaftarUndurDiri(int $angkatan)
-    {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Undur Diri')->get();
-
-        return view('operator.daftar_status_undurdiri', ['mhsData' => $mhsData]);
-    }
-
-    public function viewDaftarLulus(int $angkatan)
-    {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Lulus')->get();
-
-        return view('operator.daftar_status_lulus', ['mhsData' => $mhsData]);
-    }
-
-    public function viewDaftarMeninggal(int $angkatan)
-    {
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', 'Meninggal')->get();
-
-        return view('operator.daftar_status_meninggal', ['mhsData' => $mhsData]);
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('operator.cetak_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
+        return $pdf->stream('daftar-mhs.pdf');
     }
 }
 
