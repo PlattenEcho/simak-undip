@@ -50,7 +50,7 @@ class OperatorController extends Controller
             'provinsi' => 'required',
             'kabupaten' => 'required',
             'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
-            'username' => 'required|unique:users,username,',
+            'username' => 'required|unique:users,username,' . $user->id,
             'foto' => 'nullable|image|max:10240',
         ]);
 
