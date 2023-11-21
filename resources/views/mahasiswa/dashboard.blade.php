@@ -36,6 +36,7 @@
                             0.00 </div>
                     @endif
                 </div>
+
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
@@ -44,6 +45,7 @@
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                         {{ $mahasiswa->khs->sum('sks_smt') }} </div>
                 </div>
+
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
@@ -52,6 +54,7 @@
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                         {{ $semesterAktif }} </div>
                 </div>
+
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
@@ -60,6 +63,7 @@
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                         {{ $mahasiswa->dosen_wali->nama }} </div>
                 </div>
+
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
@@ -69,6 +73,169 @@
                         {{ $mahasiswa->status }} </div>
                 </div>
 
+            </div>
+
+
+            <div class="flex flex-wrap w-full mt-4 max-w-8xl">
+                @foreach ($khs as $khsItem)
+                    @if ($khsItem->semester < 4)
+                        @if ($khsItem->semester == 3)
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @else
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800 mr-4"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                @endforeach
+            </div>
+
+            <div class="flex flex-wrap w-full mt-4 max-w-8xl">
+                @foreach ($khs as $khsItem)
+                    @if ($khsItem->semester > 3 && $khsItem->semester < 7)
+                        @if ($khsItem->semester == 6)
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @else
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800 mr-4"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                @endforeach
+            </div>
+
+            <div class="flex flex-wrap w-full mt-4 max-w-8xl">
+                @foreach ($khs as $khsItem)
+                    @if ($khsItem->semester > 6 && $khsItem->semester < 10)
+                        @if ($khsItem->semester == 9)
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @else
+                            <div class=" w-auto rounded-lg border-2 border-gray-200 h-40 rounded bg-gray-50 dark:bg-gray-800 mr-4"
+                                style="width: 32.4%;">
+                                <div class="mx-4 mt-4 mb-1 text-sm font-semibold text-gray-800 dark:text-gray-500">
+                                    Semester {{ $khsItem->semester }}
+                                </div>
+                                <div class="mx-4 mt-1 text-left text-sm  text-gray-800 dark:text-gray-500">
+                                    @if ($khsItem->status == 0)
+                                        Status: Unverified
+                                    @else
+                                        Status: Verified
+                                    @endif
+                                    <br>
+                                    SKS Semester: {{ $khsItem->sks_smt }}
+                                    <br>
+                                    SKS Kumulatif: {{ $khsItem->sks_kum }}
+                                    <br>
+                                    IP Semester: {{ $khsItem->ips }}
+                                    <br>
+                                    IP Kumlulatif: {{ $khsItem->ipk }}
+                                    <br>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                @endforeach
             </div>
 
             </section>

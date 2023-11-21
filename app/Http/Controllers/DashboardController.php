@@ -43,6 +43,9 @@ class DashboardController extends Controller
         // $semester = IRS::where('nim', $mahasiswa->nim)
         //     ->
 
+        $khs = $khs = KHS::where('nim', $mahasiswa->nim)->orderBy('semester', 'asc')->get();
+
+
         $semester = IRS::where('nim', $mahasiswa->nim)
             ->where('status', 'Approved')
             ->pluck('semester')
@@ -54,7 +57,7 @@ class DashboardController extends Controller
             $semesterAktif = max($semester);
         }
 
-        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi', 'semesterAktif'));
+        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi', 'semesterAktif', 'khs'));
     }
 
     public function viewDashboardDoswal(CountMahasiswaPkl $chartPKL, CountMahasiswaSkripsi $chartSkripsi)
