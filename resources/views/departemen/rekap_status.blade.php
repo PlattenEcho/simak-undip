@@ -21,80 +21,100 @@
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Rekap Mahasiswa Berdasarkan Status
         </h1>
-        <form class="flex items-center" action="{{ route('departemen.viewRekapStatus') }}" method="GET">            
-            <div class="relative mt-1">
-                <select name="angkatan" id="angkatan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    <option value="" selected disabled>Pilih Angkatan</option>    
-                    @foreach ($daftarAngkatan as $angkatan)
-                        <option value="{{ $angkatan }}">{{ $angkatan }}</option>
-                    @endforeach      
-                </select>
-            </div>
-            <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Filter
-            </button>
-        </form>
         
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr scope="col" class="px-6 py-3 text-center">
-                            <th scope="col" class="px-6 py-3" colspan="7">Status Mahasiswa Angkatan {{ $mhsData[0]->angkatan }}</th>
-                        </tr>
-                    </thead>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-center">
+                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th scope="col" class="px-6 py-3">
-                                Aktif
+                               Status
                             </th>
+                            @foreach ($daftarAngkatan as $angkatan)
                             <th scope="col" class="px-6 py-3">
-                                Cuti
-                            </th>
-                            <th scope="col" class="px-6 py-3" >
-                                Mangkir
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Drop Out
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Undur Diri
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Lukus
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Meninggal Dunia
-                            </th>
+                                {{ $angkatan }}
+                            </th> 
+                            @endforeach
                         </tr>
                     </thead>
                     
-                    <tbody>            
-                    <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Aktif
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif }}</a>
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif[$angkatan] }}</a>  
                         </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti }}</a>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir }}</a>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do }}</a>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri }}</a>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus }}</a>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md }}</a>
-                        </td>
+                        @endforeach
                     </tr>
-                    </tbody>
+
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Cuti
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
+                    
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Mangkir
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
+                    
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Drop Out
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
+                    
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Undur Diri
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
+                    
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Lulus
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
+                    
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="col" class="px-6 py-3">
+                            Meninggal Dunia
+                        </th>
+                        @foreach ($daftarAngkatan as $angkatan)
+                        <td class="px-6 py-4">
+                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md[$angkatan] }}</a>
+                        </td>
+                        @endforeach
+                    </tr>
                 </table>
                 <div class="p-3">        
                     <a href="#" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
