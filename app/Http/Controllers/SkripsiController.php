@@ -24,30 +24,39 @@ class SkripsiController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
+        $khs = KHS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
         $existingSkripsi = Skripsi::where('nim', $mahasiswa->nim)->first();
 
         if ($existingSkripsi) {
             $errorMessage = 'Anda sudah memiliki progres Skripsi.';
             Session::flash('error', $errorMessage);
-            return redirect()->route('pkl.viewPKL');
+            return redirect()->route('skripsi.viewSkripsi');
         }
 
-        $khs = KHS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
+         // SKS Kumulatif minimal 120 sks supaya bisa entry progres Skripsi
         if ($khs) {
             $sksKumulatif = $khs->sks_kum;
 
-            if ($sksKumulatif >= 100) {
+            if ($sksKumulatif >= 120) {
                 $semesters = Skripsi::where('nim', auth()->user()->name)->pluck('semester')->toArray();
                 $availableSemesters = range(7, 14);
                 $remainingSemesters = array_diff($availableSemesters, $semesters);
                 return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
             } else {
-                $errorMessage = 'Anda belum mencapai sks kumulatif minimal 100 sks untuk mengisi progres PKL';
+                $errorMessage = 'Anda belum mencapai sks kumulatif minimal 120 sks untuk mengisi progres Skripsi';
                 Session::flash('error', $errorMessage);
 
                 return redirect()->route('skripsi.viewSkripsi');
             }
         }
+        else {
+            $errorMessage = 'Anda belum mencapai sks kumulatif minimal 120 sks untuk mengisi progres Skripsi';
+            Session::flash('error', $errorMessage);
+
+            return redirect()->route('skripsi.viewSkripsi');
+        }
+
+
     }
 
     public function viewEditSkripsi(int $id)
