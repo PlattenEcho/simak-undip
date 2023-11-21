@@ -58,4 +58,5 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(Skripsi::class, 'nim', 'nim');
     }
+
 }

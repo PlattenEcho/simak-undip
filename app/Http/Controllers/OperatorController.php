@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Operator;
 use App\Models\PKL;
 use App\Models\Skripsi;
+use App\Models\User;
 
 class OperatorController extends Controller
 {
@@ -35,21 +36,53 @@ class OperatorController extends Controller
         return view('operator.edit_status', ["mahasiswa" => $mahasiswa]);
     }
 
-    public function editStatus(Request $request, $nim)
-    {
-        try {
-            $validated = $request->validate([
-                'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
+    public function update2(Request $request)
+{
+    try {
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
+
+        $validated = $request->validate([
+            'nama' => 'required',
+            'nim' => 'required',
+            'nomor_telepon' => 'required|numeric',
+            'alamat' => 'required',
+            'provinsi' => 'required',
+            'kabupaten' => 'required',
+            'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
+            'username' => 'required|unique:users,username,',
+            'foto' => 'nullable|image|max:10240',
+        ]);
+
+        if ($request->has('foto')) {
+            $fotoPath = $request->file('foto')->store('profile', 'public');
+            $validated['foto'] = $fotoPath;
+
+            $user->update([
+                'foto' => $validated['foto'],
             ]);
+        }
 
-            $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        $mahasiswa->nama = $request->nama;
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->username = $request->username;
+        $mahasiswa->nomor_telepon = $request->nomor_telepon;
+        $mahasiswa->alamat = $request->alamat;
+        $mahasiswa->provinsi = $request->provinsi;
+        $mahasiswa->kabupaten = $request->kabupaten;
+        $mahasiswa->status = $request->status;
 
-            $mahasiswa->status = $validated['status'];
-            $mahasiswa->save();
+        $mahasiswa->save();
+
+        $user->update([
+            'username' => $request->username,
+            'profile_completed' => 1
+        ]);
 
             return redirect()->route('operator.viewDaftarMhs')->with('success', 'Status mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('operator.viewDaftarMhs')->with('error', 'Terjadi kesalahan saat memperbarui status mahasiswa.');
+            dd($e);
+            return redirect()->route('operator.viewDaftarMhs')->with('error', 'Terjadi kesalahan saat memperbarui profil mahasiswa.');
         }
     }
 
