@@ -1,4 +1,4 @@
-@extends('doswal.navsidebar')
+@extends('operator.navsidebar')
 
 @section('content')
 <div class="p-4 sm:ml-64">
