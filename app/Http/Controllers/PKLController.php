@@ -79,13 +79,6 @@ class PKLController extends Controller
             return redirect()->route('pkl.viewPKL');
         }
 
-        $semesters = PKL::where('nim', auth()->user()->name)->pluck('semester')->toArray();
-
-        $availableSemesters = range(6, 14);
-
-        $remainingSemesters = array_diff($availableSemesters, $semesters);
-
-        return view('mahasiswa.entry_pkl', ['remainingSemesters' => $remainingSemesters]);
     }
 
 
