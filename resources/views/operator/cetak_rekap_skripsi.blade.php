@@ -1,7 +1,7 @@
 <h3><center>Rekap Skripsi Mahasiswa Informatika Fakultas Sains dan Matematika Universitas Diponegoro</center></h3>
-<table border="1" cellspacing="0" cellpadding="5">
+<table border="1" cellspacing="0" cellpadding="3">
   <tr>
-    <th colspan="10">Angkatan</th>
+    <th colspan=" {{ ($tahun2 - $tahun1 + 1) * 2 }} ">Angkatan</th>
     </tr>
     <tr>
         @for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++)
