@@ -142,19 +142,31 @@ class DepartemenController extends Controller
                         ->pluck('angkatan')
                         ->toArray();
 
-        $mhsData = Mahasiswa::where('angkatan', $angkatan)->get();
 
-        $aktif = $mhsData->where('status', 'Aktif')->count();
-        $cuti = $mhsData->where('status', 'Cuti')->count();
-        $mangkir = $mhsData->where('status', 'Mangkir')->count();
-        $do = $mhsData->where('status', 'Drop Out')->count();
-        $undurDiri = $mhsData->where('status', 'Undur Diri')->count();
-        $lulus = $mhsData->where('status', 'Lulus')->count();
-        $md = $mhsData->where('status', 'Meninggal Dunia')->count();
+        foreach ($daftarAngkatan as $angkatan) {
+            $mhs = Mahasiswa::where('angkatan', $angkatan);
 
-        return view('departemen.rekap_status', ['mhsData' => $mhsData, 'daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
+            $jmlAktif = $mhs->where('status', 'Aktif')->count();
+            $jmlCuti = $mhs->where('status', 'Cuti')->count();
+            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
+            $jmlDO = $mhs->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
+            $jmlLulus = $mhs->where('status', 'Lulus')->count();
+            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
+
+            $aktif[$angkatan] = $jmlAktif;
+            $cuti[$angkatan] = $jmlCuti;
+            $mangkir[$angkatan] = $jmlMangkir;
+            $do[$angkatan] = $jmlDO;
+            $undurDiri[$angkatan] = $jmlUndurDiri;
+            $lulus[$angkatan] = $jmlLulus;
+            $md[$angkatan] = $jmlMeninggal;
+        }
+
+        return view('departemen.rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
                     'mangkir' => $mangkir, 'do' => $do,
                     'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+
     }
 
     public function viewRekapPKL(Request $request)
@@ -162,7 +174,7 @@ class DepartemenController extends Controller
         if($request->has('tahun1')) {
             $tahun1 = $request->input('tahun1');
         } else {
-            $tahun1 = date('Y') - 4;
+            $tahun1 = date('Y') - 6;
         }
         
         if($request->has('tahun2')) {
@@ -263,7 +275,7 @@ class DepartemenController extends Controller
         if($request->has('tahun1')) {
             $tahun1 = $request->input('tahun1');
         } else {
-            $tahun1 = date('Y') - 4;
+            $tahun1 = date('Y') - 6;
         }
         
         if($request->has('tahun2')) {
