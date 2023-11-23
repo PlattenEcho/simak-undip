@@ -503,6 +503,8 @@ class DoswalController extends Controller
         $user = Auth::user();
         $doswal = Doswal::where('iduser', $user->id)->first();
 
+        $angkatanTampil = date('Y') - 6;
+
         if($request->has('angkatan')) {
             $angkatan = $request->input('angkatan');
         } else {
@@ -510,6 +512,7 @@ class DoswalController extends Controller
         }
 
         $daftarAngkatan = Mahasiswa::where('nip', $doswal->nip)
+                        ->where('angkatan', '>=', $angkatanTampil)
                         ->distinct()
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
