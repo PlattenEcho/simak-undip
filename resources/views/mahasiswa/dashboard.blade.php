@@ -3,17 +3,6 @@
 @section('content')
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-20">
-            {{-- <div class="ml-20 text-right mr-20">
-                <p class="text-lg text-left text-gray-600"> IPK : {{ $ipkTertinggi->ipk }}</p>
-                <p class="text-lg text-left text-gray-600"> SKS Kumulatif : {{ $mahasiswa->khs->sum('sks_smt') }}
-                </p>
-                <p class="text-lg text-left text-gray-600"> Semester Aktif : {{ $semesterAktif }}</p>
-            </div>
-            <div class="ml-6 text-right">
-                <p class="text-lg text-left text-gray-600"> Dosen Wali : {{ $mahasiswa->dosen_wali->nama }}</p>
-                <p class="text-lg text-left text-gray-600"> Status Akademik : {{ $mahasiswa->status }}</p>
-            </div> --}}
-
             <div class="flex flex-wrap w-full max-w-8xl">
                 <div class="p-10 flex items-center h-48 mb-4 mr-4 rounded-lg border-2 border-gray-200 bg-gray-50 dark:bg-gray-800"
                     style="width: 55%;">
@@ -34,7 +23,7 @@
                     </div>
                 </div>
                 <div class=" w-auto rounded-lg border-2 border-gray-200 h-48 rounded bg-gray-50 dark:bg-gray-800"
-                    style="width: 43.4%;">
+                    style="width: 43%;">
                     <div class="mx-4 mt-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
                         Informasi Mahasiswa
                     </div>

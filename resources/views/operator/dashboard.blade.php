@@ -41,7 +41,7 @@
                 </div>
                 <div id = 'mahasiswaChartContainer'
                     class="p-4 w-auto flex rounded-lg border-2 border-gray-200 h-96 rounded bg-gray-50 dark:bg-gray-800"
-                    style="width: 65.2%">
+                    style="width: 64.8%">
                     <div>
                         <div class=" text-sm font-semibold text-gray-800 dark:text-gray-500">
                             Statistik Mahasiswa

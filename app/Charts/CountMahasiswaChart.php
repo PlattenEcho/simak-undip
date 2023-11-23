@@ -27,7 +27,7 @@ class CountMahasiswaChart
         return $this->chart->barChart()
             ->addData('Jumlah Mahasiswa', $jumlahMahasiswa)
             ->setXAxis($angkatanLabels)
-            ->setWidth(700) // Lebar grafik dalam piksel
+            ->setWidth(525) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat');
     }
