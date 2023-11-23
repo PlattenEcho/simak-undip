@@ -435,6 +435,8 @@ class OperatorController extends Controller
 
     public function viewRekapStatus(Request $request)
     {
+        $angkatanTampil = date('Y') - 6;
+
         if($request->has('angkatan')) {
             $angkatan = $request->input('angkatan');
         } else {
@@ -442,6 +444,7 @@ class OperatorController extends Controller
         }
 
         $daftarAngkatan = Mahasiswa::distinct()
+                        ->where('angkatan','>=', $angkatanTampil)
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
                         ->toArray();
