@@ -30,7 +30,7 @@
                     <img src="{{ Auth::user()->getImageURL() }}" alt="user photo" class="w-20 h-20 object-cover" />
                 </div>
             </div>
-
+            <div class="grid md:grid-cols-2 md:gap-6">
             <div class="form-group">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload foto profil</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="foto" id="foto" type="file" accept="image/*">
@@ -131,6 +131,7 @@
                     class="mr-auto text-white bg-gray-400 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-400 dark:hover:bg-gray-500 focus:outline-none dark:focus:ring-gray-600">
                     Reset
                 </a>
+            </div>
             </div>
         </form>
     </div>
