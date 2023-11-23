@@ -57,7 +57,19 @@ class DashboardController extends Controller
             $semesterAktif = max($semester);
         }
 
-        return view("mahasiswa.dashboard", compact('mahasiswa', 'ipkTertinggi', 'semesterAktif', 'khs'));
+
+        $allIRS = [];
+        
+        for ($i = 1; $i <= 14; $i++) {
+            $allIRS[$i] = $mahasiswa->irs()->where('semester', $i)->where('status','1')->get(); 
+            $allKHS[$i] = $mahasiswa->khs()->where('semester', $i)->where('status','1')->get(); 
+            $PKL[$i] = $mahasiswa->pkl()->where('semester', $i)->where('statusVerif','1')->get(); 
+            $skripsi[$i] = $mahasiswa->skripsi()->where('semester', $i)->where('statusVerif','1')->get(); 
+        }
+
+        return view("mahasiswa.dashboard", ['mahasiswa' => $mahasiswa, 'ipkTertinggi' => $ipkTertinggi,
+                     'semesterAktif' => $semesterAktif, 'khs' => $khs, 'allIRS' => $allIRS,
+                    'allKHS' => $allKHS, 'PKL' => $PKL, 'skripsi' => $skripsi]);
     }
 
     public function viewDashboardDoswal(CountMahasiswaPkl $chartPKL, CountMahasiswaSkripsi $chartSkripsi)

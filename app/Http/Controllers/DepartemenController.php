@@ -183,6 +183,10 @@ class DepartemenController extends Controller
             $tahun2 = date('Y');
         }
 
+        if ($request->tahun1 > $request->tahun2) {
+            return redirect()->route('departemen.viewRekapPKL')->with('error', 'Rentang tahun tidak valid.');
+        }
+
         $daftarAngkatan = Mahasiswa::distinct()
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
@@ -208,6 +212,31 @@ class DepartemenController extends Controller
         return view('departemen.rekap_pkl', ['pklData' => $pklData, 'daftarAngkatan' => $daftarAngkatan, 
                     'tahun1' => $tahun1, 'tahun2' => $tahun2,
                     'sudahPKL' => $sudahPKL, 'belumPKL' => $belumPKL]);
+    }
+
+    public function cetakRekapPKL(int $tahun1, int $tahun2)
+    {
+        $pklData = PKL::join('mahasiswa', 'pkl.nim', '=', 'mahasiswa.nim')
+                        ->where('statusVerif', '1')
+                        ->select('pkl.*', 'mahasiswa.angkatan')
+                        ->get();
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->count();
+            $sudahPKL[$tahun] = $count;
+        }
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $allNIM = Mahasiswa::where('angkatan',$tahun)->pluck('nim')->toArray();
+            $pklNIM = $pklData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumPKL[$tahun] = count(array_diff($allNIM, $pklNIM));
+        }
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('departemen.cetak_rekap_pkl', ['pklData' => $pklData, 
+                        'tahun1' => $tahun1, 'tahun2' => $tahun2,
+                        'sudahPKL' => $sudahPKL, 'belumPKL' => $belumPKL]);
+        return $pdf->stream('rekap-pkl.pdf');
     }
 
     public function viewSudahPKL(int $angkatan)
@@ -284,6 +313,10 @@ class DepartemenController extends Controller
             $tahun2 = date('Y');
         }
 
+        if ($request->tahun1 > $request->tahun2) {
+            return redirect()->route('departemen.viewRekapSkripsi')->with('error', 'Rentang tahun tidak valid.');
+        }
+
         $daftarAngkatan = Mahasiswa::distinct()
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
@@ -310,6 +343,31 @@ class DepartemenController extends Controller
         return view('departemen.rekap_skripsi', ['skripsiData' => $skripsiData, 'daftarAngkatan' => $daftarAngkatan, 
         'tahun1' => $tahun1, 'tahun2' => $tahun2,
         'sudahSkripsi' => $sudahSkripsi, 'belumSkripsi' => $belumSkripsi]);
+    }
+
+    public function cetakRekapSkripsi(int $tahun1, int $tahun2)
+    {
+        $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
+                        ->select('skripsi.*', 'mahasiswa.angkatan')
+                        ->where('statusVerif', '1')
+                        ->get();
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $count = $skripsiData->where('angkatan', $tahun)->count();
+            $sudahSkripsi[$tahun] = $count;
+        }
+
+        for ($tahun = $tahun1; $tahun <= $tahun2; $tahun++) {
+            $allNIM = Mahasiswa::where('angkatan',$tahun)->pluck('nim')->toArray();
+            $skripsiNIM = $skripsiData->where('angkatan', $tahun)->where('statusVerif', '1')->pluck('nim')->toArray();
+            $belumSkripsi[$tahun] = count(array_diff($allNIM, $skripsiNIM));
+        }
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('departemen.cetak_rekap_skripsi', ['skripsiData' => $skripsiData,
+                        'tahun1' => $tahun1, 'tahun2' => $tahun2,
+                        'sudahSkripsi' => $sudahSkripsi, 'belumSkripsi' => $belumSkripsi]);
+        return $pdf->stream('rekap-skripsi.pdf');
     }
 
     public function viewSudahSkripsi(int $angkatan)
@@ -344,12 +402,13 @@ class DepartemenController extends Controller
     {
         $skripsiData = Skripsi::join('mahasiswa', 'skripsi.nim', '=', 'mahasiswa.nim')
                         ->select('skripsi.*', 'mahasiswa.angkatan')
+                        ->where('skripsi.status', 'Lulus')
                         ->where('statusVerif', '1')
                         ->where('mahasiswa.angkatan', $angkatan)
                         ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('departemen.sudah_skripsi_pdf', ['skripsiData' => $skripsiData]);
+        $pdf->loadView('departemen.cetak_sudah_skripsi', ['skripsiData' => $skripsiData]);
         return $pdf->stream('rekap-sudah-skripsi.pdf');
     }
 
@@ -368,8 +427,57 @@ class DepartemenController extends Controller
                     ->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('departemen.belum_skripsi_pdf', ['belumSkripsi' => $belumSkripsi]);
+        $pdf->loadView('departemen.cetak_belum_skripsi', ['belumSkripsi' => $belumSkripsi]);
         return $pdf->stream('rekap-belum-skripsi.pdf');
     }
 
+    public function cetakRekapStatus()
+    {
+       $daftarAngkatan = Mahasiswa::distinct()
+                        ->orderBy('angkatan', 'asc')
+                        ->pluck('angkatan')
+                        ->toArray();
+
+        foreach ($daftarAngkatan as $angkatan) {
+            $mhs = Mahasiswa::where('angkatan', $angkatan);
+
+            $jmlAktif = $mhs->where('status', 'Aktif')->count();
+            $jmlCuti = $mhs->where('status', 'Cuti')->count();
+            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
+            $jmlDO = $mhs->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
+            $jmlLulus = $mhs->where('status', 'Lulus')->count();
+            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
+        
+            $aktif[$angkatan] = $jmlAktif;
+            $cuti[$angkatan] = $jmlCuti;
+            $mangkir[$angkatan] = $jmlMangkir;
+            $do[$angkatan] = $jmlDO;
+            $undurDiri[$angkatan] = $jmlUndurDiri;
+            $lulus[$angkatan] = $jmlLulus;
+            $md[$angkatan] = $jmlMeninggal;
+        }
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('operator.cetak_rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
+        'mangkir' => $mangkir, 'do' => $do,
+        'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
+        return $pdf->stream('rekap-status.pdf');
+    }
+
+    public function viewDaftarMhsStatus(int $angkatan, string $status)
+    {
+        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', $status)->get();
+
+        return view('departemen.daftar_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
+    }
+
+    public function cetakDaftarMhsStatus(int $angkatan, string $status)
+    {
+        $mhsData = Mahasiswa::where('angkatan', $angkatan)->where('status', $status)->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('departemen.cetak_mhs_status', ['mhsData' => $mhsData, 'status' => $status]);
+        return $pdf->stream('daftar-mhs.pdf');
+    }
 }

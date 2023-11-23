@@ -190,22 +190,9 @@ Route::controller(DoswalController::class)->middleware('only_doswal')->group(fun
     Route::get('/doswal/cetak-daftar-mahasiswa/{angkatan}/{status}', 'cetakDaftarMhsStatus')->name('doswal.cetakDaftarMhsStatus');
 });
 
-
-
 Route::controller(AccountController::class)->middleware('auth')->group(function () {
     Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
     Route::post('/change-password', 'update')->name('account.update');
-});
-
-Route::middleware(['only_doswal', 'auth'])->group(function () {
-    Route::post('/doswal/info-akademik/verif-irs/{id}', [IRSController::class, 'verifikasi'])->name('irs.verifikasi');
-    Route::post('/doswal/info-akademik/reject-irs/{id}', [IRSController::class, 'reject'])->name('irs.reject');
-    Route::post('/doswal/info-akademik/verif-khs/{id}', [KHSController::class, 'verifikasi'])->name('khs.verifikasi');
-    Route::post('/doswal/info-akademik/reject-khs/{id}', [KHSController::class, 'reject'])->name('khs.reject');
-    Route::post('/doswal/info-akademik/verif-pkl/{id}', [PKLController::class, 'verifikasi'])->name('pkl.verifikasi');
-    Route::post('/doswal/info-akademik/reject-pkl/{id}', [PKLController::class, 'reject'])->name('pkl.reject');
-    Route::post('/doswal/info-akademik/verif-skripsi/{id}', [SkripsiController::class, 'verifikasi'])->name('skripsi.verifikasi');
-    Route::post('/doswal/info-akademik/reject-skripsi/{id}', [SkripsiController::class, 'reject'])->name('skripsi.reject');
 });
 
 Route::controller(DepartemenController::class)->middleware('only_departemen')->group(function () {
@@ -218,13 +205,19 @@ Route::controller(DepartemenController::class)->middleware('only_departemen')->g
     //Route::post('/departemen/search-mahasiswa', 'searchMahasiswa');
     Route::get('/departemen/info-akademik/{nim}', 'viewInfoAkademik')->name('departemen.viewInfoAkademik');
     Route::get('/departemen/rekap-pkl', 'viewRekapPKL')->name('departemen.viewRekapPKL');
+    Route::get('/departemen/cetak-rekap-pkl/{tahun1}-{tahun2}', 'cetakRekapPKL')->name('departemen.cetakRekapPKL');
     Route::get('/departemen/daftar-sudah-pkl/{angkatan}', 'viewSudahPKL')->name('departemen.viewSudahPKL');
     Route::get('/departemen/daftar-belum-pkl/{angkatan}', 'viewBelumPKL')->name('departemen.viewBelumPKL');
     Route::get('/departemen/cetak-sudah-pkl/{angkatan}', 'cetakSudahPKL')->name('departemen.cetakSudahPKL');
     Route::get('/departemen/cetak-belum-pkl/{angkatan}', 'cetakBelumPKL')->name('departemen.cetakBelumPKL');
     Route::get('/departemen/rekap-skripsi', 'viewRekapSkripsi')->name('departemen.viewRekapSkripsi');
+    Route::get('/departemen/cetak-rekap-skripsi/{tahun1}-{tahun2}', 'cetakRekapSkripsi')->name('departemen.cetakRekapSkripsi');
     Route::get('/departemen/daftar-sudah-skripsi/{angkatan}', 'viewSudahSkripsi')->name('departemen.viewSudahSkripsi');
     Route::get('/departemen/daftar-belum-skripsi/{angkatan}', 'viewBelumSkripsi')->name('departemen.viewBelumSkripsi');
     Route::get('/departemen/cetak-sudah-skripsi/{angkatan}', 'cetakSudahSkripsi')->name('departemen.cetakSudahSkripsi');
     Route::get('/departemen/cetak-belum-skripsi/{angkatan}', 'cetakBelumSkripsi')->name('departemen.cetakBelumSkripsi');
+    Route::get('/departemen/rekap-status', 'viewRekapStatus')->name('departemen.viewRekapStatus');
+    Route::get('/departemen/cetak-rekap-status', 'cetakRekapStatus')->name('departemen.cetakRekapStatus');
+    Route::get('/departemen/daftar-mahasiswa/{angkatan}/{status}', 'viewDaftarMhsStatus')->name('departemen.viewDaftarMhsStatus');
+    Route::get('/departemen/cetak-daftar-mahasiswa/{angkatan}/{status}', 'cetakDaftarMhsStatus')->name('departemen.cetakDaftarMhsStatus');
 });

@@ -21,8 +21,11 @@
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Rekap Mahasiswa Berdasarkan Status
         </h1>
-        
-        <br>
+        <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+            <div class="p-3">        
+                <a href="{{ route('departemen.cetakRekapStatus') }}" type="button" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cetak PDF</a>
+            </div>
+        </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -45,7 +48,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif[$angkatan] }}</a>  
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Aktif']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $aktif[$angkatan] }}</a>  
                         </td>
                         @endforeach
                     </tr>
@@ -56,7 +59,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Cuti']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $cuti[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
@@ -67,7 +70,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Mangkir']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mangkir[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
@@ -78,7 +81,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Drop Out']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $do[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
@@ -89,7 +92,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Undur Diri']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $undurDiri[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
@@ -100,7 +103,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Lulus']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $lulus[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
@@ -111,7 +114,7 @@
                         </th>
                         @foreach ($daftarAngkatan as $angkatan)
                         <td class="px-6 py-4">
-                            <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md[$angkatan] }}</a>
+                            <a href="{{ route('departemen.viewDaftarMhsStatus', [$angkatan, 'Meninggal Dunia']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $md[$angkatan] }}</a>
                         </td>
                         @endforeach
                     </tr>
