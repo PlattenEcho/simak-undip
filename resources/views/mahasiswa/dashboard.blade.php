@@ -17,12 +17,19 @@
                         <p class="text-xl font-semibold">{{ auth()->user()->name }}</p>
                         <p class="text-lg text-gray-600">{{ $mahasiswa->nim }}</p>
                         <p class="text-lg text-gray-600">Mahasiswa Departemen Informatika</p>
-
                     </div>
-                </div>
+                    <div class=" ml-6 text-lg text-red-500 text-right">
+                        <p class="text-lg text-gray-600 text-left"> IPK : {{ $ipkTertinggi->ipk }} </p>
+                        <p class="text-lg text-gray-600 text-left"> SKS Kumulatif : {{ $mahasiswa->khs->sum('sks_smt') }} </p>
+                        <p class="text-lg text-gray-600 text-left"> Semester Aktif : {{ $semesterAktif }} </p>
+                    </div>
+                    <div class=" ml-6 text-lg text-red-500 text-right">
+                        <p class="text-lg text-gray-600 text-left"> Dosen Wali : {{ $mahasiswa->dosen_wali->nama }} </p>
+                        <p class="text-lg text-gray-600 text-left"> Status Akademik : {{ $mahasiswa->status }} </p>
+                    </div>
             </div>
 
-            <div class="flex flex-wrap w-full max-w-8xl">
+            <!-- <div class="flex flex-wrap w-full max-w-8xl">
                 <div class="w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mb-4 mr-4"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
@@ -35,9 +42,9 @@
                         <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                             0.00 </div>
                     @endif
-                </div>
+                </div> -->
 
-                <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
+                <!-- <div class=" w-auto rounded-lg border-2 border-gray-200 h-24 rounded bg-gray-50 dark:bg-gray-800 mr-4"
                     style="width: 32.4%;">
                     <div class="mx-4 my-4 text-sm font-semibold text-gray-800 dark:text-gray-500">
                         SKS Kumulatif
@@ -71,11 +78,11 @@
                     </div>
                     <div class="mx-4 my-4 text-right text-lg font-bold text-gray-800 dark:text-gray-500">
                         {{ $mahasiswa->status }} </div>
-                </div>
+                </div> -->
 
-            </div>
+            <!-- </div> -->
 
-
+<!-- 
             <div class="flex flex-wrap w-full mt-4 max-w-8xl">
                 @foreach ($khs as $khsItem)
                     @if ($khsItem->semester < 4)
@@ -232,10 +239,10 @@
                                     IP Kumlulatif: {{ $khsItem->ipk }}
                                     <br>
                                 </div>
-                            </div>
-                        @endif
+                            </div> -->
+                        <!-- @endif
                     @endif
-                @endforeach
+                @endforeach -->
             </div>
 
             </section>
