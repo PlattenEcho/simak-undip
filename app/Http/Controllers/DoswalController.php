@@ -201,6 +201,10 @@ class DoswalController extends Controller
             $tahun2 = date('Y');
         }
 
+        if ($request->tahun1 > $request->tahun2) {
+            return redirect()->route('doswal.viewRekapPKL')->with('error', 'Rentang tahun tidak valid.');
+        }
+
         $daftarAngkatan = Mahasiswa::distinct()
                         ->orderBy('angkatan', 'asc')
                         ->pluck('angkatan')
@@ -350,6 +354,10 @@ class DoswalController extends Controller
             $tahun2 = $request->input('tahun2');
         } else {
             $tahun2 = date('Y');
+        }
+
+        if ($request->tahun1 > $request->tahun2) {
+            return redirect()->route('doswal.viewRekapSkripsi')->with('error', 'Rentang tahun tidak valid.');
         }
 
         $daftarAngkatan = Mahasiswa::distinct()
