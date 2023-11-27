@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doswal;
 use App\Models\KHS;
+use App\Models\IRS;
 use App\Models\Mahasiswa;
 use App\Models\Skripsi;
 use Illuminate\Support\Facades\Session;
@@ -25,6 +26,7 @@ class SkripsiController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
         $khs = KHS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
+        $irs = IRS::where('nim', $mahasiswa->nim)->where('status', '1')->orderBy('semester', 'desc')->first();
         $existingSkripsi = Skripsi::where('nim', $mahasiswa->nim)->first();
 
         if ($existingSkripsi) {
@@ -39,9 +41,18 @@ class SkripsiController extends Controller
 
             if ($sksKumulatif >= 120) {
                 $semesters = Skripsi::where('nim', auth()->user()->name)->pluck('semester')->toArray();
+                $latestSemester = $irs->semester;
+                if($latestSemester == $khs->semester) {
+                    $errorMessage = 'Anda sudah memiliki progress KHS, tidak dapat mengisi Skripsi';
+                    Session::flash('error', $errorMessage);
+
+                    return redirect()->route('skripsi.viewSkripsi');
+                }
+
                 $availableSemesters = range(7, 14);
                 $remainingSemesters = array_diff($availableSemesters, $semesters);
                 return view('mahasiswa.entry_skripsi', ['remainingSemesters' => $remainingSemesters]);
+
             } else {
                 $errorMessage = 'Anda belum mencapai sks kumulatif minimal 120 sks untuk mengisi progres Skripsi';
                 Session::flash('error', $errorMessage);

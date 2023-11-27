@@ -34,6 +34,20 @@ class IRSController extends Controller
         return view('doswal.edit_irs', ['irs' => $irs, 'remainingSemesters' => $remainingSemesters]);
     }
 
+    public function viewEditIRS2(int $id)
+    {
+        $irs = IRS::where('id_irs', $id)->first();
+
+        $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+
+        $availableSemesters = range(1, 14);
+
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
+    
+            return view('mahasiswa.edit_irs', ['irs' => $irs, 'remainingSemesters' => $remainingSemesters]);
+    
+    }
+
     public function viewEntryIRS(Request $request)
     {   
         // $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
@@ -120,6 +134,35 @@ class IRSController extends Controller
         }
     
         return redirect()->route('doswal.viewVerifikasiIRS');
+    }
+
+    public function update2(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'semester' => 'required',
+            'jml_sks' => 'required|numeric',
+        ]);
+        
+        try {
+            $irs = IRS::where('id_irs', $id)
+            ->first();
+            
+            $irs->semester = $request->semester;
+            $irs->jml_sks = $request->jml_sks;
+
+            $irs->save();
+            
+        } catch (\Exception $e) {
+            $errorMessage = 'Gagal memperbarui data IRS.';
+        }
+    
+        if (!empty($errorMessage)) {
+            Session::flash('error', $errorMessage);
+        } else {
+            Session::flash('success',  'Data IRS berhasil diperbarui.');
+        }
+    
+        return redirect()->route('irs.viewIRS');
     }
 
     public function verifikasi(int $id)

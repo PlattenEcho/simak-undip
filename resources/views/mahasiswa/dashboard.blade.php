@@ -28,7 +28,7 @@
                         Informasi Mahasiswa
                     </div>
                     <div class="mx-4 my-4 text-right text-justify font-medium text-sm text-gray-800 dark:text-gray-500">
-                        @if ($ipkTertinggi->ipk)
+                        @if (isset($ipkTertinggi->ipk))
                             <p class="text-base text-left text-gray-600"> IPK : {{ $ipkTertinggi->ipk }}</p>
                         @else
                             <p class="text-base text-left text-gray-600"> IPK : 0.00</p>

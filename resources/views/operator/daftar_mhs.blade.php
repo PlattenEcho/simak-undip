@@ -111,7 +111,7 @@
                                     <td class="px-6 py-4">
                                         {{ $mhs['nomor_telepon'] }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td> 
                                         <a data-popover-target="popover-edit" href="{{ route('operator.viewEditStatus', [$mhs->nim]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base">edit</i>
                                         </a>
