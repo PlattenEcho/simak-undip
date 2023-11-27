@@ -23,7 +23,7 @@
                 Edit Status Mahasiswa
             </h1>
 
-            <form action="{{ route('operator.update2', ['nim' => $mahasiswa->nim]) }}" method="post">
+            <form action="{{ route('operator.update2', ['nim' => $mahasiswa->nim]) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="flex flex-col items-center mb-6">
                 <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">

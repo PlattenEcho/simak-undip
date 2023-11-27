@@ -48,11 +48,11 @@ class OperatorController extends Controller
             return redirect()->back()->with('error', 'Gagal menghapus data mahasiswa.');
         }
     }
-    public function update2(Request $request)
+    public function update2(Request $request, string $nim)
 {
     try {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('iduser', $user->id)->first();
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        $user = User::where('username', $mahasiswa->username)->first();
 
         $validated = $request->validate([
             'nama' => 'required',
@@ -62,7 +62,7 @@ class OperatorController extends Controller
             'provinsi' => 'required',
             'kabupaten' => 'required',
             'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
-            'username' => 'required|unique:users,username,' . $user->id,
+            'username' => 'required|unique:users,username,' . $mahasiswa->users->id,
             'foto' => 'nullable|image|max:10240',
         ]);
 
