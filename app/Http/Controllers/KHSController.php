@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doswal;
+use App\Models\IRS;
 use App\Models\KHS;
+use Illuminate\Support\Facades\DB;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +25,7 @@ class KHSController extends Controller
     public function viewEditKHS(int $id)
     {
         $khs = KHS::where('id_khs', $id)
-        ->first();
+            ->first();
 
         $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
 
@@ -37,7 +39,7 @@ class KHSController extends Controller
     public function viewEditKHS2(int $id)
     {
         $khs = KHS::where('id_khs', $id)
-        ->first();
+            ->first();
 
         $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
 
@@ -50,16 +52,40 @@ class KHSController extends Controller
 
     public function viewEntryKHS(Request $request)
     {
-        $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $semestersKHS = KHS::where(
+            'nama_mhs',
+            auth()->user()->name
+        )->pluck('semester')->toArray();
 
-        if (empty($semesters)) {
-            $nextSemester = 1;
+        // Ambil semester untuk IRS dengan status 1
+        $semestersIRS = DB::table('irs')
+            ->select("semester")
+            ->where('nama_mhs', auth()->user()->name)
+            ->where("status", '1')
+            ->pluck('semester')
+            ->toArray();
+
+        // Tentukan semester berikutnya untuk IRS
+        if (empty($semestersIRS)) {
+            $maxSemesterIRS = 0;
         } else {
-            $maxSemester = max($semesters);
-            $nextSemester = $maxSemester + 1;
+            $maxSemesterIRS = max($semestersIRS);
         }
 
-        return view('mahasiswa.entry_khs', ['nextSemester' => $nextSemester]);
+        if (empty($semestersKHS)) {
+            $nextSemesterKHS = 1;
+        } else {
+            $maxSemesterKHS = max($semestersKHS);
+            $nextSemesterKHS = $maxSemesterKHS + 1;
+        }
+
+        // Tambahkan kondisi bahwa IRS harus diisi terlebih dahulu sebelum mengisi KHS
+        if ($maxSemesterIRS == $nextSemesterKHS) {
+            return view('mahasiswa.entry_khs', ['nextSemester' => $nextSemesterKHS]);
+        } else {
+            return redirect()->route('khs.viewKHS')
+                ->with('error', 'Anda harus mengisi IRS terlebih dahulu sebelum mengisi KHS.');
+        }
     }
 
     public function store(Request $request)
@@ -70,36 +96,36 @@ class KHSController extends Controller
             'sks_kum' => 'required|numeric',
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
             'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
-            'scan_khs' => 'required|max:5120', 
+            'scan_khs' => 'required|max:5120',
         ]);
-        
+
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('username', $user->username)->first();
-    try {
-        if ($request->has('scan_khs')) {
-            $khsPath = $request->file('scan_khs')->store('scan_khs', 'public');
-            $validated['scan_khs'] = $khsPath;
+        try {
+            if ($request->has('scan_khs')) {
+                $khsPath = $request->file('scan_khs')->store('scan_khs', 'public');
+                $validated['scan_khs'] = $khsPath;
+            }
+
+            KHS::create([
+                'nim' => $mahasiswa->nim,
+                'semester' => $request->semester,
+                'sks_smt' => $request->sks_smt,
+                'sks_kum' => $request->sks_kum,
+                'ips' => $request->ips,
+                'ipk' => $request->ipk,
+                'scan_khs' => $validated['scan_khs'],
+                'nama_mhs' => $mahasiswa->nama,
+                'nama_doswal' => $mahasiswa->dosen_wali->nama,
+            ]);
+
+            Session::flash('success', 'Data KHS berhasil disimpan.');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            Session::flash('error', 'Gagal menyimpan data KHS.');
         }
-        
-        KHS::create([
-            'nim' => $mahasiswa->nim,
-            'semester' => $request->semester,
-            'sks_smt' => $request->sks_smt,
-            'sks_kum' => $request->sks_kum,
-            'ips' => $request->ips,
-            'ipk' => $request->ipk,
-            'scan_khs' => $validated['scan_khs'],
-            'nama_mhs' => $mahasiswa->nama,
-            'nama_doswal' => $mahasiswa->dosen_wali->nama,
-        ]);
 
-        Session::flash('success', 'Data KHS berhasil disimpan.');
-    } catch (\Exception $e) {
-        dd($e->getMessage());
-        Session::flash('error', 'Gagal menyimpan data KHS.');
-    }
-
-    return redirect()->route('khs.viewKHS');
+        return redirect()->route('khs.viewKHS');
     }
 
     public function update(Request $request, int $id)
@@ -110,10 +136,10 @@ class KHSController extends Controller
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
             'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
         ]);
-        
+
         try {
             $khs = KHS::where('id_khs', $id)
-            ->first();
+                ->first();
 
             $khs->sks_smt = $request->sks_smt;
             $khs->sks_kum = $request->sks_kum;
@@ -122,17 +148,17 @@ class KHSController extends Controller
             $khs->status = "0";
 
             $khs->save();
-            
+
         } catch (\Exception $e) {
             $errorMessage = 'Gagal memperbarui data KHS.';
         }
-    
+
         if (!empty($errorMessage)) {
             Session::flash('error', $errorMessage);
         } else {
-            Session::flash('success',  'Data KHS berhasil diperbarui.');
+            Session::flash('success', 'Data KHS berhasil diperbarui.');
         }
-    
+
         return redirect()->route('doswal.viewVerifikasiKHS');
     }
 
@@ -144,10 +170,10 @@ class KHSController extends Controller
             'ips' => 'required|regex:/^\d+(\.\d{0,2})?$/',
             'ipk' => 'required|regex:/^\d+(\.\d{0,2})?$/',
         ]);
-        
+
         try {
             $khs = KHS::where('id_khs', $id)
-            ->first();
+                ->first();
 
             $khs->sks_smt = $request->sks_smt;
             $khs->sks_kum = $request->sks_kum;
@@ -156,17 +182,17 @@ class KHSController extends Controller
             $khs->status = "0";
 
             $khs->save();
-            
+
         } catch (\Exception $e) {
             $errorMessage = 'Gagal memperbarui data KHS.';
         }
-    
+
         if (!empty($errorMessage)) {
             Session::flash('error', $errorMessage);
         } else {
-            Session::flash('success',  'Data KHS berhasil diperbarui.');
+            Session::flash('success', 'Data KHS berhasil diperbarui.');
         }
-    
+
         return redirect()->route('khs.viewKHS');
     }
 
@@ -178,7 +204,7 @@ class KHSController extends Controller
             $khs->update([
                 "status" => "1"
             ]);
-         
+
             return redirect()->back()->with('success', 'Berhasil memverifikasi KHS.');
         } catch (\Exception $e) {
 
@@ -190,7 +216,7 @@ class KHSController extends Controller
     {
         try {
             $khs = KHS::where('id_khs', $id)->first();
-            
+
             $khs->delete();
 
             return redirect()->back()->with('success', 'Berhasil menghapus KHS.');
@@ -208,24 +234,24 @@ class KHSController extends Controller
 
         if ($semester == 'all') {
             $khsData = KHS::with('mahasiswa')
-            ->where('nama_doswal',$doswal->nama)
-            ->where('status', '0')
-            ->get();
+                ->where('nama_doswal', $doswal->nama)
+                ->where('status', '0')
+                ->get();
         } else {
             $khsData = KHS::with('mahasiswa')
-            ->where('nama_doswal',$doswal->nama)
-            ->where('semester', $semester)
-            ->where('status', '0')
-            ->get();
+                ->where('nama_doswal', $doswal->nama)
+                ->where('semester', $semester)
+                ->where('status', '0')
+                ->get();
         }
-        
+
         $semesters = KHS::where('status', '0')
-                        ->where('nama_doswal',$doswal->nama)
-                        ->distinct()
-                        ->pluck('semester')
-                        ->toArray();
+            ->where('nama_doswal', $doswal->nama)
+            ->distinct()
+            ->pluck('semester')
+            ->toArray();
 
         return view('doswal.verifikasi_khs', ['semesters' => $semesters, 'khsData' => $khsData]);
-    } 
+    }
 
 }
