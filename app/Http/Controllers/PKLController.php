@@ -155,6 +155,35 @@ class PKLController extends Controller
         return redirect()->route('doswal.viewVerifikasiPKL');
     }
 
+    public function update2(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'semester' => 'required',
+            'nilai' => 'required',
+        ]);
+        
+        try {
+            $pkl = PKL::where('idPKL', $id)->first();
+
+            $pkl->semester = $request->semester;
+            $pkl->status = $request->status;
+            $pkl->nilai = $request->nilai;
+            
+            $pkl->save();
+
+        } catch (\Exception $e) {
+            $errorMessage = 'Gagal memperbarui data PKL.';
+        }
+
+        if (!empty($errorMessage)) {
+            Session::flash('error', $errorMessage);
+        } else {
+            Session::flash('success', 'Data PKL berhasil diperbarui.');
+        }
+
+        return redirect()->route('pkl.viewPKL');
+    }
+
     public function verifikasi(int $id)
     {
         try {
