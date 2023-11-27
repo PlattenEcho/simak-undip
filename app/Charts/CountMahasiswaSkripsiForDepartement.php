@@ -29,7 +29,7 @@ class CountMahasiswaSkripsiForDepartement
             ->addData('Jumlah Mahasiswa', [$jumlahSudahSkripsi, $jumlahBelumSkripsi])
             ->setXAxis(['Sudah', 'Belum'])
             ->setColors(['#ffc63b', '#ff6384'])
-            ->setWidth(500) // Lebar grafik dalam piksel
+            ->setWidth(370) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat');
     }

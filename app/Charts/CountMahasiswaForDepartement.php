@@ -43,7 +43,7 @@ class CountMahasiswaForDepartement
             ->addData('Jumlah Mahasiswa', $jumlahMahasiswa)
             ->setXAxis($angkatanLabels)
             ->setColors($colors) // Mengatur warna untuk setiap bar
-            ->setWidth(1100) // Mengatur lebar grafik menjadi 100% dari container
+            ->setWidth(850) // Mengatur lebar grafik menjadi 100% dari container
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat')
             ->setColors([$colors[0], $colors[1], $colors[2], $colors[3], $colors[4]]);

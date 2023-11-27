@@ -37,7 +37,7 @@ class CountMahasiswaPkl
             ->addData('Jumlah Mahasiswa', [$jumlahSudahPKL, $jumlahBelumPKL])
             ->setXAxis(['Sudah', 'Belum'])
             ->setColors(['#00ff00', '#ff0000'])
-            ->setWidth(325) // Lebar grafik dalam piksel
+            ->setWidth(240) // Lebar grafik dalam piksel
             ->setHeight(325) // Tinggi grafik dalam piksel
             ->setFontFamily('Montserrat');
     }

@@ -78,7 +78,7 @@ Route::controller(OperatorController::class)->middleware('only_operator')->group
     Route::get('/operator/cetak-daftar-akun', 'cetakDaftarAkun')->name('operator.cetakDaftarAkun');
     Route::get('/operator/daftar-mhs', 'viewDaftarMhs')->name('operator.viewDaftarMhs');
     Route::get('/operator/view-status/{nim}', 'viewEditStatus')->middleware('only_operator')->name('operator.viewEditStatus');
-    Route::post('/operator/edit-status', 'update2')->middleware('only_operator')->name('operator.update2');
+    Route::post('/operator/edit-status/{nim}', 'update2')->middleware('only_operator')->name('operator.update2');
     Route::post('/operator/delete-mhs/{nim}', 'delete2')->middleware(['only_operator'])->name('operator.delete2');
     Route::get('/operator/search-mahasiswa', 'searchMahasiswa')->name('operator.searchMahasiswa');
 
