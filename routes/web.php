@@ -105,6 +105,9 @@ Route::controller(IRSController::class)->group(function () {
     Route::get('/mahasiswa/entry-irs', 'viewEntryIRS')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.viewEntry');
     Route::get('/mahasiswa/irs', 'viewIRS')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.viewIRS');
     Route::post('/mahasiswa/irs', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('irs.store');
+    Route::get('/mahasiswa/edit-irs/{id}', 'viewEditIRS2')->middleware(['only_mahasiswa'])->name('irs.viewEditIRS2');
+    Route::post('/mahasiswa/edit-irs/{id}', 'update2')->middleware(['only_mahasiswa'])->name('irs.update2');
+    Route::post('/mahasiswa/delete-irs/{id}', 'delete')->middleware(['only_mahasiswa'])->name('irs.delete2');
     Route::post('/doswal/edit-irs/{id}', 'update')->middleware(['only_doswal'])->name('irs.update');
     Route::post('/doswal/delete-irs/{id}', 'delete')->middleware(['only_doswal'])->name('irs.delete');
     Route::get('/doswal/edit-irs/{id}', 'viewEditIRS')->middleware(['only_doswal'])->name('irs.viewEditIRS');
@@ -130,9 +133,9 @@ Route::controller(PKLController::class)->group(function () {
     Route::get('/mahasiswa/entry-pkl', 'viewEntryPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewEntry');
     Route::get('/mahasiswa/pkl', 'viewPKL')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.viewPKL');
     Route::post('/mahasiswa/pkl', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('pkl.store');
-    Route::post('/mahasiswa/edit-pkl/{id}', 'update')->middleware(['only_doswal'])->name('pkl.update2');
-    Route::post('/mahasiswa/delete-pkl/{id}', 'delete')->middleware(['only_doswal'])->name('pkl.delete2');
-    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL2')->middleware(['only_doswal'])->name('pkl.viewEditPKL2');
+    Route::post('/mahasiswa/edit-pkl/{id}', 'update2')->middleware(['only_mahasiswa'])->name('pkl.update2');
+    Route::post('/mahasiswa/delete-pkl/{id}', 'delete')->middleware(['only_mahasiswa'])->name('pkl.delete2');
+    Route::get('/mahasiswa/edit-pkl/{id}', 'viewEditPKL2')->middleware(['only_mahasiswa'])->name('pkl.viewEditPKL2');
 
     Route::post('/doswal/edit-pkl/{id}', 'update')->middleware(['only_doswal'])->name('pkl.update');
     Route::post('/doswal/delete-pkl/{id}', 'delete')->middleware(['only_doswal'])->name('pkl.delete');
@@ -147,8 +150,8 @@ Route::controller(SkripsiController::class)->group(function () {
     Route::post('/mahasiswa/skripsi', 'store')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.store');
     Route::get('/mahasiswa/edit-skripsi/{id}', 'viewEditSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewEditSkripsiM');
     Route::post('/mahasiswa/edit-skripsi/{id}', 'update')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.updateM');
-    Route::get('/mahasiswa/delete-skripsi/{id}', 'viewDeleteSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewDeleteSkripsiM');
-    Route::post('/mahasiswa/delete-skripsi/{id}', 'deleteM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.deleteM');
+    // Route::get('/mahasiswa/delete-skripsi/{id}', 'viewDeleteSkripsiM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.viewDeleteSkripsiM');
+    Route::post('/mahasiswa/delete-skripsi/{id}', 'deleteM')->middleware(['only_mahasiswa', 'profile_completed'])->name('skripsi.delete2');
 
 
     Route::post('/doswal/edit-skripsi/{id}', 'update')->middleware(['only_doswal'])->name('skripsi.update');
