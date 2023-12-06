@@ -128,12 +128,13 @@ class DoswalController extends Controller
 
         $khsData = KHS::with('mahasiswa')->where('status', "0")->where('nama_doswal',$doswal->nama)->get();
 
-        $semesters = KHS::where('status', 0)
+        $semesters = KHS::where('status', "0")
                         ->where('nama_doswal',$doswal->nama)
                         ->distinct()
                         ->pluck('semester')
                         ->toArray();
 
+        
         return view('doswal.verifikasi_khs', ['semesters' => $semesters, 'khsData' => $khsData]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doswal;
 use App\Models\GeneratedAccount;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -30,10 +31,10 @@ class OperatorController extends Controller
 
     public function viewEditStatus(string $nim)
     {
-        
+        $dosen_wali = Doswal::all();
         $mahasiswa = Mahasiswa::where('nim', $nim)->first();
 
-        return view('operator.edit_status', ["mahasiswa" => $mahasiswa]);
+        return view('operator.edit_status', ["mahasiswa" => $mahasiswa, 'dosen_wali' => $dosen_wali]);
     }
 
     public function delete2($nim)
@@ -57,10 +58,10 @@ class OperatorController extends Controller
         $validated = $request->validate([
             'nama' => 'required',
             'nim' => 'required',
-            'nomor_telepon' => 'required|numeric',
-            'alamat' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
+            'nomor_telepon' => 'nullable|numeric',
+            'alamat' => 'nullable',
+            'provinsi' => 'nullable',
+            'kabupaten' => 'nullable',
             'status' => 'required|in:Aktif,Cuti,Mangkir,DO,Undur Diri,Lulus,Meninggal Dunia',
             'username' => 'required|unique:users,username,' . $mahasiswa->users->id,
             'foto' => 'nullable|image|max:10240',
@@ -78,8 +79,10 @@ class OperatorController extends Controller
         $mahasiswa->nama = $request->nama;
         $mahasiswa->nim = $request->nim;
         $mahasiswa->username = $request->username;
+        $mahasiswa->angkatan = $request->angkatan;
         $mahasiswa->nomor_telepon = $request->nomor_telepon;
         $mahasiswa->alamat = $request->alamat;
+        $mahasiswa->nip = $request->doswal;
         $mahasiswa->provinsi = $request->provinsi;
         $mahasiswa->kabupaten = $request->kabupaten;
         $mahasiswa->status = $request->status;
@@ -87,13 +90,12 @@ class OperatorController extends Controller
         $mahasiswa->save();
 
         $user->update([
-            'username' => $request->username,
-            'profile_completed' => 1
+            'username' => $request->username
         ]);
 
-            return redirect()->route('operator.viewDaftarMhs')->with('success', 'Status mahasiswa berhasil diperbarui.');
+            return redirect()->route('operator.viewDaftarMhs')->with('success', 'Data mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
-            dd($e);
+            
             return redirect()->route('operator.viewDaftarMhs')->with('error', 'Terjadi kesalahan saat memperbarui profil mahasiswa.');
         }
     }
@@ -174,6 +176,37 @@ class OperatorController extends Controller
 
         return view('operator.daftar_mhs', ['mhsData' => $mhsData]);
     }
+
+    public function viewInfoAkademik(string $nim)
+    {
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
+        $allSemester = range(1, 14);
+        $semester = request()->query('semester'); 
+
+        $allIRS = [];
+        
+        for ($i = 1; $i <= 14; $i++) {
+            $allIRS[$i] = $mahasiswa->irs()->where('semester', $i)->get(); 
+            $allKHS[$i] = $mahasiswa->khs()->where('semester', $i)->get(); 
+            $PKL[$i] = $mahasiswa->pkl()->where('semester', $i)->get(); 
+            $skripsi[$i] = $mahasiswa->skripsi()->where('semester', $i)->get(); 
+        }
+    
+        $irs = $mahasiswa->irs()
+            ->where('semester', $semester)
+            ->first();
+
+        $khs = $mahasiswa->khs()
+            ->where('semester', $semester)
+            ->first();
+
+        return view('operator.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
+                    'irs' => $irs, 'khs' => $khs,  
+                    'allIRS' => $allIRS, 'allKHS' => $allKHS, 'PKL' => $PKL, 'skripsi' => $skripsi]);
+    }
+
+
     public function viewRekapPKL(Request $request)
     {
         if($request->has('tahun1')) {
@@ -452,14 +485,21 @@ class OperatorController extends Controller
         foreach ($daftarAngkatan as $angkatan) {
             $mhs = Mahasiswa::where('angkatan', $angkatan);
 
-            $jmlAktif = $mhs->where('status', 'Aktif')->count();
-            $jmlCuti = $mhs->where('status', 'Cuti')->count();
-            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
-            $jmlDO = $mhs->where('status', 'Drop Out')->count();
-            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
-            $jmlLulus = $mhs->where('status', 'Lulus')->count();
-            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
-        
+            $jmlAktif = clone $mhs;
+            $jmlAktif = $jmlAktif->where('status', 'Aktif')->count();
+            $jmlCuti = clone $mhs;
+            $jmlCuti = $jmlCuti->where('status', 'Cuti')->count();
+            $jmlMangkir = clone $mhs;
+            $jmlMangkir = $jmlMangkir->where('status', 'Mangkir')->count();
+            $jmlDO = clone $mhs;
+            $jmlDO = $jmlDO->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = clone $mhs;
+            $jmlUndurDiri = $jmlUndurDiri->where('status', 'Undur Diri')->count();
+            $jmlLulus = clone $mhs;
+            $jmlLulus = $jmlLulus->where('status', 'Lulus')->count();
+            $jmlMeninggal = clone $mhs;
+            $jmlMeninggal = $jmlMeninggal->where('status', 'Meninggal Dunia')->count();
+            
             $aktif[$angkatan] = $jmlAktif;
             $cuti[$angkatan] = $jmlCuti;
             $mangkir[$angkatan] = $jmlMangkir;
@@ -468,7 +508,6 @@ class OperatorController extends Controller
             $lulus[$angkatan] = $jmlLulus;
             $md[$angkatan] = $jmlMeninggal;
         }
-
         return view('operator.rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
                     'mangkir' => $mangkir, 'do' => $do,
                     'undurDiri' => $undurDiri, 'lulus' => $lulus, 'md' => $md]);
@@ -484,7 +523,9 @@ class OperatorController extends Controller
         foreach ($daftarAngkatan as $angkatan) {
             $mhs = Mahasiswa::where('angkatan', $angkatan);
 
+            $jmlAktif = clone $mhs;
             $jmlAktif = $mhs->where('status', 'Aktif')->count();
+            $jmlCuti = clone $mhs;
             $jmlCuti = $mhs->where('status', 'Cuti')->count();
             $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
             $jmlDO = $mhs->where('status', 'Drop Out')->count();

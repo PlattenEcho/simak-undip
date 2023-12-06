@@ -40,50 +40,12 @@ class MahasiswaController extends Controller
         return view('mahasiswa.edit_profile', ["mahasiswa" => $mahasiswa]);
     }
 
-    // public function viewDaftarMhs()
-    // {
-    //     $user = Auth::user();
-    //     $doswal = Doswal::where('iduser', $user->id)->first();
-    //     $mhsData = $doswal->mahasiswa;
-
-    //     return view('doswal.daftar_mhs', ['mhsData' => $mhsData]);
-    // }
-
-    // public function viewInfoAkademik(string $nim)
-    // {
-    //     $mahasiswa = Mahasiswa::where('nim', $nim)->first();
-    //     $foto = User::where('id',$mahasiswa->iduser)->first()->getImageURL();
-    //     $allSemester = range(1, 14);
-    //     $semester = request()->query('semester'); // Mengambil nilai semester dari query parameter
-
-    //     $irs = $mahasiswa->irs()
-    //         ->where('semester', $semester)
-    //         ->first();
-
-    //     $khs = $mahasiswa->khs()
-    //         ->where('semester', $semester)
-    //         ->first();
-
-    //     $pkl = $mahasiswa->pkl()
-    //         ->where('nim', $nim)
-    //         ->first();
-
-    //     $skripsi = $mahasiswa->skripsi()
-    //         ->where('nim', $nim)
-    //         ->first();
-        
-    //     return view('doswal.info_akademik', ['mahasiswa' => $mahasiswa, 'foto' => $foto, 'allSemester' => $allSemester, 
-    //                 'irs' => $irs, 'khs' => $khs, 'pkl' => $pkl, 'skripsi' => $skripsi]);
-    // }
-
-
     public function store(Request $request)
     {
         $request->validate([
             'nim' => 'required|unique:mahasiswa,nim|max:14',
             'nama' => 'required|max:255',
             'angkatan' => 'required|integer|max:9999',
-            'status' => 'in:Aktif,Cuti,Dropout',
             'jalur_masuk' => 'in:SBUB,SNMPTN,SBMPTN,Mandiri',
             'doswal' => 'required',
         ]);
@@ -107,7 +69,7 @@ class MahasiswaController extends Controller
                 $mahasiswa->nim = $request->nim;
                 $mahasiswa->nama = $request->nama;
                 $mahasiswa->angkatan = $request->angkatan;
-                $mahasiswa->status = $request->status;
+                $mahasiswa->status = "Aktif";
                 $mahasiswa->jalur_masuk = $request->jalur_masuk;
                 $mahasiswa->nip = $request->doswal;
                 $mahasiswa->username = $username;
@@ -219,7 +181,11 @@ class MahasiswaController extends Controller
 
     public function viewAccount()
     {
-        $accounts = GeneratedAccount::all();
+        $accounts = DB::table('generated_accounts')
+        ->join('users', 'generated_accounts.username', '=', 'users.username')
+        ->where('users.profile_completed', '=', 0)
+        ->select('generated_accounts.*')
+        ->get();
   
         return view('operator.daftar_akun', ["accounts" => $accounts]);
     }
@@ -231,14 +197,15 @@ class MahasiswaController extends Controller
         return view('operator.generate_akun', ["mhsData" => $mhsData]);
     }
 
-    public function import() 
-    {
-        Excel::import(new MahasiswaImport,request()->file('file'));
-        // $path1 = $request->file('file')->store('temp'); 
-        // $path=storage_path('app').'/'.$path1;  
-        // $data = Excel::import(new MahasiswaImport,$path);
-        return back();
+    public function import()
+{
+    try {
+        Excel::import(new MahasiswaImport, request()->file('file'));
+        return back()->with('success', 'Impor berhasil');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Terjadi kesalahan saat mengimpor: ' . $e->getMessage());
     }
+}
 
     public function export() 
     {

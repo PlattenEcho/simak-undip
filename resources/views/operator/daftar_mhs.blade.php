@@ -63,7 +63,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Jalur Masuk
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <!-- <th scope="col" class="px-6 py-3">
                                 Alamat
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -74,7 +74,7 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Nomor Telepon
-                            </th>
+                            </th> -->
                             <th scope="col" class="px-6 py-3">
                                 Aksi
                             </th>
@@ -84,9 +84,9 @@
                         @if ($mhsData)
                             @foreach ($mhsData as $mhs)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-                                     <td class="px-6 py-4">
-                                        {{ $mhs['nama'] }}
-                                    </td>
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <a href="{{ route('operator.viewInfoAkademik', $mhs['nim']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mhs['nama'] }}</a>
+                                </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['nim'] }}
                                     </td>
@@ -99,7 +99,7 @@
                                     <td class="px-6 py-4">
                                         {{ $mhs['jalur_masuk'] }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <!-- <td class="px-6 py-4">
                                         {{ $mhs['alamat'] }}
                                     </td>
                                     <td class="px-6 py-4">
@@ -110,7 +110,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['nomor_telepon'] }}
-                                    </td>
+                                    </td> -->
                                     <td> 
                                         <a data-popover-target="popover-edit" href="{{ route('operator.viewEditStatus', [$mhs->nim]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base">edit</i>

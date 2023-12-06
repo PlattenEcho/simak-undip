@@ -56,7 +56,7 @@
                 <select id="angkatan" name="angkatan" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @for ($i = date('Y'); $i >= date('Y') - 6; $i--)
                         <option value="{{ $i }}" {{ old('angkatan') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                    @endfor
+                    @endfor 
                 </select>
                 @error('angkatan')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -83,7 +83,7 @@
             <div class="form-group">
                 <label for="jalur_masuk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jalur Masuk:</label>
                 <select id="jalur_masuk" name="jalur_masuk" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="" selected>Pilih Jalur Masuk</option>
+                    <option value="" selected disabled>Pilih Jalur Masuk</option>
                     <option value="SBUB" {{ old('jalur_masuk') == 'SBUB' ? 'selected' : '' }}>SBUB</option>
                     <option value="SNMPTN" {{ old('jalur_masuk') == 'SNMPTN' ? 'selected' : '' }}>SNMPTN</option>
                     <option value="SBMPTN" {{ old('jalur_masuk') == 'SBMPTN' ? 'selected' : '' }}>SBMPTN</option>
@@ -101,7 +101,7 @@
             <div class="form-group">
                 <label for="doswal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dosen Wali:</label>
                 <select id="doswal" name="doswal" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="">Pilih Dosen Wali</option>
+                    <option value="" selected disabled>Pilih Dosen Wali</option>
                     @foreach($dosen_wali as $dosen)
                         <option value="{{ $dosen->nip }}" {{ old('doswal') == $dosen->nip ? 'selected' : '' }}>
                             {{ $dosen->nama }}

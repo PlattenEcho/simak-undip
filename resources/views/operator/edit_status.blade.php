@@ -20,7 +20,7 @@
             <br>
             <h1
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                Edit Status Mahasiswa
+                Edit Data Mahasiswa
             </h1>
 
             <form action="{{ route('operator.update2', ['nim' => $mahasiswa->nim]) }}" method="post" enctype="multipart/form-data">
@@ -50,16 +50,32 @@
             </div>
             <div class="form-group">
                 <label for="angkatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Angkatan</label>
-                <input type="text" id="angkatan" name="angkatan" value="{{ $mahasiswa->angkatan }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="angkatan" name="angkatan" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @for ($i = date('Y'); $i >= date('Y') - 6; $i--)
+                    <option value="{{ $i }}" {{ old('angkatan', $mahasiswa->angkatan) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                </select>
             </div>
             <div class="form-group">
                 <label for="jalur_masuk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jalur Masuk</label>
-                <input type="text" id="jalur_masuk" name="jalur_masuk" value="{{ $mahasiswa->jalur_masuk }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="jalur_masuk" name="jalur_masuk" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="SBUB" {{ old('jalur_masuk', $mahasiswa->jalur_masuk) == 'SBUB' ? 'selected' : '' }}>SBUB</option>
+                    <option value="SNMPTN" {{ old('jalur_masuk', $mahasiswa->jalur_masuk) == 'SNMPTN' ? 'selected' : '' }}>SNMPTN</option>
+                    <option value="SBMPTN" {{ old('jalur_masuk', $mahasiswa->jalur_masuk) == 'SBMPTN' ? 'selected' : '' }}>SBMPTN</option>
+                    <option value="Mandiri" {{ old('jalur_masuk', $mahasiswa->jalur_masuk) == 'Mandiri' ? 'selected' : '' }}>Mandiri</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="doswal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dosen Wali</label>
-                <input type="text" id="doswal" name="doswal" value="{{ $mahasiswa->dosen_wali->nama }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="doswal" name="doswal" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @foreach($dosen_wali as $dosen)
+                        <option value="{{ $dosen->nip }}" {{ old('doswal', $mahasiswa->dosen_wali->nip) == $dosen->nip ? 'selected' : '' }}>
+                            {{ $dosen->nama }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
+
             <div class="form-group">
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                 <input type="text" id="username" name="username" value="{{ $mahasiswa->username }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
