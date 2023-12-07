@@ -25,7 +25,9 @@ class IRSController extends Controller
         $irs = IRS::where('id_irs', $id)
         ->first();
 
-        $semesters = IRS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $mhs = Mahasiswa::where('nama', $irs->nama_mhs)->first();
+
+        $semesters = IRS::where('nama_mhs', $mhs->nama)->where('status', '1')->pluck('semester')->toArray();
 
         $availableSemesters = range(1, 14);
 

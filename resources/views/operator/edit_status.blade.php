@@ -143,7 +143,7 @@
                     <option value="Aktif" {{ $mahasiswa->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
                     <option value="Cuti" {{ $mahasiswa->status === 'Cuti' ? 'selected' : '' }}>Cuti</option>
                     <option value="Mangkir" {{ $mahasiswa->status === 'Mangkir' ? 'selected' : '' }}>Mangkir</option>
-                    <option value="DO" {{ $mahasiswa->status === 'DO' ? 'selected' : '' }}>DO (Drop Out)</option>
+                    <option value="DO" {{ $mahasiswa->status === 'Drop Out' ? 'selected' : '' }}>Drop Out</option>
                     <option value="Undur Diri" {{ $mahasiswa->status === 'Undur Diri' ? 'selected' : '' }}>Undur Diri</option>
                     <option value="Lulus" {{ $mahasiswa->status === 'Lulus' ? 'selected' : '' }}>Lulus</option>
                     <option value="Meninggal Dunia" {{ $mahasiswa->status === 'Meninggal Dunia' ? 'selected' : '' }}>Meninggal Dunia</option>

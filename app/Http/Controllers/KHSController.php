@@ -27,7 +27,9 @@ class KHSController extends Controller
         $khs = KHS::where('id_khs', $id)
             ->first();
 
-        $semesters = KHS::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $mhs = Mahasiswa::where('nama', $khs->nama_mhs)->first();
+
+        $semesters = KHS::where('nama_mhs', $mhs->nama)->where('status', '1')->pluck('semester')->toArray();
 
         $availableSemesters = range(1, 14);
 

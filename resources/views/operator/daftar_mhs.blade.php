@@ -112,18 +112,18 @@
                                         {{ $mhs['nomor_telepon'] }}
                                     </td> -->
                                     <td> 
-                                        <a data-popover-target="popover-edit" href="{{ route('operator.viewEditStatus', [$mhs->nim]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
+                                        <a data-popover-target="popover-edit-{{ $mhs->nim }}" href="{{ route('operator.viewEditStatus', [$mhs->nim]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base">edit</i>
                                         </a>
-                                        <div data-popover id="popover-edit" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                        <div data-popover id="popover-edit-{{ $mhs->nim }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
                                                 <p>Edit</p>
                                             </div>
                                         </div>
-                                        <a data-popover-target="popover-delete" href="#" data-modal-target="delete-modal-{{ $mhs->nim }}" data-modal-toggle="delete-modal-{{ $mhs->nim }}" class="text-red-400 hover:text-red-100 ml-2">
+                                        <a data-popover-target="popover-delete-{{ $mhs->nim }}" href="#" data-modal-target="delete-modal-{{ $mhs->nim }}" data-modal-toggle="delete-modal-{{ $mhs->nim }}" class="text-red-400 hover:text-red-100 ml-2">
                                             <i class="material-icons-round text-base">delete_outline</i>
                                         </a>
-                                        <div data-popover id="popover-delete" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                        <div data-popover id="popover-delete-{{ $mhs->nim }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
                                                 <p>Delete</p>
                                             </div>

@@ -25,9 +25,9 @@ class PKLController extends Controller
     {
         $pkl = PKL::where('idPKL', $id)->first();
 
-            $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
-            $availableSemesters = range(6, 14);
-            $remainingSemesters = array_diff($availableSemesters, $semesters);
+        $semesters = PKL::where('nama_mhs', auth()->user()->name)->pluck('semester')->toArray();
+        $availableSemesters = range(6, 14);
+        $remainingSemesters = array_diff($availableSemesters, $semesters);
     
             return view('doswal.edit_pkl', ['pkl' => $pkl, 'remainingSemesters' => $remainingSemesters]);
         

@@ -92,15 +92,30 @@
                         <a href="{{ asset('storage/' . $pkl->scan_pkl) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat file</a>
                         </td>
                         <td>
-                            <a href="#" data-modal-target="verifikasi-modal-{{ $pkl->idPKL }}" data-modal-toggle="verifikasi-modal-{{ $pkl->idPKL }}" class="text-green-400 hover:text-green-100  mr-2">
+                            <a data-popover-target="popover-verif-{{ $pkl->idPKL }}" href="#" data-modal-target="verifikasi-modal-{{ $pkl->idPKL }}" data-modal-toggle="verifikasi-modal-{{ $pkl->idPKL }}" class="text-green-400 hover:text-green-100  mr-2">
 								<i class="material-icons-outlined text-base">domain_verification</i>
 							</a>
-							<a href="{{ route('pkl.viewEditPKL', [$pkl->idPKL]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
+                            <div data-popover id="popover-verif-{{ $pkl->idPKL }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                <div class="px-3 py-2">
+                                    <p>Verifikasi</p>
+                                </div>
+                            </div>
+							<a data-popover-target="popover-edit-{{ $pkl->idPKL }}" href="{{ route('pkl.viewEditPKL', [$pkl->idPKL]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
-							<a href="#" data-modal-target="delete-modal-{{ $pkl->idPKL }}" data-modal-toggle="delete-modal-{{ $pkl->idPKL }}" class="text-red-400 hover:text-red-100 ml-2">
+                            <div data-popover id="popover-edit-{{ $pkl->idPKL }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                <div class="px-3 py-2">
+                                    <p>Edit</p>
+                                </div>
+                            </div>
+							<a data-popover-target="popover-delete-{{ $pkl->idPKL }}" href="#" data-modal-target="delete-modal-{{ $pkl->idPKL }}" data-modal-toggle="delete-modal-{{ $pkl->idPKL }}" class="text-red-400 hover:text-red-100 ml-2">
 								<i class="material-icons-round text-base">delete_outline</i>
 							</a>
+                            <div data-popover id="popover-delete-{{ $pkl->idPKL }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                <div class="px-3 py-2"> 
+                                    <p>Delete</p>
+                                </div>
+                            </div>
                             <div id="verifikasi-modal-{{ $pkl->idPKL }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                 <div class="relative p-4 w-full max-w-md max-h-full">
                                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
