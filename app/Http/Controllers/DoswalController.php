@@ -523,14 +523,21 @@ class DoswalController extends Controller
             $mhs = Mahasiswa::where('nip', $doswal->nip)
                 ->where('angkatan', $angkatan);
 
-            $jmlAktif = $mhs->where('status', 'Aktif')->count();
-            $jmlCuti = $mhs->where('status', 'Cuti')->count();
-            $jmlMangkir = $mhs->where('status', 'Mangkir')->count();
-            $jmlDO = $mhs->where('status', 'Drop Out')->count();
-            $jmlUndurDiri = $mhs->where('status', 'Undur Diri')->count();
-            $jmlLulus = $mhs->where('status', 'Lulus')->count();
-            $jmlMeninggal = $mhs->where('status', 'Meninggal Dunia')->count();
-        
+            $jmlAktif = clone $mhs;
+            $jmlAktif = $jmlAktif->where('status', 'Aktif')->count();
+            $jmlCuti = clone $mhs;
+            $jmlCuti = $jmlCuti->where('status', 'Cuti')->count();
+            $jmlMangkir = clone $mhs;
+            $jmlMangkir = $jmlMangkir->where('status', 'Mangkir')->count();
+            $jmlDO = clone $mhs;
+            $jmlDO = $jmlDO->where('status', 'Drop Out')->count();
+            $jmlUndurDiri = clone $mhs;
+            $jmlUndurDiri = $jmlUndurDiri->where('status', 'Undur Diri')->count();
+            $jmlLulus = clone $mhs;
+            $jmlLulus = $jmlLulus->where('status', 'Lulus')->count();
+            $jmlMeninggal = clone $mhs;
+            $jmlMeninggal = $jmlMeninggal->where('status', 'Meninggal Dunia')->count();
+
             $aktif[$angkatan] = $jmlAktif;
             $cuti[$angkatan] = $jmlCuti;
             $mangkir[$angkatan] = $jmlMangkir;
@@ -539,7 +546,6 @@ class DoswalController extends Controller
             $lulus[$angkatan] = $jmlLulus;
             $md[$angkatan] = $jmlMeninggal;
         }
-
         //$mhsData = Mahasiswa::where('nip', $doswal->nip)->where('angkatan', $angkatan)->get();
         
         return view('doswal.rekap_status', ['daftarAngkatan' => $daftarAngkatan, 'angkatan' => $angkatan, 'aktif' => $aktif, 'cuti' => $cuti, 
