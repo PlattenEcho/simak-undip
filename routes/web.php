@@ -50,7 +50,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 Route::controller(DashboardController::class)->middleware('auth')->group(function () {
     Route::get('/operator/dashboard', 'viewDashboardOperator')->middleware('only_operator')->name('operator.dashboard');
-    Route::get('/mahasiswa/dashboard', 'viewDashboardMahasiswa')->middleware('only_mahasiswa')->name('mahasiswa.dashboard');
+    Route::get('/mahasiswa/dashboard', 'viewDashboardMahasiswa')->middleware('only_mahasiswa',  'profile_completed')->name('mahasiswa.dashboard');
     Route::get('/doswal/dashboard', 'viewDashboardDoswal')->middleware('only_doswal')->name('doswal.dashboard');
     Route::get('departemen/dashboard', 'viewDashboardDepartemen')->middleware('only_departemen')->name('departemen.dashboard');
 });
@@ -61,6 +61,8 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/profile', 'viewProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewProfile');
     Route::get('/mahasiswa/edit-profile', 'viewEditProfile')->middleware('only_mahasiswa')->name('mahasiswa.viewEditProfile');
     Route::post('/mahasiswa/edit-profile', 'update')->name('mahasiswa.update');
+    Route::get('/mahasiswa/change-password', 'viewChangePassword')->middleware('only_mahasiswa', 'profile_completed')->name('mahasiswa.viewChangePassword');
+    Route::post('/mahasiswa/change-password', 'update')->name('mahasiswa.update');
     // Route::get('/doswal/daftar-mhs', 'viewDaftarMhs')->middleware('only_doswal')->name('mahasiswa.viewDaftarMhs');
     // Route::get('/doswal/info-akademik/{nim}', 'viewInfoAkademik')->middleware('only_doswal')->name('mahasiswa.viewInfoAkademik');
     // Route::get('/mahasiswa', 'index');
